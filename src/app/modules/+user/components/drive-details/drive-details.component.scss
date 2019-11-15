@@ -1,0 +1,88 @@
+:host{
+  display: block;
+
+  .top-head {
+    padding: 2.2rem 4rem 1rem;
+    border-bottom: 1px solid #dcdcdc;
+    a {
+      color: #949494;
+    }
+    a:hover {
+      color: #005073;
+      text-decoration: none;
+
+    }
+  }
+  .commonPadLeft {
+    padding: 2.938rem 4rem 0;
+
+    .btn-primary.btn-sm {
+      width: 8.313em;
+      font-size: 0.938em;
+    }
+
+    #sharedMainhead {
+      .input-group {
+        padding: 2.75em 0 2em;
+      }
+
+      .input-group-text {
+        background: transparent;
+      }
+
+      .form-control {
+        border-radius: 0 5px 5px 0;
+      }
+
+      .table {
+        tbody {
+          tr:hover {
+            border: 1px solid #F3F3F3;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 4px;
+          }
+        }
+      }
+
+      .table th,
+      .table td {
+        border: none;
+      }
+
+      .table th {
+        font-size: 1.250em;
+        font-weight: bold;
+        color: #949494;
+      }
+
+      .table td {
+        font-size: 1.125em;
+        color: #949494;
+        border: 1px solid transparent;
+        .dropdown-menu {
+            .dropdown-item {
+              color: #949494;
+              font-size: 1.125rem;
+              svg {
+                padding-right: .5rem;
+                width: 1.5rem;
+              }
+            }
+        }
+      }
+
+      td svg {
+        padding-left: 1px;
+      }
+      .tdEllipsisIcon{
+        .dropdown-toggle {
+          &:after{
+            display: none;
+          }
+        }
+      }
+
+
+    }
+  }
+}

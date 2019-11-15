@@ -1,0 +1,144 @@
+﻿<section class="d-flex h-100 subRightsec flex-column p-5">
+  <div class="lead">Overview</div>
+  <div class="form-group">
+    <input id="my-input" class="form-control" placeholder="Search for Shared Drive..." type="search" name="">
+  </div>
+
+  <!-- tabs -->
+  <ngb-tabset id="adminTabs">
+    <ngb-tab title="All">
+      <ng-template ngbTabContent>
+          <div class="card">
+              <div class="card-body-sec">
+                <button type="button" class="btn btn-light"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M9.40525 3.56549C9.40525 5.22304 8.02445 6.57239 6.32653 6.57239C4.62939 6.57239 3.24782 5.22304 3.24782 3.56549C3.24782 1.90794 4.62862 0.558594 6.32653 0.558594C8.02445 0.558594 9.40525 1.90794 9.40525 3.56549ZM0.169098 11.8345C0.169098 9.17861 2.70134 7.32411 6.32653 7.32411C9.95249 7.32411 12.484 9.17861 12.484 11.8345V12.5862H0.169098V11.8345Z"
+                      fill="#005073" />
+                  </svg></button>
+                <a href="javascript:void(0);"  ngbDropdown placement="bottom-left" class="tdEllipsisIcon card-dot"><span ngbDropdownToggle><svg width="5" height="5" viewBox="0 0 5 5" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="2.62365" cy="2.45859" rx="1.96959" ry="1.91379" fill="#D9D9D9" />
+                  </svg>
+                  <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="2.62365" cy="2.45859" rx="1.96959" ry="1.91379" fill="#D9D9D9" />
+                  </svg>
+                  <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="2.62365" cy="2.45859" rx="1.96959" ry="1.91379" fill="#D9D9D9" />
+                  </svg>
+                </span>
+                    <div ngbDropdownMenu>
+                      <button ngbDropdownItem><span class="drop-icon pr-2"><svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 3.68627C9.43137 3.68627 9.8366 3.79738 10.2157 4.01961C10.5948 4.24183 10.8954 4.54248 11.1176 4.92157C11.3399 5.30066 11.451 5.70588 11.451 6.13725C11.451 6.56863 11.3399 6.97385 11.1176 7.35294C10.8954 7.73203 10.5948 8.03268 10.2157 8.2549C9.8366 8.47713 9.43137 8.58824 9 8.58824C8.56863 8.58824 8.1634 8.47713 7.78431 8.2549C7.40523 8.03268 7.10458 7.73203 6.88235 7.35294C6.66013 6.97385 6.54902 6.56863 6.54902 6.13725C6.54902 5.70588 6.66013 5.30066 6.88235 4.92157C7.10458 4.54248 7.40523 4.24183 7.78431 4.01961C8.1634 3.79738 8.56863 3.68627 9 3.68627ZM9 10.2353C9.7451 10.2353 10.4314 10.0523 11.0588 9.68627C11.6863 9.32026 12.183 8.82353 12.549 8.19608C12.915 7.56862 13.098 6.88236 13.098 6.13725C13.098 5.39215 12.915 4.70589 12.549 4.07843C12.183 3.45098 11.6863 2.95425 11.0588 2.58824C10.4314 2.22222 9.7451 2.03922 9 2.03922C8.2549 2.03922 7.56863 2.22222 6.94118 2.58824C6.31372 2.95425 5.817 3.45098 5.45098 4.07843C5.08497 4.70589 4.90196 5.39215 4.90196 6.13725C4.90196 6.88236 5.08497 7.56862 5.45098 8.19608C5.817 8.82353 6.31372 9.32026 6.94118 9.68627C7.56863 10.0523 8.2549 10.2353 9 10.2353ZM9 0C10.3464 0 11.6274 0.261435 12.8431 0.784314C14.0196 1.29412 15.0556 2.01307 15.951 2.94118C16.8464 3.86929 17.5294 4.93463 18 6.13725C17.5294 7.33988 16.8464 8.40196 15.951 9.32353C15.0556 10.2451 14.0196 10.9608 12.8431 11.4706C11.6274 11.9935 10.3464 12.2549 9 12.2549C7.65359 12.2549 6.37256 11.9935 5.15686 11.4706C3.98039 10.9608 2.94445 10.2451 2.04902 9.32353C1.15359 8.40196 0.470591 7.33988 0 6.13725C0.470591 4.93463 1.15359 3.86929 2.04902 2.94118C2.94445 2.01307 3.98039 1.29412 5.15686 0.784314C6.37256 0.261435 7.65359 0 9 0Z" fill="#C4C4C4"/>
+                        </svg></span>View</button>
+                      <button ngbDropdownItem><span class="drop-icon pr-2"><svg width="17" height="18" viewBox="0 0 17 18"
+                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z"
+                              fill="#C4C4C4" />
+                          </svg></span>Delete</button>
+                    </div>
+                </a>
+                <h5>Luis Sanchez</h5>
+                <span class="downText">Drivelop</span>
+              </div>
+            </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Online">
+      <ng-template ngbTabContent>
+
+          <div class="modelPopup adminPrimary">
+              <ng-template #content let-modal class="rounded-0 border-0">
+                <div class="modal-header bg-primary text-white">
+                  <p class="modal-title" id="modal-primary-title">Create New Folder</p>
+                  <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body pt-4 pl-4 pr-4 pb-3">
+                  <p class="mb-1">Folder Name <sup class="text-danger"> *</sup></p>
+                  <div class="popInput mb-4"><input type="text" class="form-control pl-5 exName" placeholder="Example Name" ></div>
+                  <p class="mb-1">Description</p>
+                  <input type="textarea" rows="3" placeholder="Optional Drive Description" class="form-control" >
+                </div>
+                <div class="modal-footer border-0 text-center justify-content-center">
+                  <button type="button" class="btn bg-primary w-100 rounded-0 text-white"
+                    (click)="modal.close('Delete click')">Create Folder</button>
+                </div>
+              </ng-template>
+            
+              <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Create Folder</button>
+            
+              <pre>{{closeResult}}</pre>
+            </div>
+
+            <div class="modelPopup adminPrimary">
+              <ng-template #content let-modal class="rounded-0 border-0">
+                <div class="modal-header bg-primary text-white">
+                  <p class="modal-title" id="modal-primary-title">Move This File</p>
+                  <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body pt-4 pl-4 pr-4 pb-3">
+                  <p class="mb-1">Folder Name <sup class="text-danger"> *</sup></p>
+                  <p class="mb-4 .text-white-50">VAT_Report_2019</p>
+                  <p class="mb-1">Select Folder</p>
+                  <div class="folderOption my-2 d-flex align-items-center ">
+                    <button class="mr-3"><svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.119629 2.15197H0.949674V8.17824H6.86121V9.02439H0.949674C0.720229 9.02439 0.52453 8.94184 0.362569 8.77674C0.200608 8.61163 0.119629 8.41214 0.119629 8.17824V2.15197ZM3.91557 4.73171L2.65025 6.44465H7.7115L6.01092 4.30863L4.76586 5.89775L3.91557 4.73171ZM8.54155 6.44465C8.54155 6.67855 8.46057 6.88149 8.29861 7.05347C8.13665 7.22546 7.94095 7.31145 7.7115 7.31145H2.65025C2.42081 7.31145 2.22174 7.22546 2.05303 7.05347C1.88432 6.88149 1.79996 6.67855 1.79996 6.44465V1.28518C1.79996 1.05128 1.88432 0.851785 2.05303 0.686681C2.22174 0.521577 2.42081 0.439026 2.65025 0.439026H7.7115C7.94095 0.439026 8.13665 0.521577 8.29861 0.686681C8.46057 0.851785 8.54155 1.05128 8.54155 1.28518V6.44465Z" fill="#005073"/>
+                      </svg></button><p class="mb-0">IVA 2018</p></div>
+                </div>
+                <div class="modal-footer border-0 text-center justify-content-center">
+                  <button type="button" class="btn bg-primary w-100 rounded-0 text-white"
+                    (click)="modal.close('Delete click')">Move Folder</button>
+                </div>
+              </ng-template>
+            
+              <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Move File</button>
+            
+              <pre>{{closeResult}}</pre>
+            </div>
+
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab title="Offline">
+      <ng-template ngbTabContent>
+          <div class="topBread">
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item parentBread"><a href="#"><span class="userIcon pr-2"><svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.1458 7.69333C13.8958 7.69333 14.7292 7.80889 15.6458 8.04C16.6597 8.31445 17.4861 8.66833 18.125 9.10167C18.875 9.62167 19.25 10.2067 19.25 10.8567V13.11H14.0417V10.8567C14.0417 9.62888 13.4722 8.58889 12.3333 7.73667C12.5278 7.70778 12.7986 7.69333 13.1458 7.69333ZM6.22917 7.69333C6.97917 7.69333 7.80555 7.80889 8.70833 8.04C9.72223 8.31445 10.5417 8.66833 11.1667 9.10167C11.9167 9.62167 12.2917 10.2067 12.2917 10.8567V13.11H0.125V10.8567C0.125 10.2067 0.499996 9.62167 1.25 9.10167C1.88889 8.66833 2.71527 8.31445 3.72917 8.04C4.64584 7.80889 5.47916 7.69333 6.22917 7.69333ZM6.22917 5.91667C5.77083 5.91667 5.34028 5.79389 4.9375 5.54833C4.53472 5.30278 4.21528 4.97056 3.97917 4.55167C3.74305 4.13278 3.625 3.685 3.625 3.20833C3.625 2.73166 3.74305 2.28389 3.97917 1.865C4.21528 1.44611 4.53472 1.11389 4.9375 0.868333C5.34028 0.622777 5.77083 0.5 6.22917 0.5C6.6875 0.5 7.11458 0.622777 7.51042 0.868333C7.90625 1.11389 8.21875 1.4425 8.44792 1.85417C8.67708 2.26584 8.79167 2.71722 8.79167 3.20833C8.79167 3.69945 8.67708 4.15083 8.44792 4.5625C8.21875 4.97417 7.90625 5.30278 7.51042 5.54833C7.11458 5.79389 6.6875 5.91667 6.22917 5.91667ZM13.1458 5.91667C12.6875 5.91667 12.2569 5.79389 11.8542 5.54833C11.4514 5.30278 11.1319 4.97056 10.8958 4.55167C10.6597 4.13278 10.5417 3.685 10.5417 3.20833C10.5417 2.73166 10.6597 2.28389 10.8958 1.865C11.1319 1.44611 11.4514 1.11389 11.8542 0.868333C12.2569 0.622777 12.6875 0.5 13.1458 0.5C13.6042 0.5 14.0347 0.622777 14.4375 0.868333C14.8403 1.11389 15.1597 1.44611 15.3958 1.865C15.6319 2.28389 15.75 2.73166 15.75 3.20833C15.75 3.685 15.6319 4.13278 15.3958 4.55167C15.1597 4.97056 14.8403 5.30278 14.4375 5.54833C14.0347 5.79389 13.6042 5.91667 13.1458 5.91667Z" fill="#005073"/>
+                      </svg>
+                      </span>Luis Sanchez</a></li>
+                    <li class="breadcrumb-item childBread"><a href="#">Drivelop</a></li>
+                    <li class="breadcrumb-item childBread active" aria-current="page">Online</li>
+                    <li class="settingIcon"><button><svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8.10982V5.88797H13.2134C13.0629 5.1792 12.7655 4.52264 12.3595 3.93941L13.274 3.06955L11.6258 1.49759L10.7101 2.36856C10.0989 1.98307 9.40951 1.69978 8.66647 1.55758V0.333344H6.33353V1.55758C5.59048 1.70089 4.89993 1.98418 4.2887 2.36967L3.37419 1.49982L1.72596 3.07178L2.63931 3.94052C2.23338 4.52264 1.93593 5.18031 1.78662 5.88797H0.5V8.10982H1.78662C1.93709 8.81859 2.23454 9.47515 2.64048 10.0584L1.72596 10.9305L3.37652 12.5002L4.28987 11.6292C4.9011 12.0158 5.59049 12.298 6.33469 12.4402V13.6656H8.66764V12.4402C9.41185 12.2958 10.1012 12.0136 10.7125 11.627L11.627 12.4969L13.2752 10.9249L12.3619 10.0562C12.7666 9.47404 13.0641 8.81748 13.2134 8.10982H14.5ZM7.49883 9.22075C6.20988 9.22075 5.16589 8.22536 5.16589 6.9989C5.16589 5.77244 6.20988 4.77705 7.49883 4.77705C8.78662 4.77705 9.83178 5.77244 9.83178 6.9989C9.83178 8.22536 8.78662 9.22075 7.49883 9.22075Z" fill="#CCCCCC"/>
+                      </svg></button>
+                      </li>
+                  </ol>
+                </nav>
+          </div>
+          <div class="topTwoBread">
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item parentBread"><a href="#"><span class="userIcon pr-2"><svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.1458 7.69333C13.8958 7.69333 14.7292 7.80889 15.6458 8.04C16.6597 8.31445 17.4861 8.66833 18.125 9.10167C18.875 9.62167 19.25 10.2067 19.25 10.8567V13.11H14.0417V10.8567C14.0417 9.62888 13.4722 8.58889 12.3333 7.73667C12.5278 7.70778 12.7986 7.69333 13.1458 7.69333ZM6.22917 7.69333C6.97917 7.69333 7.80555 7.80889 8.70833 8.04C9.72223 8.31445 10.5417 8.66833 11.1667 9.10167C11.9167 9.62167 12.2917 10.2067 12.2917 10.8567V13.11H0.125V10.8567C0.125 10.2067 0.499996 9.62167 1.25 9.10167C1.88889 8.66833 2.71527 8.31445 3.72917 8.04C4.64584 7.80889 5.47916 7.69333 6.22917 7.69333ZM6.22917 5.91667C5.77083 5.91667 5.34028 5.79389 4.9375 5.54833C4.53472 5.30278 4.21528 4.97056 3.97917 4.55167C3.74305 4.13278 3.625 3.685 3.625 3.20833C3.625 2.73166 3.74305 2.28389 3.97917 1.865C4.21528 1.44611 4.53472 1.11389 4.9375 0.868333C5.34028 0.622777 5.77083 0.5 6.22917 0.5C6.6875 0.5 7.11458 0.622777 7.51042 0.868333C7.90625 1.11389 8.21875 1.4425 8.44792 1.85417C8.67708 2.26584 8.79167 2.71722 8.79167 3.20833C8.79167 3.69945 8.67708 4.15083 8.44792 4.5625C8.21875 4.97417 7.90625 5.30278 7.51042 5.54833C7.11458 5.79389 6.6875 5.91667 6.22917 5.91667ZM13.1458 5.91667C12.6875 5.91667 12.2569 5.79389 11.8542 5.54833C11.4514 5.30278 11.1319 4.97056 10.8958 4.55167C10.6597 4.13278 10.5417 3.685 10.5417 3.20833C10.5417 2.73166 10.6597 2.28389 10.8958 1.865C11.1319 1.44611 11.4514 1.11389 11.8542 0.868333C12.2569 0.622777 12.6875 0.5 13.1458 0.5C13.6042 0.5 14.0347 0.622777 14.4375 0.868333C14.8403 1.11389 15.1597 1.44611 15.3958 1.865C15.6319 2.28389 15.75 2.73166 15.75 3.20833C15.75 3.685 15.6319 4.13278 15.3958 4.55167C15.1597 4.97056 14.8403 5.30278 14.4375 5.54833C14.0347 5.79389 13.6042 5.91667 13.1458 5.91667Z" fill="#005073"/>
+                      </svg>
+                      </span>Luis Sanchez</a></li>
+                    <li class="breadcrumb-item childBread"><a href="#">IVA 2019</a></li>
+                    <li class="settingIcon"><button><svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8.10982V5.88797H13.2134C13.0629 5.1792 12.7655 4.52264 12.3595 3.93941L13.274 3.06955L11.6258 1.49759L10.7101 2.36856C10.0989 1.98307 9.40951 1.69978 8.66647 1.55758V0.333344H6.33353V1.55758C5.59048 1.70089 4.89993 1.98418 4.2887 2.36967L3.37419 1.49982L1.72596 3.07178L2.63931 3.94052C2.23338 4.52264 1.93593 5.18031 1.78662 5.88797H0.5V8.10982H1.78662C1.93709 8.81859 2.23454 9.47515 2.64048 10.0584L1.72596 10.9305L3.37652 12.5002L4.28987 11.6292C4.9011 12.0158 5.59049 12.298 6.33469 12.4402V13.6656H8.66764V12.4402C9.41185 12.2958 10.1012 12.0136 10.7125 11.627L11.627 12.4969L13.2752 10.9249L12.3619 10.0562C12.7666 9.47404 13.0641 8.81748 13.2134 8.10982H14.5ZM7.49883 9.22075C6.20988 9.22075 5.16589 8.22536 5.16589 6.9989C5.16589 5.77244 6.20988 4.77705 7.49883 4.77705C8.78662 4.77705 9.83178 5.77244 9.83178 6.9989C9.83178 8.22536 8.78662 9.22075 7.49883 9.22075Z" fill="#CCCCCC"/>
+                      </svg></button>
+                      </li>
+                  </ol>
+                </nav>
+          </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+  <!-- end tabs -->
+</section>

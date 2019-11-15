@@ -1,0 +1,22 @@
+:host{
+  display: block;
+  background-color:#fff;
+  #logoSpace {
+    background: #F4F4F4;
+    padding: 2em 2.563em 0.250em;
+    h2 {
+      font-size: 1.875em;
+    }
+    p {
+      font-size: 1.37em;
+    }
+  }
+  main {
+    position: relative;
+    // top: 100px;
+  }
+  #leftSection{
+    width: 320px;
+  }
+}
+

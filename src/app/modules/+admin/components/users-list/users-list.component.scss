@@ -1,0 +1,43 @@
+:host{
+  display: block;
+  width: 200px;
+  .overView {
+    padding-left: 2.25em;
+    position: relative;
+    &:before {
+      position: absolute;
+      content: "";
+      width: 9px;
+      height: 9px;
+      top: 40%;
+      left: 6%;
+      background: #005073;
+      border-radius: 50%;
+    }
+  }
+  .online {
+  }
+  .nav-link{
+    font-size: 0.875em;
+    span {
+      svg {
+        margin-left: -5px;
+      }
+    }
+    &.active, &:focus{
+      font-weight: bold;
+    }
+    &:hover{
+      color: #005073;
+      font-weight: bold;
+    }
+  }
+  a[aria-expanded="false"] {
+    span {
+      svg {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
+

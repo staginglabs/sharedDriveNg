@@ -1,0 +1,250 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./styles/variables";
+// @import "./mixins";
+// Bootstrap and its default variables
+@import "~bootstrap/scss/bootstrap";
+
+//
+@import "~ngx-toastr/toastr.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// :root {
+//   --gray-bg: #f6f7f8;
+// }
+*{
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-variant-ligatures: common-ligatures;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  // user-select: none;
+  font-display: swap; // Basically FOUT
+  overflow: auto;
+}
+
+/* Placeholder */
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #999;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #999;;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #999;;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #999;;
+}
+
+// universal dialog Styles
+// warning and normal
+.customPrimary {
+  .modal-dialog {
+    transform: translate(0, 50px) !important;
+    .modal-content {
+      border: none;
+      border-radius: 0;
+      .modal-header {
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        #modal-primary-title {
+          font-size: 0.938em;
+          line-height: 1.25rem;
+        }  
+        .close {
+          padding: 0rem 0.5rem 0.3rem;
+          margin: 0 0 0 auto;
+          border: 1px solid #fff;
+          border-radius: 3px;
+        }
+        .close:focus {
+          outline: none;
+        }
+      }
+      .modal-body {
+        p {
+          font-size: 1.065em;
+        }
+        .browseFile {
+          border: 1px solid #949494;
+          width: 10.313em;
+          height: 32px;
+          border-radius: 2em;
+        }
+        .successMessage {
+          margin: 1rem 0;
+          border-radius: 0;
+        }
+        .form-control {
+          border: 1px solid #B4B4B4;
+        }
+      }
+      .modal-footer {
+        button {
+          font-size: 1.065em;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+.customWarning{
+  .modal-content {
+    border: none;
+    border-radius: 0;
+    
+    .modal-header {
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      #modal-basic-title {
+        font-size: 0.938em;
+        line-height: 1.25rem;
+        .popupTopIcon {
+            padding-right: 15px;
+        }
+      }
+
+      .close {
+        padding: 0rem 0.5rem 0.3rem;
+        margin: 0 0 0 auto;
+        border: 1px solid #fff;
+        border-radius: 3px;
+      }
+      .close:focus {
+        outline: none;
+      }
+    }
+    .modal-body {
+      p {
+        font-size: 1.065em;
+      }
+      .file_name {
+        h5 {
+          font-size: 1.065em;
+          font-weight: bold;
+        }
+      }
+    }
+    .modal-footer {
+      button {
+        font-size: 1.065em;
+        font-weight: bold;
+      }
+      a.noCancel {
+        font-size: 0.813em;
+        color: #979797;
+        padding: 0.5rem;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+#adminTabs {
+  .nav-tabs {
+    border: none;
+    .nav-item {
+      .nav-link {
+        font-size: 0.938em;
+        color: #727272;
+        background: #C4C4C4;
+        padding: 0;
+        height: 23px;
+        text-align: center;
+        width: 143px;
+        margin: 0 .5rem;
+        border-top-left-radius: .5rem !important;
+        border-top-right-radius: .5rem !important;
+        &.active, &:hover {
+          border-color: transparent;
+          color: #fff;
+          font-weight: bold;
+          background: #005073;
+        }
+      }
+    }
+  }
+}
+
+// Admin model Dialog Style
+.adminPrimary {
+  .modal-dialog {
+    transform: translate(0, 50px) !important;
+    .modal-content {
+      border: none;
+      border-radius: 0;
+      .modal-header {
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        #modal-primary-title {
+          font-size: 0.938em;
+          line-height: 1.25rem;
+        }  
+        .close {
+          padding: 0rem 0.5rem 0.3rem;
+          margin: 0 0 0 auto;
+          border: 1px solid #fff;
+          border-radius: 3px;
+        }
+        .close:focus {
+          outline: none;
+        }
+      }
+      .modal-body {
+        p {
+          font-size: 1.065em;
+        }
+        .popInput {
+          position: relative;
+          .exName {
+            border: 1px solid #B4B4B4;
+          }
+          &:before {
+            position: absolute;
+            content: "";
+            left: 4%;
+            width: 0.8rem;
+            height: 0.8rem;
+            top: 38%;
+            background: url(/assets/images/menu.svg) no-repeat;
+            background-size: cover;
+            background-position: center;
+          }
+        }
+        .folderOption {
+          border: 1px solid #E0E0E0;
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          border-radius: 5px;
+          padding: .4rem 1rem;
+          &:hover {
+            background: #005073;
+          }
+          button {
+            border: none;
+            background: #EFEFEF;
+            padding: 0;
+            line-height: 0;
+            width: 1.5rem;
+            height: 1.375rem;
+            border-radius: 5px;
+        }
+        }
+      }
+      .modal-footer {
+        button {
+          font-size: 1.065em;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

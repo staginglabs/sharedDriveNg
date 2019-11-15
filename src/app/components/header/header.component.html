@@ -1,0 +1,45 @@
+﻿<div class="container-fluid" id="topBar">
+  <div class="row">
+    <div class="col" *ngIf="data">
+      <a href="javascript:void(0)">{{data.billing_phone}}</a>
+      <a href="javascript:void(0)">{{data.user_email}}</a>
+    </div>
+  </div>
+</div>
+
+<nav class="navbar nav-bar navbar-expand-md navbar-light bg-white">
+  <a class="navbar-brand" href="javascript:void(0)">Fixed navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item ">
+        <a class="nav-link" href="javascript:void(0)">Servicios Online</a>
+      </li>
+      <li class="nav-item" ngbDropdown>
+        <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown1" role="button">
+            Nuestros Servicios
+        </a>
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Action</a>
+          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Another action</a>
+          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)">Quienes Somos</a>
+      </li>
+    </ul>
+    <div ngbDropdown class="d-inline-block ml-4">
+      <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Mi Cuenta</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem>Action - 1</button>
+        <button ngbDropdownItem>Another Action</button>
+        <button ngbDropdownItem>Something else is here</button>
+      </div>
+    </div>
+
+  </div>
+</nav>
+<!-- docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=sharedDriveWp mysql:8.0.18 -->

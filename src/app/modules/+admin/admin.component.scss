@@ -1,0 +1,17 @@
+:host{
+  display: block;
+  background-color:#fff;
+  main {
+    position: relative;
+  }
+  #leftSection{
+    width: 160px;
+    background-color: #23282D;
+  }
+  #rightSection {
+    .lead {
+      font-size: 1.125em;
+      color: #636363;
+    }
+  }
+}

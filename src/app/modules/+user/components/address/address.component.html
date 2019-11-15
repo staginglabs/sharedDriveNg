@@ -1,0 +1,129 @@
+﻿<section class="p-5 w-75">
+
+  <ng-container *ngIf="!isEditMode">
+
+    <p>The following addresses will be used on the checkout page by default.</p>
+
+    <div class="d-flex">
+      <div class="mr-5">
+        <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'billing'}"></ng-container>
+      </div>
+      <div class="">
+        <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'mailing'}"></ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isEditMode">
+    <div class="addressForm">
+      <p class="lead mb-4 text-primary">{{editType}} address</p>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="first_name"
+            [ngClass]="{'required': 'first_name' | myUniversalPipeFunction:getItemClass:form}">First Name </label>
+            <input type="text" class="form-control" name="first_name" formControlName="first_name" />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="last_name"
+            [ngClass]="{'required': 'last_name' | myUniversalPipeFunction:getItemClass:form}">Last Name</label>
+            <input type="text" class="form-control" name="last_name" formControlName="last_name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company"
+          [ngClass]="{'required': 'company' | myUniversalPipeFunction:getItemClass:form}">Company Name</label>
+          <input type="text" class="form-control" name="company" formControlName="company" />
+        </div>
+        <div class="form-group">
+          <label for="address"
+          [ngClass]="{'required': 'address_1' | myUniversalPipeFunction:getItemClass:form}">Street Address</label>
+          <input type="text" class="form-control mb-3" name="address_1" formControlName="address_1" />
+          <input type="text" class="form-control" name="address_2" formControlName="address_2" />
+        </div>
+        <div class="form-group">
+          <label for="country" class="required">Country</label>
+          <div>
+            <ng-select
+              (change)="handleCountrySelection($event)"
+              name="country"
+              formControlName="country"
+              [items]="countries"
+              bindValue="sortname"
+              bindLabel="name"
+              [selectOnTab]="true"
+              [searchFn]="customSearchFn">
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.phoneCode}} {{item.name}}
+                </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="state" class="required">State/County</label>
+          <div>
+            <ng-select
+              (change)="handleStateSelection($event)"
+              name="state"
+              formControlName="state"
+              [items]="filteredStates$ | async"
+              bindValue="name"
+              bindLabel="name"
+              >
+                <ng-template ng-option-tmp let-item="item">
+                  {{item.name}}
+                </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="city" class="required">City</label>
+          <input type="text" class="form-control" name="city" formControlName="city" />
+        </div>
+        <div class="form-group">
+          <label for="postcode"
+          [ngClass]="{'required': 'postcode' | myUniversalPipeFunction:getItemClass:form}">Postcode / ZIP</label>
+          <input type="text" class="form-control" name="postcode" formControlName="postcode" (keypress)="allowOnlyNumbers($event)" />
+        </div>
+        <ng-container *ngIf="editType === 'billing'">
+          <div class="form-group">
+            <label for="phone"
+            [ngClass]="{'required': 'phone' | myUniversalPipeFunction:getItemClass:form}">Phone</label>
+            <input type="text" class="form-control" name="phone"  (keypress)="allowOnlyNumbers($event)" formControlName="phone" />
+          </div>
+          <div class="form-group">
+            <label for="email"
+            [ngClass]="{'required': 'email' | myUniversalPipeFunction:getItemClass:form}">Email Address</label>
+            <input type="email" email="true" class="form-control" name="email" formControlName="email" />
+          </div>
+        </ng-container>
+        <div class="form-group">
+          <button [disabled]="form.invalid" class="btn btn-primary">Save Address</button>
+          <button (click)="resetEditMode()" type="button" class="ml-3 btn btn-light">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #addressCardTemp let-type="type">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
+        <ng-container *ngIf="type === 'billing'">
+          <h5 class="">Billing Address</h5>
+          <button (click)="setEditMode(type)" class="btn btn-light btn-sm">Edit</button>
+        </ng-container>
+
+        <ng-container *ngIf="type === 'mailing'">
+          <h5 class="">Mailing Address</h5>
+          <button (click)="setEditMode(type)" class="btn btn-light btn-sm">Edit</button>
+        </ng-container>
+      </div>
+      <address class="card-text">
+        This is some text within a card body.<br>
+        Hello Bingo
+      </address>
+    </div>
+  </div>
+</ng-template>

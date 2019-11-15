@@ -1,0 +1,67 @@
+﻿<section class="p-5 w-75">
+
+  <!-- start of personal information -->
+  <p class="lead text-primary">Personal Information</p>
+  <form [formGroup]="personalForm" (ngSubmit)="onSubmitAccountDetails()" novalidate>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="first_name" class="required">First Name </label>
+        <input type="text" class="form-control" name="first_name" formControlName="first_name" />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="last_name" class="required">Last Name</label>
+        <input type="text" class="form-control" name="last_name" formControlName="last_name" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="company_name" class="required">Company Name</label>
+      <input type="text" class="form-control" name="company_name" formControlName="company_name" />
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="required">Email Address</label>
+      <input type="email" email="true" class="form-control" name="email" formControlName="email" />
+    </div>
+
+    <button [disabled]="accountDetailsInProgress || personalForm.invalid" class="btn btn-primary">
+      <span *ngIf="accountDetailsInProgress" class="spinner-border spinner-border-sm mr-1"></span>
+      Update Profile
+    </button>
+  </form>
+
+  <div class="dropdown-divider mt-5 mb-5"></div>
+
+  <!-- end of personal information -->
+
+  <p class="lead text-primary">Password Change</p>
+  <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
+
+    <div class="form-group">
+      <label for="password_current">Current password (leave blank to leave unchanged)</label>
+      <input type="text" formControlName="password_current" class="form-control" autocomplete="off"  />
+    </div>
+
+    <ng-container formGroupName="passwords">
+      <div class="form-group">
+        <label>New password (leave blank to leave unchanged)</label>
+        <input autocomplete="off" type="password" class="form-control" formControlName="password_1">
+      </div>
+
+      <div class="form-group">
+        <label>Confirm new password</label>
+        <input autocomplete="off" type="password" class="form-control" formControlName="password_2">
+        <small class="text-danger"
+          *ngIf="changePasswordForm.get(['passwords','password_1']).value != changePasswordForm.get(['passwords','password_2']).value && changePasswordForm.get(['passwords','password_2']).value != null">Password
+          does not match</small>
+      </div>
+    </ng-container>
+
+    <div class="form-group">
+      <button [disabled]="changePasswordInProgress || changePasswordForm.invalid" class="btn btn-primary">
+        <span *ngIf="changePasswordInProgress" class="spinner-border spinner-border-sm mr-1"></span>
+        Change Password
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,29 @@
+footer {
+    padding: 2.5em 2.563em;
+    position: relative;
+  
+    .col-3 {
+      h5 {
+        font-size: 1.25em;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    ul{
+      margin-top: 0.5em;
+      li{
+        list-style: none;
+        font-size: 1.125em;
+        line-height: 40px;
+      }
+    }  
+    .footer-bottom p {
+      font-size: 1.3em;
+  }  
+    }
+    .footer-col-4 {
+      li {
+        display: inline-block;
+        padding-right: .5em;
+      }
+    }
+  } 

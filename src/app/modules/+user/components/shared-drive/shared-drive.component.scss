@@ -1,0 +1,86 @@
+:host {
+  display: block;
+  width: 100%;
+
+  .commonPadLeft {
+    padding: 2.938rem 4rem 0;
+
+    section#head {
+      padding-bottom: 1em;
+
+      h2 {
+        font-size: 1.250em;
+        font-weight: bold;
+        color: #949494;
+        display: inline-block;
+      }
+
+      .sideButton {
+        float: right;
+      }
+    }
+
+
+
+    #mainContent .card {
+      border: none;
+      margin-right: 3em;
+      display: inline-block;
+    }
+
+    a.card-dot {
+      float: right;
+    }
+
+    .card-body {
+      width: 16.438em;
+      height: 6.813em;
+      background: #005073;
+      border-bottom: 1px solid #E0E0E0;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      color: #fff;
+
+      .tdEllipsisIcon {
+        a {
+          &:after {
+            display: none;
+          }
+        }
+      }
+
+      button.btn.btn-light {
+        padding: 0 0.55em 0.1em;
+      }
+
+      h5 {
+        padding-top: 0.75em;
+      }
+    }
+
+    .card-body-sec {
+      width: 16.813em;
+      height: 6.938em;
+      padding: 1.25rem;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+
+      button.btn.btn-light {
+        padding: 0 0.55em 0.1em;
+      }
+
+      h5 {
+        padding-top: 0.75em;
+        color: #005073;
+      }
+    }
+
+    .btn-primary.btn-sm {
+      width: 8.313em;
+      font-size: 0.938em;
+    }
+
+  }
+  
+}

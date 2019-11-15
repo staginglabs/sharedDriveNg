@@ -1,0 +1,40 @@
+:host{
+  display: block;
+  width: 100%;
+  // padding: 1rem 4.625em 2rem 1.625em;
+  .nav-link {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: #5A5A5A;
+    position: relative;
+    padding: .75rem 1rem;
+    color: #fff;
+    &.active, &:focus{
+      background-color: #4280BD;
+      padding: 0.75rem 1rem 0.75rem 2rem;
+      &:before {
+        position: absolute;
+        content: "";
+        left: 7%;
+        top: 36%;
+        width: 1em;
+        height: 0.9em;
+        background: url('/assets/images/small-icon.svg');
+        background-size: cover;
+        background-position: center;
+      }
+      &:after {
+        position: absolute;
+        content: "";
+        right: 0;
+        top: 30%;
+        border-top: 10px solid transparent;
+        border-right: 14px solid #fff;
+        border-bottom: 10px solid transparent;
+      }
+    }
+    &:hover{
+      background-color: #4280BD
+    }
+  }
+}
