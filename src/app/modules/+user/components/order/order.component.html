@@ -1,12 +1,126 @@
-﻿
-  <div class="orderRequest">
-    <ngb-alert [dismissible]="false" [type]="'success'">
-      <p class="mb-0">No order has been made yet..!</p>
-      <button class="btn btn-primary rounded-0">Go to shop</button>
-    </ngb-alert>
+﻿<ng-container *ngIf="loading">
+  <p class="lead">Getting Data Please wait...</p>
+</ng-container>
+
+<ng-container *ngIf="!activateOrderDetailsView && !loading">
+  <section class="p-5">
+    <ng-container *ngIf="orders && orders.length === 0">
+      <div class="orderRequest">
+        <ngb-alert [dismissible]="false" [type]="'success'">
+          <p class="mb-0">No order has been made yet..!</p>
+          <button class="btn btn-primary rounded-0">Go to shop</button>
+        </ngb-alert>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="orders && orders.length > 0">
+      <table class="table table-hover">
+        <thead class="thead-dark bg-primary">
+          <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of orders">
+            <td><a (click)="showOrderDetails(item)" href="javascript:void(0)">#{{item.id}}</a></td>
+            <td>{{item.created_at | date}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.total | currency:item.currency}}</td>
+            <td><button (click)="showOrderDetails(item)" class="btn btn-sm btn-primary">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </section>
+</ng-container>
+
+
+<!-- order details view -->
+<ng-container *ngIf="activateOrderDetailsView && selectedOrder">
+
+  <div class="custom-breadcrumb">
+    <a href="javascript:void(0)" (click)="resetSeletedOrder()">
+      <span class="pr-3">
+        <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M6 1.50221L4.61382 0L0 5L4.61382 10L6 8.49779L2.77237 5L6 1.50221Z" fill="#949494" />
+        </svg>
+        <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M6 1.50221L4.61382 0L0 5L4.61382 10L6 8.49779L2.77237 5L6 1.50221Z" fill="#949494" />
+        </svg>
+      </span>Overview
+    </a>
   </div>
+  <section class="p-5 w-75">
+    <p>
+      Order <mark>{{selectedOrder.id}}</mark> was placed on <mark>{{selectedOrder.created_at | date:'medium'}}</mark> and is currently
+    <mark>{{selectedOrder.status}}</mark>.</p>
+    <div class="card consultax">
+      <div class="card-body p-0">
+        <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
+          <h5 class="">Order Details</h5>
+        </div>
+        <div class="card-text">
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of selectedOrder.line_items">
+                <td>
+                  <a href="javascript:void(0)">{{item.name}}</a> x
+                  <strong>{{item.quantity}}</strong>
+                </td>
+                <td>{{item.price | currency:selectedOrder.currency}}</td>
+              </tr>
+              <tr>
+                <td><strong>Subtotal:</strong></td>
+                <td>{{selectedOrder.subtotal | currency:selectedOrder.currency}}</td>
+              </tr>
+              <tr>
+                <td><strong>Payment method:</strong></td>
+                <td>{{selectedOrder.payment_details.method_title}}</td>
+              </tr>
+              <tr>
+                <td><strong>Total:</strong></td>
+                <td>{{selectedOrder.total | currency:selectedOrder.currency}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card consultax">
+      <div class="card-body p-0">
+        <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
+          <h5 class="">Billing Address</h5>
+        </div>
+        <address class="card-text" *ngIf="selectedOrder.billing_address">
+          {{selectedOrder.billing_address.company}}<br>
+          {{selectedOrder.billing_address.address_1}}<br>
+          {{selectedOrder.billing_address.address_2}}<br>
+          {{selectedOrder.billing_address.city}} {{selectedOrder.billing_address.postcode}}<br>
+          {{selectedOrder.billing_address.formated_state}} {{selectedOrder.billing_address.formated_country}}<br>
+          {{selectedOrder.billing_address.phone}}<br>
+          {{selectedOrder.billing_address.email}}<br>
+        </address>
+      </div>
+    </div>
+  </section>
+</ng-container>
 
 
+
+
+<!-- end -->
 <div class="modelPopup customWarning">
     <ng-template #content let-modal class="rounded-0 border-0">
       <div class="modal-header bg-danger text-white">
@@ -40,40 +154,4 @@
         <a href="javascript:void(0);" class="noCancel" (click)="modal.close('Save click')">No, Cancel.</a>
       </div>
     </ng-template>
-
-    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-
-    <pre>{{closeResult}}</pre>
-  </div>
-
-  <!----- Primary popup ------>
-
-  <div class="modelPopup customPrimary">
-    <ng-template #content let-modal class="rounded-0 border-0">
-      <div class="modal-header bg-primary text-white">
-        <p class="modal-title" id="modal-primary-title">Upload New File</p>
-        <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body pt-4 pl-4 pr-4 pb-2">
-        <p>File <sup class="text-danger"> *</sup></p>
-        <button class="browseFile text-secondary"><span class="browseIcon pr-2"><svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4"/>
-          </svg></span>Browse for File</button>
-        <div class="alert successMessage alert-success text-success" role="alert">
-          Your file “VAT_2019_Summary.pfd” has been uploaded successfully.
-        </div>
-        <p>Note</p>
-        <input type="textarea" rows="3" placeholder="Add an optional note to this file" class="form-control" >
-      </div>
-      <div class="modal-footer border-0 text-center justify-content-center">
-        <button type="button" class="btn bg-primary w-100 rounded-0 text-white"
-          (click)="modal.close('Delete click')">Upload File</button>
-      </div>
-    </ng-template>
-
-    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">File Upload</button>
-
-    <pre>{{closeResult}}</pre>
   </div>

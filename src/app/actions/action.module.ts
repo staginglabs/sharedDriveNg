@@ -3,11 +3,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 // import all actions here
 import { AuthActions } from './auth.action';
+import { UserActions } from './user.action';
 
 @NgModule({
   imports: [
     EffectsModule.forRoot([
-      AuthActions
+      AuthActions,
+      UserActions
     ])
   ],
   exports: [EffectsModule]

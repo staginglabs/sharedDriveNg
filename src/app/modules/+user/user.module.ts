@@ -21,6 +21,7 @@ const USER_ROUTES: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'orders', component: OrderComponent },
+      // { path: 'orders/:orderId', component: OrderDetailsComponent },
       {
         path: 'shared-drive',
         component: SharedDriveComponent,

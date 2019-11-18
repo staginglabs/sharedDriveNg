@@ -1,4 +1,37 @@
-export interface IIdAndName{
+export interface IIOrderRootRes {
+  status: string;
+  data: IOrderRes[];
+}
+
+export interface IOrderRes {
+  line_items: ILineItem[];
+  order_key: string;
+  order_number: string;
+  status: string;
+  updated_at: string;
+  total: string;
+  total_line_items_quantity: string;
+}
+
+export interface ILineItem {
+  id: number;
+  subtotal: string;
+  subtotal_tax: string;
+  total: string;
+  total_tax: string;
+  price: string;
+  quantity: number;
+  tax_class?: any;
+  name: string;
+  product_id: number;
+  variation_id: number;
+  product_url: string;
+  product_thumbnail_url: string;
+  sku: string;
+  meta: string;
+}
+
+export interface IIdAndName {
   id: number;
   name: string;
 }

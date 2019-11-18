@@ -4,10 +4,12 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomActions } from '.';
-// import { UserService } from '../services';
+import { UserService } from '../services';
 
 export const USER_ACTIONS = {
   EMPTY_ACTION: 'USER_ACTIONS_EMPTY_ACTION',
+  GET_ORDERS_REQ: 'USER_ACTIONS_GET_ORDERS_REQ',
+  GET_ORDERS_RES: 'USER_ACTIONS_GET_ORDERS_RES',
   GET_PROFILE_REQ: 'USER_ACTIONS_GET_PROFILE_REQ',
   GET_PROFILE_RES: 'USER_ACTIONS_GET_PROFILE_RES',
   UPDATE_PROFILE_REQ: 'USER_ACTIONS_UPDATE_PROFILE_REQ',
@@ -20,6 +22,19 @@ const EMPTY_ACTION = { type: USER_ACTIONS.EMPTY_ACTION };
 
 @Injectable()
 export class UserActions {
+
+  @Effect()
+  public getUserOrdersReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_ORDERS_REQ),
+    switchMap((action: CustomActions) => this.userService.getUserOrders(action.payload)),
+    map(res => this.getUserOrdersRes(res))
+  );
+
+  @Effect()
+  public getUserOrdersRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_ORDERS_RES),
+    map((action: CustomActions) => EMPTY_ACTION)
+  );
 
   // @Effect()
   // public getProfileReq$: Observable<Action> = this.action$.pipe(
@@ -55,8 +70,22 @@ export class UserActions {
 
   constructor(
     private action$: Actions,
-    // private userService: UserService
+    private userService: UserService
   ) { }
+
+  public getUserOrdersReq(payload: string): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_ORDERS_REQ,
+      payload
+    };
+  }
+
+  public getUserOrdersRes(payload: any): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_ORDERS_RES,
+      payload
+    };
+  }
 
   public getProfileReq(): CustomActions {
     return {

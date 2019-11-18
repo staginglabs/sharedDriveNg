@@ -1,5 +1,6 @@
 // $font-family-sans-serif: 'Lato', sans-serif;
 // $font-family-base: $font-family-sans-serif !default;
+$primary: #005073;
 $font-size-base: 1rem;
 $input-border: #B4B4B4;
 $input-color: #a2a2a2;
@@ -10,7 +11,7 @@ $body-color: #949494;
 $text-color: #949494;
 
 $theme-colors: (
-  "primary": #005073,
+  "primary": $primary,
   "secondary": #A6A6A6,
   // 2F9645
   "success": #2F9645,
