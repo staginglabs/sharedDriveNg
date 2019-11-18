@@ -3,20 +3,13 @@
   width: 100%;
 
   .commonPadLeft {
-    padding: 2.938rem 4rem 0;
 
-    section#head {
-      padding-bottom: 1em;
-
+    #head {
       h2 {
         font-size: 1.250em;
         font-weight: bold;
         color: #949494;
         display: inline-block;
-      }
-
-      .sideButton {
-        float: right;
       }
     }
 
@@ -82,5 +75,5 @@
     }
 
   }
-  
+
 }

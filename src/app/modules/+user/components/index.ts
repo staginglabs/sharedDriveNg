@@ -5,6 +5,7 @@ import { AddressComponent } from './address';
 import { SharedDriveComponent } from './shared-drive';
 import { AccountDetailsComponent } from './account-details';
 import { DriveDetailsComponent } from './drive-details';
+import { UploadFileComponent } from './upload-file';
 
 
 export { DashboardComponent } from './dashboard';
@@ -13,6 +14,7 @@ export { AddressComponent } from './address';
 export { SharedDriveComponent } from './shared-drive';
 export { AccountDetailsComponent } from './account-details';
 export { DriveDetailsComponent } from './drive-details';
+export { UploadFileComponent } from './upload-file';
 
 export const USER_COMPONENTS: any[] = [
   NavigationComponent,
@@ -21,5 +23,6 @@ export const USER_COMPONENTS: any[] = [
   AddressComponent,
   SharedDriveComponent,
   AccountDetailsComponent,
-  DriveDetailsComponent
+  DriveDetailsComponent,
+  UploadFileComponent
 ];

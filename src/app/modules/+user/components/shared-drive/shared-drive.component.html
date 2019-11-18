@@ -4,18 +4,11 @@
 
 <ng-container *ngIf="!isChildRouteActivated">
 
-  <section class="commonPadLeft">
+  <section class="commonPadLeft p-5">
 
-    <section id="head">
+    <section id="head" class="d-flex pb-3 justify-content-between">
       <h2>Shared Drive</h2>
-      <div class="sideButton">
-        <button type="button" class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M11.25 1.41671L0.0950013 1.41671L0.0950015 0.0167075L11.25 0.0167084L11.25 1.41671ZM3.27667 11.8334L3.27667 7.66671L0.0950007 7.66671L5.6725 2.81671L11.25 7.66671L8.06833 7.66671L8.06833 11.8334L3.27667 11.8334Z"
-              fill="white" />
-          </svg> Upload File</button>
-      </div>
+      <app-upload-file-button></app-upload-file-button>
     </section>
 
 
@@ -53,8 +46,8 @@
                 d="M9.40525 3.56549C9.40525 5.22304 8.02445 6.57239 6.32653 6.57239C4.62939 6.57239 3.24782 5.22304 3.24782 3.56549C3.24782 1.90794 4.62862 0.558594 6.32653 0.558594C8.02445 0.558594 9.40525 1.90794 9.40525 3.56549ZM0.169098 11.8345C0.169098 9.17861 2.70134 7.32411 6.32653 7.32411C9.95249 7.32411 12.484 9.17861 12.484 11.8345V12.5862H0.169098V11.8345Z"
                 fill="#005073" />
             </svg></button>
-            
-            
+
+
           <h5>
             <a class="text-white" routerLink="drive/myFiles">My Files</a>
           </h5>
@@ -62,12 +55,8 @@
       </div>
     </section>
 
-  </section>
 
-
-  <section class="commonPadLeft folder_sec">
-
-    <section id="head">
+    <section id="head" class="pt-5">
       <h2>Folders</h2>
     </section>
 

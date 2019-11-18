@@ -40,6 +40,9 @@ body {
 :-moz-placeholder { /* Firefox 18- */
   color: #999;;
 }
+.cp{
+  cursor: pointer;
+}
 
 // universal dialog Styles
 // warning and normal
@@ -56,7 +59,7 @@ body {
         #modal-primary-title {
           font-size: 0.938em;
           line-height: 1.25rem;
-        }  
+        }
         .close {
           padding: 0rem 0.5rem 0.3rem;
           margin: 0 0 0 auto;
@@ -72,17 +75,16 @@ body {
           font-size: 1.065em;
         }
         .browseFile {
-          border: 1px solid #949494;
+          border: 1px solid $border-color;
           width: 10.313em;
           height: 32px;
           border-radius: 2em;
+          position: relative;
+          z-index: 2;
         }
         .successMessage {
           margin: 1rem 0;
           border-radius: 0;
-        }
-        .form-control {
-          border: 1px solid #B4B4B4;
         }
       }
       .modal-footer {
@@ -99,7 +101,7 @@ body {
   .modal-content {
     border: none;
     border-radius: 0;
-    
+
     .modal-header {
       border-radius: 0;
       display: flex;
@@ -188,7 +190,7 @@ body {
         #modal-primary-title {
           font-size: 0.938em;
           line-height: 1.25rem;
-        }  
+        }
         .close {
           padding: 0rem 0.5rem 0.3rem;
           margin: 0 0 0 auto;
@@ -206,7 +208,7 @@ body {
         .popInput {
           position: relative;
           .exName {
-            border: 1px solid #B4B4B4;
+            border: 1px solid $border-color;
           }
           &:before {
             position: absolute;

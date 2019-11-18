@@ -40,14 +40,14 @@
         <a href="javascript:void(0);" class="noCancel" (click)="modal.close('Save click')">No, Cancel.</a>
       </div>
     </ng-template>
-  
+
     <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-  
+
     <pre>{{closeResult}}</pre>
   </div>
-  
+
   <!----- Primary popup ------>
-  
+
   <div class="modelPopup customPrimary">
     <ng-template #content let-modal class="rounded-0 border-0">
       <div class="modal-header bg-primary text-white">
@@ -62,7 +62,7 @@
           <path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4"/>
           </svg></span>Browse for File</button>
         <div class="alert successMessage alert-success text-success" role="alert">
-          Your file “VAT_2019_Summary.pfd” has been uploaded successfully. 
+          Your file “VAT_2019_Summary.pfd” has been uploaded successfully.
         </div>
         <p>Note</p>
         <input type="textarea" rows="3" placeholder="Add an optional note to this file" class="form-control" >
@@ -72,8 +72,8 @@
           (click)="modal.close('Delete click')">Upload File</button>
       </div>
     </ng-template>
-  
+
     <button class="btn btn-lg btn-outline-primary" (click)="open(content)">File Upload</button>
-  
+
     <pre>{{closeResult}}</pre>
   </div>

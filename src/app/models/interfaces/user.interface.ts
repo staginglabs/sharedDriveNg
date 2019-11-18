@@ -57,3 +57,49 @@ export interface IShippingDetails {
   shipping_phone: number;
   shipping_email: string;
 }
+
+export interface IS3UploadRes {
+  Bucket: string;
+  Key: string;
+  Location: string;
+  key: string;
+}
+
+export interface IFileForm {
+  // drive will represent user email
+  // drive>myfiles
+  location: string;
+  note: string;
+  email: string;
+  file?: any;
+  name: string;
+  type: string;
+  key: string;
+  isDeleted: boolean;
+  uploadedBy: 'user' | 'admin';
+}
+
+export interface IUserUploadObj extends IFileForm {
+  // time
+  LastModified: string;
+
+  isUploadedByUser: boolean;
+  // if false
+  // folder name
+  /**
+   * URL of the uploaded object.
+   */
+  Location: string;
+  /**
+   * ETag of the uploaded object.
+   */
+  ETag: string;
+  /**
+   * Bucket to which the object was uploaded.
+   */
+  Bucket: string;
+  /**
+   * Key to which the object was uploaded.
+   */
+  Key: string;
+}
