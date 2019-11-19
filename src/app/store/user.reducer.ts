@@ -1,10 +1,13 @@
 import { CustomActions, USER_ACTIONS } from '../actions';
 import { cloneDeep } from '../lodash.optimized';
-import { BaseResponse, IIOrderRootRes, IOrderRes } from '../models';
+import {
+  BaseResponse, IIOrderRootRes,
+  IOrderRes, IUserDetailsData, IUserDetailsRoot
+} from '../models';
 
 export interface UserState {
   orders: IOrderRes[];
-  details: any;
+  details: IUserDetailsData;
 }
 
 const initialState: UserState = {
@@ -28,19 +31,17 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
       return state;
     }
     case USER_ACTIONS.GET_PROFILE_RES: {
-      const res: BaseResponse<IIOrderRootRes, any> = action.payload;
-      // if (res && res.data && res.data.data && res.data.data.length) {
-      //   return { ...state, details: res.data.data[0] };
-      // }
-      return state;
-    }
-    case USER_ACTIONS.UPDATE_PROFILE_REQ: {
+      const res: BaseResponse<IUserDetailsData, any> = action.payload;
+      if (res && res.body) {
+        return { ...state, details: res.body };
+      }
       return state;
     }
     case USER_ACTIONS.UPDATE_PROFILE_RES: {
-      const res: any = action.payload;
-      if (res && res.data && res.successful) {
-        return { ...state, details: res.data };
+      const res: BaseResponse<any, any> = action.payload;
+      console.log(res);
+      if (res && res.body) {
+        // return { ...state, details: res.data };
       }
       return state;
     }

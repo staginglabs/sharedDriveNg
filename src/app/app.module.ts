@@ -18,6 +18,7 @@ import { StoreModule, MetaReducer, ActionReducer } from '@ngrx/store';
 import { ActionModule } from './actions/action.module';
 import { CustomActions, AUTH_ACTIONS } from './actions';
 import { ALL_COMPONENTS } from './components';
+import { AuthInterceptor } from './auth.interceptor';
 
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -59,7 +60,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer, cle
     StoreModule.forRoot(reducers, { metaReducers })
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   entryComponents: [
   ],

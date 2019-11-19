@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ReplaySubject, Observable, of } from 'rxjs';
-import { BaseResponse, ICountries, IStates } from 'src/app/models';
+import { ReplaySubject, Observable, of, combineLatest } from 'rxjs';
+import { BaseResponse, ICountries, IStates, IUserDetailsData } from 'src/app/models';
 import { LocalService } from 'src/app/services/local.service';
 import { clone, isEmpty } from 'src/app/lodash.optimized';
 import { EMAIL_REGEX } from 'src/app/app.constant';
@@ -15,6 +15,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './address.component.html'
 })
 export class AddressComponent implements OnInit, OnDestroy {
+  public userData: IUserDetailsData;
   public isEditMode = false;
   public editType: string;
   public countries: ICountries[] = [];
@@ -45,23 +46,22 @@ export class AddressComponent implements OnInit, OnDestroy {
     });
 
     // listen for query params changes
-    this.route.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(p => {
-      if (isEmpty(p)) {
-        this.isEditMode = false;
-      } else {
-        this.handleQueryParamsChanges(p);
+    // listen for user details
+    combineLatest([
+      this.route.queryParams.pipe(takeUntil(this.destroyed$)),
+      this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    ])
+    .subscribe((arr: any[]) => {
+      if (arr[0] && arr[1]) {
+        this.userData = arr[1];
+        const p = arr[0];
+        if (isEmpty(p)) {
+          this.isEditMode = false;
+        } else {
+          this.handleQueryParamsChanges(p);
+        }
       }
     });
-
-    // listen for token and user details
-    this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
-    .subscribe(d => {
-      if (d) {
-        // console.log(d);
-        // this.initPersonalForm(d);
-      }
-    });
-
   }
 
   public customSearchFn(term: string, item: ICountries) {
@@ -210,6 +210,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private handleQueryParamsChanges(obj: any) {
+    console.log(this.userData);
     this.editType = obj.type;
     // init form
     this.initForm();

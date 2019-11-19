@@ -2,11 +2,10 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AuthActions } from 'src/app/actions';
-import { ISignInRequest, IUserData } from 'src/app/models';
+import { AuthActions, UserActions } from 'src/app/actions';
+import { IUserData } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -21,7 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private authActions: AuthActions
+    private authActions: AuthActions,
+    private userActions: UserActions
   ) {
   }
 
@@ -31,6 +31,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
+    // listen for token
+    this.store.pipe(select(p => p.auth.token), takeUntil(this.destroyed$))
+    .subscribe(d => {
+      if (d) {
+        this.store.dispatch(this.userActions.getProfileReq());
+      }
+    });
+
     // listen for token and user details
     this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
     .subscribe(d => {

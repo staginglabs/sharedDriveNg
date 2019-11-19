@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomActions } from '.';
 import { UserService } from '../services';
+import { BaseResponse, IUserDetailsData } from '../models';
 
 export const USER_ACTIONS = {
   EMPTY_ACTION: 'USER_ACTIONS_EMPTY_ACTION',
@@ -26,7 +27,7 @@ export class UserActions {
   @Effect()
   public getUserOrdersReq$: Observable<Action> = this.action$.pipe(
     ofType(USER_ACTIONS.GET_ORDERS_REQ),
-    switchMap((action: CustomActions) => this.userService.getUserOrders(action.payload)),
+    switchMap((action: CustomActions) => this.userService.getUserOrders()),
     map(res => this.getUserOrdersRes(res))
   );
 
@@ -36,37 +37,31 @@ export class UserActions {
     map((action: CustomActions) => EMPTY_ACTION)
   );
 
-  // @Effect()
-  // public getProfileReq$: Observable<Action> = this.action$.pipe(
-  //   ofType(USER_ACTIONS.GET_PROFILE_REQ),
-  //   switchMap((action: CustomActions) => this.userService.getProfile()),
-  //   map(res => this.getProfileRes(res))
-  // );
+  @Effect()
+  public getProfileReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_PROFILE_REQ),
+    switchMap((action: CustomActions) => this.userService.getUserInfo()),
+    map(res => this.getProfileRes(res))
+  );
 
-  // @Effect()
-  // public getProfileRes$: Observable<Action> = this.action$.pipe(
-  //   ofType(USER_ACTIONS.GET_PROFILE_RES),
-  //   map((action: CustomActions) => EMPTY_ACTION)
-  // );
+  @Effect()
+  public getProfileRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_PROFILE_RES),
+    map((action: CustomActions) => EMPTY_ACTION)
+  );
 
-  // @Effect()
-  // public updateProfileReq$: Observable<Action> = this.action$.pipe(
-  //   ofType(USER_ACTIONS.UPDATE_PROFILE_REQ),
-  //   switchMap((action: CustomActions) => this.userService.updateProfile(action.payload.userId, action.payload.model)),
-  //   map(res => this.updateProfileRes(res))
-  // );
+  @Effect()
+  public updateProfileReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.UPDATE_PROFILE_REQ),
+    switchMap((action: CustomActions) => this.userService.updateUserDetails(action.payload)),
+    map(res => this.updateProfileRes(res))
+  );
 
-  // @Effect()
-  // public updateProfileRes$: Observable<Action> = this.action$.pipe(
-  //   ofType(USER_ACTIONS.UPDATE_PROFILE_RES),
-  //   map((action: CustomActions) => {
-  //     let res: any = action.payload;
-  //     if (!res.successful) {
-  //       console.log('[error] USER_ACTIONS.UPDATE_PROFILE_RES', res.errorData);
-  //     }
-  //     return EMPTY_ACTION;
-  //   })
-  // );
+  @Effect()
+  public updateProfileRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.UPDATE_PROFILE_RES),
+    map((action: CustomActions) => EMPTY_ACTION )
+  );
 
   constructor(
     private action$: Actions,
@@ -93,17 +88,17 @@ export class UserActions {
     };
   }
 
-  public getProfileRes(payload: any): CustomActions {
+  public getProfileRes(payload: BaseResponse<IUserDetailsData, any>): CustomActions {
     return {
       type: USER_ACTIONS.GET_PROFILE_RES,
       payload
     };
   }
 
-  public updateProfileReq(userId: number, model: any): CustomActions {
+  public updateProfileReq(payload: any): CustomActions {
     return {
       type: USER_ACTIONS.UPDATE_PROFILE_REQ,
-      payload: { userId, model }
+      payload
     };
   }
 

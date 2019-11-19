@@ -46,14 +46,6 @@ export class HttpWrapperService {
     if (!options.headers['Content-Type']) {
       options.headers['Content-Type'] = 'application/json';
     }
-    // options.headers['Referrer-Policy'] = 'origin';
-    // options.headers['access-control-allow-origin'] = '*';
-
-    // const authToken = this.winRef.nativeWindow.localStorage.getItem('feathers-jwt');
-
-    // if (!options.headers['Authorization'] && authToken) {
-    //   options.headers['Authorization'] = authToken;
-    // }
 
     options.headers = new HttpHeaders(options.headers);
 

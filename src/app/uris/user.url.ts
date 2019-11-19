@@ -1,6 +1,10 @@
 import { baseUrl } from './base.url';
+const url = `${baseUrl}wp-json/drive/`;
 
 export const USER_URIS = {
-  login: `${baseUrl}wp-json/drive/login`,
-  getUserOrders: `${baseUrl}wp-json/drive/getUserOrders`
+  login: `${url}login`,
+  changePassword: `${url}changePassword`,
+  getUserOrders: `${url}getUserOrders`,
+  updateUserDetails: `${url}updateUserDetails`,
+  getUserInfo: `${url}getUserInfo`
 };

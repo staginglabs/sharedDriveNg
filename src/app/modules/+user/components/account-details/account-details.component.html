@@ -2,6 +2,7 @@
 
   <!-- start of personal information -->
   <p class="lead text-primary">Personal Information</p>
+  <ng-container *ngIf="personalForm">
   <form [formGroup]="personalForm" (ngSubmit)="onSubmitAccountDetails()" novalidate>
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -29,13 +30,13 @@
       Update Profile
     </button>
   </form>
-
+  </ng-container>
   <div class="dropdown-divider mt-5 mb-5"></div>
 
   <!-- end of personal information -->
 
   <p class="lead text-primary">Password Change</p>
-  <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
+  <form autocomplete="off" [formGroup]="changePasswordForm" (ngSubmit)="onSubmitChangePassword()">
 
     <div class="form-group">
       <label for="password_current">Current password (leave blank to leave unchanged)</label>

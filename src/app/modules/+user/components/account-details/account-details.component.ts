@@ -5,7 +5,9 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { IUserData } from 'src/app/models';
+import { IUserDetailsData, IChangePasswordReq, BaseResponse, ISuccessRes } from 'src/app/models';
+import { UserActions } from 'src/app/actions';
+import { UserService } from 'src/app/services';
 
 @Component({
   styleUrls: ['./account-details.component.scss'],
@@ -21,7 +23,9 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userActions: UserActions,
+    private userService: UserService
   ) {
   }
 
@@ -32,8 +36,8 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    // listen for token and user details
-    this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
+    // listen for user details
+    this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
     .subscribe(d => {
       if (d) {
         this.initPersonalForm(d);
@@ -46,14 +50,27 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
 
   public onSubmitAccountDetails(): void {
     console.log(this.personalForm.value);
+    if (this.personalForm.valid) {
+      // this.store.dispatch(this.userActions.updateProfileReq(this.personalForm.value));
+    }
   }
 
   public onSubmitChangePassword() {
-    console.log(this.changePasswordForm.value);
-    // stop here if form is invalid
-    // if (this.changePasswordForm.invalid) {
-    //   return;
-    // }
+    // if form is invalid
+    if (this.changePasswordForm.valid) {
+      let o = this.changePasswordForm.value.passwords;
+      let d: IChangePasswordReq = {
+        newpassword: o.password_1,
+        ccpassword: o.password_2
+      };
+      this.userService.changePassword(d)
+      .then((res: BaseResponse<ISuccessRes, IChangePasswordReq>) => {
+        console.log(res);
+      })
+      .catch((err: BaseResponse<ISuccessRes, IChangePasswordReq>) => {
+        console.log(err);
+      });
+    }
   }
 
   private initForm() {
@@ -73,10 +90,10 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initPersonalForm(o: IUserData) {
+  private initPersonalForm(o: IUserDetailsData) {
     // personal form
     this.personalForm = this.fb.group({
-      type: ['billing'],
+      update_type: ['personal'],
       first_name: [o.first_name, [Validators.required]],
       last_name: [o.last_name, [Validators.required]],
       company_name: [o.company_name, [Validators.required]],

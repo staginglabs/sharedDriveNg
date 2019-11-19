@@ -5,7 +5,7 @@ import { first, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AuthActions } from 'src/app/actions';
+import { AuthActions, UserActions } from 'src/app/actions';
 import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 
@@ -25,13 +25,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private authActions: AuthActions
+    private authActions: AuthActions,
+    private userActions: UserActions
   ) {
 
     // listen for token and user details
     this.store.pipe(select(p => p.auth), takeUntil(this.destroyed$))
     .subscribe(state => {
       if (state.token && state.details) {
+        this.store.dispatch(this.userActions.getProfileReq());
         this.router.navigate(['/user/dashboard']);
         // if (state.details.is_admin) {
         //   this.router.navigate(['/admin']);

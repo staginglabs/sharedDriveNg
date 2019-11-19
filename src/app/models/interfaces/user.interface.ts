@@ -1,6 +1,12 @@
-export interface IIOrderRootRes {
+
+export interface IChangePasswordReq {
+  newpassword: string;
+  ccpassword: string;
+}
+
+export interface ISuccessRes {
   status: string;
-  data: IOrderRes[];
+  message: string;
 }
 
 export interface IOrderRes {
@@ -11,6 +17,11 @@ export interface IOrderRes {
   updated_at: string;
   total: string;
   total_line_items_quantity: string;
+}
+
+export interface IIOrderRootRes {
+  status: string;
+  data: IOrderRes[];
 }
 
 export interface ILineItem {
@@ -89,6 +100,26 @@ export interface IShippingDetails {
   shipping_postcode: number;
   shipping_phone: number;
   shipping_email: string;
+}
+
+// user details data
+export interface IUserDetailsData {
+  user_nicename: string;
+  user_email?: any;
+  display_name?: any;
+  first_name: string;
+  last_name: string;
+  token: string;
+  billing: IBillingDetails;
+  shipping: IShippingDetails;
+  is_admin?: boolean;
+  billing_phone?: number;
+  company_name?: string;
+}
+
+export interface IUserDetailsRoot {
+  status: string;
+  data: IUserDetailsData;
 }
 
 export interface IS3UploadRes {
