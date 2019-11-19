@@ -17,14 +17,11 @@ export class AuthService {
   }
 
   public signOut() {
-    // baseUrl
-    // this.http.logout();
+    return this.http.post(USER_URIS.logout, {});
   }
 
   public verifyToken(payload: ITokenReq): Promise<BaseResponse<any, ITokenReq>> {
     const uri = `${URL}/verifyToken`;
     return this.http.post(uri, payload);
   }
-// dude1572953138
-// !!123456@654321
 }

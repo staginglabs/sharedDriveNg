@@ -82,6 +82,8 @@ export class AuthActions {
   }
 
   public signOut(): CustomActions {
+    // intimate api server for logout
+    this.authService.signOut();
     return {
       type: AUTH_ACTIONS.SIGN_OUT
     };
