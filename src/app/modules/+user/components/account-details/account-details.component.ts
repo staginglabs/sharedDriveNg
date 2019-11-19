@@ -49,9 +49,8 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onSubmitAccountDetails(): void {
-    console.log(this.personalForm.value);
     if (this.personalForm.valid) {
-      // this.store.dispatch(this.userActions.updateProfileReq(this.personalForm.value));
+      this.store.dispatch(this.userActions.updateProfileReq(this.personalForm.value));
     }
   }
 
