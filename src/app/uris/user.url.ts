@@ -6,5 +6,6 @@ export const USER_URIS = {
   changePassword: `${url}changePassword`,
   getUserOrders: `${url}getUserOrders`,
   updateUserDetails: `${url}updateUserDetails`,
-  getUserInfo: `${url}getUserInfo`
+  getUserInfo: `${url}getUserInfo`,
+  insertFiles: `${url}insertFiles`,
 };

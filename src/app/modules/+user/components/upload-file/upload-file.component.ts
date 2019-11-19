@@ -9,6 +9,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs/operators';
 import { IUserData, IFileForm, IS3UploadRes } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
+import { UserService } from 'src/app/services';
 
 @Component({
   selector: 'app-upload-file-button',
@@ -32,7 +33,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private userService: UserService
   ) {
   }
 
@@ -81,8 +83,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       obj.name = this.fileName;
       // handle for zip and dmg and few other types
       obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`,
-      console.log(obj);
-      // this.doUploadFile(obj);
+      this.doUploadFile(obj);
     }
   }
 
@@ -102,10 +103,20 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private hitApiWithData(obj: IFileForm, res: IS3UploadRes) {
+    obj.lastModified = obj.file.lastModified;
     obj.key = res.Key;
     obj.location = res.Location;
     obj.isDeleted = false;
     obj.uploadedBy = this.findUploader();
+    console.log('hit php api here');
+    console.log(obj);
+    this.userService.insertFileEntry(obj)
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   private findUploader(): 'user' | 'admin' {

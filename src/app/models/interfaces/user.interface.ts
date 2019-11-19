@@ -139,6 +139,7 @@ export interface IFileForm {
   name: string;
   type: string;
   key: string;
+  lastModified: number;
   isDeleted: boolean;
   uploadedBy: 'user' | 'admin';
 }

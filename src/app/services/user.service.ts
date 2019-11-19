@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ISignInRequest, ISignInResponse, ITokenReq, BaseResponse, IChangePasswordReq, ISuccessRes, IUserDetailsData } from '../models';
+import { ISignInRequest, ISignInResponse, ITokenReq, BaseResponse, IChangePasswordReq, ISuccessRes, IUserDetailsData, IFileForm } from '../models';
 import { HttpWrapperService } from './http-wrapper.service';
 import { USER_URIS } from '../uris';
 
@@ -29,6 +29,11 @@ export class UserService {
 
   public updateUserDetails(payload: any): Promise<BaseResponse<any, any>> {
     const url = USER_URIS.updateUserDetails;
+    return this.http.post(url, payload);
+  }
+
+  public insertFileEntry(payload: IFileForm): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.insertFiles;
     return this.http.post(url, payload);
   }
 }
