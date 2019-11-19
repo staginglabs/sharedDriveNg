@@ -9,12 +9,14 @@ import { LocalService } from 'src/app/services/local.service';
 import { clone, isEmpty } from 'src/app/lodash.optimized';
 import { EMAIL_REGEX } from 'src/app/app.constant';
 import { takeUntil } from 'rxjs/operators';
+import { UserActions } from 'src/app/actions';
 
 @Component({
   styleUrls: ['./address.component.scss'],
   templateUrl: './address.component.html'
 })
 export class AddressComponent implements OnInit, OnDestroy {
+  public updateProfileProgress$: Observable<boolean>;
   public userData: IUserDetailsData;
   public isEditMode = false;
   public editType: string;
@@ -30,7 +32,9 @@ export class AddressComponent implements OnInit, OnDestroy {
     private localService: LocalService,
     private store: Store<AppState>,
     private fb: FormBuilder,
+    private userActions: UserActions,
   ) {
+    this.updateProfileProgress$ = this.store.pipe(select(p => p.user.updateProfileProgress), takeUntil(this.destroyed$));
   }
 
   public ngOnDestroy() {
@@ -103,8 +107,9 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-    console.log('onSubmit');
-    console.log(this.form.value);
+    if (this.form.valid) {
+      this.store.dispatch(this.userActions.updateProfileReq(this.form.value));
+    }
   }
 
   public handleCountrySelection(e: ICountries) {
@@ -162,46 +167,49 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    this.form = this.fb.group(this.initBillingForm());
-    this.form.get('state').disable();
-    this.form.get('city').disable();
+    this.form = this.fb.group(this.initCondForm());
+    // conditional disabled fields
+    if (this.form.get('country').status !== 'VALID') {
+      this.form.get('state').disable();
+    }
+    if (this.form.get('state').status !== 'VALID') {
+      this.form.get('city').disable();
+    }
     if (this.editType === 'billing') {
       this.form.get('first_name').setValidators([Validators.required]);
       this.form.get('last_name').setValidators([Validators.required]);
       this.form.get('company').setValidators([Validators.required]);
     }
-    this.handleChanges();
   }
 
-  private handleChanges() {
-    this.form.valueChanges.subscribe(res => {
-      console.log(this.form);
-      console.log(res);
-    });
-  }
+  // private handleChanges() {
+  //   this.form.valueChanges.subscribe(res => {
+  //   });
+  // }
 
-  private initBillingForm(): any {
+  private initCondForm(): any {
+    let o = this.userData[this.editType];
     let optional = {
-      first_name: [null],
-      last_name: [null],
-      company: [null],
+      first_name: [o[`${this.editType}_first_name`]],
+      last_name: [o[`${this.editType}_last_name`]],
+      company: [o[`${this.editType}_company`]],
     };
     let cond = {
-      phone: [null,  [Validators.required]],
-      email: [null,
+      phone: [o[`${this.editType}_phone`],  [Validators.required]],
+      email: [o[`${this.editType}_email`],
         Validators.compose([
           Validators.required, Validators.pattern(EMAIL_REGEX)
         ])
       ]
     };
     let obj = {
-      type: [this.editType],
-      address_1: [null,  [Validators.required]],
-      address_2: [null,  [Validators.required]],
-      country: [null,  [Validators.required]],
-      state: [null,  [Validators.required]],
-      city: [null,  [Validators.required]],
-      postcode: [null,  [Validators.required]]
+      update_type: [this.editType],
+      address_1: [o[`${this.editType}_address_1`],  [Validators.required]],
+      address_2: [o[`${this.editType}_address_2`],  [Validators.required]],
+      country: [o[`${this.editType}_country`],  [Validators.required]],
+      state: [o[`${this.editType}_state`],  [Validators.required]],
+      city: [o[`${this.editType}_city`],  [Validators.required]],
+      postcode: [o[`${this.editType}_postcode`],  [Validators.required]]
     };
     if (this.editType === 'billing') {
       return {...obj, ...optional, ...cond};
@@ -210,11 +218,9 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private handleQueryParamsChanges(obj: any) {
-    console.log(this.userData);
     this.editType = obj.type;
     // init form
     this.initForm();
-    // this.editTypeHeading = (obj.type === 'billing') ? 'Billing' : 'Mailing';
     this.isEditMode = true;
   }
 }

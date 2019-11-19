@@ -2,17 +2,19 @@ import { CustomActions, USER_ACTIONS } from '../actions';
 import { cloneDeep } from '../lodash.optimized';
 import {
   BaseResponse, IIOrderRootRes,
-  IOrderRes, IUserDetailsData, IUserDetailsRoot
+  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes
 } from '../models';
 
 export interface UserState {
   orders: IOrderRes[];
   details: IUserDetailsData;
+  updateProfileProgress: boolean;
 }
 
 const initialState: UserState = {
   orders: null,
   details: null,
+  updateProfileProgress: false
 };
 
 export function userReducer(state = initialState, action: CustomActions): UserState {
@@ -37,13 +39,11 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
       }
       return state;
     }
+    case USER_ACTIONS.UPDATE_PROFILE_REQ: {
+      return { ...state, updateProfileProgress: true };
+    }
     case USER_ACTIONS.UPDATE_PROFILE_RES: {
-      const res: BaseResponse<any, any> = action.payload;
-      console.log(res);
-      if (res && res.body) {
-        // return { ...state, details: res.data };
-      }
-      return state;
+      return {...state, updateProfileProgress: false };
     }
     default: {
       return state;

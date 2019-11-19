@@ -9,7 +9,7 @@
         <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'billing'}"></ng-container>
       </div>
       <div class="">
-        <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'mailing'}"></ng-container>
+        <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'shipping'}"></ng-container>
       </div>
     </div>
   </ng-container>
@@ -98,7 +98,9 @@
           </div>
         </ng-container>
         <div class="form-group">
-          <button [disabled]="form.invalid" class="btn btn-primary">Save Address</button>
+          <button [disabled]="form.invalid || (updateProfileProgress$ | async)" class="btn btn-primary">
+            <span *ngIf="updateProfileProgress$ | async" class="spinner-border spinner-border-sm mr-1"></span>
+            Save Address</button>
           <button (click)="resetEditMode()" type="button" class="ml-3 btn btn-light">Cancel</button>
         </div>
       </form>
@@ -115,7 +117,7 @@
           <button (click)="setEditMode(type)" class="btn btn-light btn-sm">Edit</button>
         </ng-container>
 
-        <ng-container *ngIf="type === 'mailing'">
+        <ng-container *ngIf="type === 'shipping'">
           <h5 class="">Mailing Address</h5>
           <button (click)="setEditMode(type)" class="btn btn-light btn-sm">Edit</button>
         </ng-container>

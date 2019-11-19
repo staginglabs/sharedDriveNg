@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomActions } from '.';
 import { UserService } from '../services';
-import { BaseResponse, IUserDetailsData } from '../models';
+import { BaseResponse, IUserDetailsData, ISuccessRes } from '../models';
+import { ToastrService } from 'ngx-toastr';
 
 export const USER_ACTIONS = {
   EMPTY_ACTION: 'USER_ACTIONS_EMPTY_ACTION',
@@ -60,11 +61,19 @@ export class UserActions {
   @Effect()
   public updateProfileRes$: Observable<Action> = this.action$.pipe(
     ofType(USER_ACTIONS.UPDATE_PROFILE_RES),
-    map((action: CustomActions) => EMPTY_ACTION )
+    map((action: CustomActions) => {
+      const res: BaseResponse<ISuccessRes, any> = action.payload;
+      if (res.status === 200) {
+        this.toast.success(res.body.message, 'Success');
+      }
+      // getting profile again to updated data
+      return this.getProfileReq();
+    })
   );
 
   constructor(
     private action$: Actions,
+    private toast: ToastrService,
     private userService: UserService
   ) { }
 
