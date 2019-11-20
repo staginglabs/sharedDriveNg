@@ -129,19 +129,26 @@ export interface IS3UploadRes {
   key: string;
 }
 
-export interface IFileForm {
-  // drive will represent user email
-  // drive>myfiles
-  location: string;
-  note: string;
-  email: string;
-  file?: any;
-  name: string;
-  type: string;
+export interface IS3FilesReq {
+  folderName: string;
+}
+
+export interface IFileFormRes {
+  id: number;
+  isDeleted: boolean;
   key: string;
   lastModified: number;
-  isDeleted: boolean;
+  name: string;
+  note: string;
   uploadedBy: 'user' | 'admin';
+}
+
+export interface IFileForm extends IFileFormRes {
+  type: string;
+  location: string;
+  file?: any;
+  email: string;
+  folderName: string;
 }
 
 export interface IUserUploadObj extends IFileForm {

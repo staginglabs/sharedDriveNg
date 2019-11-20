@@ -32,7 +32,7 @@
         <app-upload-file-button></app-upload-file-button>
       </div>
     </div>
-    <table class="table">
+    <table class="table" *ngIf="fileList && fileList.length > 0">
       <thead>
         <tr>
           <th scope="col">File Name</th>
@@ -42,17 +42,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="pr-3"><svg width="32" height="31" viewBox="0 0 32 31" fill="none"
+        <tr *ngFor="let item of fileList">
+          <td>
+            <span class="pr-3"><svg width="32" height="31" viewBox="0 0 32 31" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="31" rx="2" fill="#005073" />
                 <rect x="8" y="10" width="16" height="1" rx="0.5" fill="white" />
                 <rect x="8" y="13" width="16" height="1" rx="0.5" fill="white" />
                 <rect x="8" y="16" width="16" height="1" rx="0.5" fill="white" />
                 <rect x="8" y="19" width="8" height="1" rx="0.5" fill="white" />
-              </svg></span>VAT_Summary_2019.jpg</td>
-          <td>Sep 03. 2019</td>
-          <td>-</td>
+              </svg></span>
+            {{item.name}}
+          </td>
+          <td>{{item.lastModified | date}}</td>
+          <td>{{item.note}}</td>
           <td>
             <div ngbDropdown class="tdEllipsisIcon" placement="top-right">
               <span ngbDropdownToggle>

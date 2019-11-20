@@ -54,6 +54,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(template) {
+    this.resetLoadState();
     this.getDrivePath();
     this.modalRef = this.modalService.open(template, { windowClass: 'customPrimary' });
   }
@@ -77,12 +78,14 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     if (this.form.valid && this.fileObj) {
       this.uploadFileProgress = true;
       this.fileName = this.fileObj.name.replace(/[^\w\s\.\_\-]/gi, '');
+      this.fileName = `${new Date().getTime()}_${this.fileName}`;
       let obj: any = this.form.value;
       obj.file = this.fileObj;
       obj.key = `${this.drivePath}/${this.fileName}`;
       obj.name = this.fileName;
       // handle for zip and dmg and few other types
-      obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`,
+      obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`;
+      obj.folderName = (this.findUploader() === 'user') ? 'myfiles' : 'iva2018';
       this.doUploadFile(obj);
     }
   }
@@ -90,33 +93,42 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   private doUploadFile(obj: any) {
     this.uploadService.uploadfile(obj)
     .then((res: any) => {
-      this.uploadFileError = false;
-      this.uploadFileProgress = false;
-      this.uploadFileSuccess = true;
-      this.hitApiWithData(obj, res);
+      this.prepareApiData(obj, res);
     }).catch((err: any) => {
-      this.uploadFileSuccess = false;
+      this.resetLoadState();
       this.uploadFileError = true;
-      this.uploadFileProgress = false;
       console.log('[ERROR]', err);
     });
   }
 
-  private hitApiWithData(obj: IFileForm, res: IS3UploadRes) {
-    obj.lastModified = obj.file.lastModified;
-    obj.key = res.Key;
-    obj.location = res.Location;
-    obj.isDeleted = false;
-    obj.uploadedBy = this.findUploader();
-    console.log('hit php api here');
-    console.log(obj);
+  private resetLoadState() {
+    this.uploadFileSuccess = false;
+    this.uploadFileError = false;
+    this.uploadFileProgress = false;
+  }
+
+  private hitApi(obj) {
     this.userService.insertFileEntry(obj)
     .then(result => {
+      this.uploadFileError = false;
+      this.uploadFileProgress = false;
+      this.uploadFileSuccess = true;
+      // reset form
+      this.initForm();
       console.log(result);
     })
     .catch(err => {
       console.log(err);
     });
+  }
+
+  private prepareApiData(obj: IFileForm, res: IS3UploadRes) {
+    obj.lastModified = obj.file.lastModified;
+    obj.key = res.Key;
+    obj.location = res.Location;
+    obj.isDeleted = false;
+    obj.uploadedBy = this.findUploader();
+    this.hitApi(obj);
   }
 
   private findUploader(): 'user' | 'admin' {
@@ -141,6 +153,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       this.drivePath = `${this.data.user_email}/myfiles`;
     } else if (this.router.url.indexOf(p) !== -1) {
       this.drivePath = `${this.data.user_email}/myfiles`;
+    } else {
+      this.drivePath = `${this.data.user_email}/iva2018`;
     }
   }
 

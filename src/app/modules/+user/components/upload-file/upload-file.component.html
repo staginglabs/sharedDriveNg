@@ -54,10 +54,15 @@
     </ng-container>
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
-    <button [disabled]="form.invalid || uploadFileProgress" class="btn bg-primary btn-block rounded-0 text-white">
-      <span *ngIf="uploadFileProgress" class="spinner-border spinner-border-sm mr-1"></span>
-      Upload File
-    </button>
+    <ng-container *ngIf="uploadFileSuccess">
+      <button (click)="dismissModal('Cross click')" class="btn btn-light btn-block">Close</button>
+    </ng-container>
+    <ng-container *ngIf="!uploadFileSuccess">
+      <button [disabled]="form.invalid || uploadFileProgress" class="btn bg-primary btn-block rounded-0 text-white">
+        <span *ngIf="uploadFileProgress" class="spinner-border spinner-border-sm mr-1"></span>
+        Upload File
+      </button>
+    </ng-container>
   </div>
   </form>
 </ng-template>
