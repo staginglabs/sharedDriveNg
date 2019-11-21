@@ -32,6 +32,7 @@ const USER_ROUTES: Routes = [
       },
       { path: 'account-details', component: AccountDetailsComponent },
       { path: 'address', component: AddressComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }

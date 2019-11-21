@@ -2,19 +2,23 @@ import { CustomActions, USER_ACTIONS } from '../actions';
 import { cloneDeep } from '../lodash.optimized';
 import {
   BaseResponse, IIOrderRootRes,
-  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes
+  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes
 } from '../models';
 
 export interface UserState {
   orders: IOrderRes[];
   details: IUserDetailsData;
   updateProfileProgress: boolean;
+  files: IFileFormRes[];
+  triggerFileReq: boolean;
 }
 
 const initialState: UserState = {
   orders: null,
   details: null,
-  updateProfileProgress: false
+  updateProfileProgress: false,
+  files: [],
+  triggerFileReq: false
 };
 
 export function userReducer(state = initialState, action: CustomActions): UserState {
@@ -44,6 +48,19 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.UPDATE_PROFILE_RES: {
       return {...state, updateProfileProgress: false };
+    }
+    case USER_ACTIONS.GET_FILES_REQ: {
+      return { ...state, files: [] };
+    }
+    case USER_ACTIONS.GET_FILES_RES: {
+      const res: BaseResponse<IFileFormRes[], any> = action.payload;
+      if (res && res.body) {
+        return { ...state, files: res.body };
+      }
+      return state;
+    }
+    case USER_ACTIONS.TRIGGER_GET_FILES_REQ: {
+      return { ...state, triggerFileReq: action.payload };
     }
     default: {
       return state;

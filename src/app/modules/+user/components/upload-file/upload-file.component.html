@@ -1,4 +1,4 @@
-﻿<button type="button" class="btn btn-primary btn-sm" (click)="openDialog(content)">
+﻿<button type="button" class="btn btn-primary" (click)="openDialog(content)">
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M11.25 1.41671L0.0950013 1.41671L0.0950015 0.0167075L11.25 0.0167084L11.25 1.41671ZM3.27667 11.8334L3.27667 7.66671L0.0950007 7.66671L5.6725 2.81671L11.25 7.66671L8.06833 7.66671L8.06833 11.8334L3.27667 11.8334Z"
@@ -23,8 +23,8 @@
     </ng-container>
 
     <ng-container *ngIf="uploadFileError">
-      <ngb-alert [type]="'error'" [dismissible]="false">
-        Something went wrong!
+      <ngb-alert [type]="'danger'" [dismissible]="true">
+        {{uploadErrorMsg}}
       </ngb-alert>
     </ng-container>
 

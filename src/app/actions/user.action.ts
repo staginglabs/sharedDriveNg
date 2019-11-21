@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CustomActions } from '.';
 import { UserService } from '../services';
-import { BaseResponse, IUserDetailsData, ISuccessRes } from '../models';
+import { BaseResponse, IUserDetailsData, ISuccessRes, IS3FilesReq, IFileFormRes } from '../models';
 import { ToastrService } from 'ngx-toastr';
 
 export const USER_ACTIONS = {
@@ -17,13 +17,29 @@ export const USER_ACTIONS = {
   UPDATE_PROFILE_REQ: 'USER_ACTIONS_UPDATE_PROFILE_REQ',
   UPDATE_PROFILE_RES: 'USER_ACTIONS_UPDATE_PROFILE_RES',
   CHANGE_PASSWORD_REQ: 'USER_ACTIONS_CHANGE_PASSWORD_REQ',
-  CHANGE_PASSWORD_RES: 'USER_ACTIONS_CHANGE_PASSWORD_RES'
+  CHANGE_PASSWORD_RES: 'USER_ACTIONS_CHANGE_PASSWORD_RES',
+  GET_FILES_REQ: 'USER_ACTIONS_GET_FILES_REQ',
+  GET_FILES_RES: 'USER_ACTIONS_GET_FILES_RES',
+  TRIGGER_GET_FILES_REQ: 'USER_ACTIONS_TRIGGER_GET_FILES_REQ',
 };
 
 const EMPTY_ACTION = { type: USER_ACTIONS.EMPTY_ACTION };
 
 @Injectable()
 export class UserActions {
+
+  @Effect()
+  public getFilesReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_FILES_REQ),
+    switchMap((action: CustomActions) => this.userService.getS3Files(action.payload)),
+    map(res => this.getFilesRes(res))
+  );
+
+  @Effect()
+  public getFilesRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_FILES_RES),
+    map((action: CustomActions) => EMPTY_ACTION)
+  );
 
   @Effect()
   public getUserOrdersReq$: Observable<Action> = this.action$.pipe(
@@ -128,6 +144,27 @@ export class UserActions {
   public changePasswordRes(payload: any): CustomActions {
     return {
       type: USER_ACTIONS.CHANGE_PASSWORD_RES,
+      payload
+    };
+  }
+
+  public getFilesReq(payload: IS3FilesReq): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_FILES_REQ,
+      payload
+    };
+  }
+
+  public getFilesRes(payload: BaseResponse<IFileFormRes[], any>): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_FILES_RES,
+      payload
+    };
+  }
+
+  public triggerFileReq(payload: boolean): CustomActions {
+    return {
+      type: USER_ACTIONS.TRIGGER_GET_FILES_REQ,
       payload
     };
   }

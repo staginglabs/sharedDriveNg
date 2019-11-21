@@ -129,11 +129,20 @@ export interface IS3UploadRes {
   key: string;
 }
 
+export interface IS3DownloadRes {
+  Body: Uint8Array;
+  ContentLength: number;
+  ContentType: string;
+  LastModified: Date;
+  Metadata: any;
+}
+
 export interface IS3FilesReq {
   folderName: string;
 }
 
 export interface IFileFormRes {
+  displayName: string;
   id: number;
   isDeleted: boolean;
   key: string;

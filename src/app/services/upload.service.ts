@@ -4,6 +4,7 @@ import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 import { FileSaverService } from './file-saver.service';
 import { BUCKET } from '../app.constant';
+import { IS3DownloadRes } from '../models';
 
 // Initialize the Amazon Cognito credentials provider
 AWS.config.region = 'us-east-2';
@@ -45,17 +46,16 @@ export class UploadService {
     });
   }
 
-  public downloadFile(Key) {
+  public downloadFile(Key: string, name: string) {
     let params = {
       Bucket: BUCKET.NAME,
       Key
     };
-    s3.getObject(params, (err, data) => {
+    s3.getObject(params, (err, data: any) => {
       if (err) {
-      console.log(err);
+        console.log(err);
       } else {
-      console.log(data);
-      // this.fileSaverService.save(data.Body, 'dude_popeye.jpg', data.ContentType);
+        this.fileSaverService.save(data.Body, name, data.ContentType);
       }
     });
   }

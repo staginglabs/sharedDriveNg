@@ -1,12 +1,13 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject } from 'rxjs';
-import { UserService } from 'src/app/services';
-import { takeUntil } from 'rxjs/operators';
-import { IS3FilesReq, BaseResponse, IFileFormRes } from 'src/app/models';
+import { takeUntil, take } from 'rxjs/operators';
+import { IS3FilesReq, IFileFormRes } from 'src/app/models';
+import { UserActions } from 'src/app/actions';
+import { UploadService } from 'src/app/services/upload.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -20,7 +21,9 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private userService: UserService
+    private userActions: UserActions,
+    private uploadService: UploadService,
+    private modalService: NgbModal,
   ) {
   }
 
@@ -31,16 +34,32 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    // listen for user details
-    this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    // listen for user files
+    this.store.pipe(select(p => p.user.files), takeUntil(this.destroyed$))
     .subscribe(d => {
-      console.log(d);
+      if (d && d.length) {
+        this.fileList = d;
+        console.log(this.fileList);
+      }
     });
+
+    // listen for trigger request
+    this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
+    .subscribe(res => {
+      if (res) {
+        this.prepareS3Req();
+      }
+    });
+
+    // listen for user details
+    // this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    // .subscribe(d => {
+    //   console.log(d);
+    // });
 
     // listen for params
     this.route.params.pipe(takeUntil(this.destroyed$))
     .subscribe(params => {
-      console.log(params);
       if (params) {
         if (params['driveId']) {
           this.activeFolderName = params['driveId'];
@@ -52,19 +71,34 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public downloadFile(item: IFileFormRes) {
+    console.log('downloadFile');
+    console.log(item);
+    this.uploadService.downloadFile(item.key, item.displayName);
+  }
+
+  public deleteFile(item: IFileFormRes, template: any) {
+    console.log('deleteFile');
+    console.log(item);
+    this.modalService.open(template, { windowClass: 'customPrimary' });
+  }
+
+  private prepareS3Req() {
+    this.route.params.pipe(take(1)).subscribe(params => {
+      if (params) {
+        if (params['driveId']) {
+          this.activeFolderName = params['driveId'];
+          this.getS3Files();
+        }
+      }
+    });
+  }
+
   private getS3Files() {
     let obj: IS3FilesReq = {
       folderName: this.activeFolderName
     };
-    this.userService.getS3Files(obj)
-    .then((res: BaseResponse<IFileFormRes[], any>) => {
-      this.fileList = res.body;
-      console.log(this.fileList);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-    // this.store.dispatch()
+    this.store.dispatch(this.userActions.getFilesReq(obj));
   }
 
 }
