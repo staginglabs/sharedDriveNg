@@ -93,6 +93,8 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       if (res && res.action) {
         //
       }
+    }).catch(err => {
+      // console.log(err);
     });
   }
 

@@ -23,6 +23,8 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     console.log('hello from DeleteModalComponent');
+    console.log(this.type);
+    console.log(this.item);
   }
 
   public closeModal(reason: string) {
