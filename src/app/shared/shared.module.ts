@@ -6,12 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   PipeModule
 } from '.';
-import { CORE_COMPONENTS } from '../components';
+import { CORE_COMPONENTS, ENTRY_COMPONENTS } from '../components';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
+    ENTRY_COMPONENTS,
     CORE_COMPONENTS
   ],
   imports: [
@@ -21,6 +22,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     PipeModule,
     NgSelectModule
+  ],
+  entryComponents: [
+    ENTRY_COMPONENTS
   ],
   exports: [
     NgbModule,

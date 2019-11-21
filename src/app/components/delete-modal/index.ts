@@ -1,1 +1,1 @@
-export * from './dashboard.component';
+export * from './delete-modal.component';

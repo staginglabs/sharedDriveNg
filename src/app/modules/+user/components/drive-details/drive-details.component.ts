@@ -8,6 +8,7 @@ import { IS3FilesReq, IFileFormRes } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteModalComponent } from 'src/app/components';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -77,10 +78,22 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     this.uploadService.downloadFile(item.key, item.displayName);
   }
 
-  public deleteFile(item: IFileFormRes, template: any) {
-    console.log('deleteFile');
-    console.log(item);
-    this.modalService.open(template, { windowClass: 'customPrimary' });
+  public deleteFile(item: IFileFormRes) {
+    const modalRef = this.modalService.open(
+      DeleteModalComponent,
+      {
+        windowClass: 'customPrimary'
+      }
+    );
+    modalRef.componentInstance.type = 'file';
+    modalRef.componentInstance.item = item;
+    modalRef.result.then((res: any) => {
+      console.log(res);
+      // completed action and now do refresh actions
+      if (res && res.action) {
+        //
+      }
+    });
   }
 
   private prepareS3Req() {
