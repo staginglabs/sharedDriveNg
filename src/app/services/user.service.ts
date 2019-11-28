@@ -26,8 +26,8 @@ export class UserService {
     const url = USER_URIS.getUserOrders;
     return this.http.post(url, {});
   }
-  public performDelete(payload: any): Promise<BaseResponse<any, any>> {
-    const url = USER_URIS.performDelete;
+  public deleteUsersS3Files(payload: any): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.deleteUsersS3Files;
     return this.http.post(url, payload);
   }
   public updateUserDetails(payload: any): Promise<BaseResponse<any, any>> {

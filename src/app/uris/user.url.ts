@@ -11,5 +11,5 @@ export const USER_URIS = {
   insertFiles: `${url}insertFiles`,
   getUsersS3Folders: `${url}getUsersFolders`,
   getUsersS3Files: `${url}getUsersS3Files`,
-  performDelete: `${url}performDelete`,
+  deleteUsersS3Files: `${url}deleteUsersS3Files`,
 };

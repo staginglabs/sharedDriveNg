@@ -41,18 +41,18 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
 
   public doDelete() {
     if (this.type === 'file') {
-      this.performDelete();
+      this.doS3FileDelete();
     } else {
       //
     }
   }
 
-  private performDelete() {
+  private doS3FileDelete() {
     let obj = {
       id: this.item.id,
       folderName: this.folderName
     };
-    this.userService.performDelete(obj)
+    this.userService.deleteUsersS3Files(obj)
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.toast.success(res.body.message, res.body.status);
       this.getS3Files();
