@@ -10,4 +10,5 @@ export const USER_URIS = {
   getUserInfo: `${url}getUserInfo`,
   insertFiles: `${url}insertFiles`,
   getUsersS3Files: `${url}getUsersS3Files`,
+  performDelete: `${url}performDelete`,
 };

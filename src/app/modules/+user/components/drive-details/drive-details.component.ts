@@ -17,6 +17,8 @@ import { DeleteModalComponent } from 'src/app/components';
 export class DriveDetailsComponent implements OnInit, OnDestroy {
   public activeFolderName: string;
   public fileList: IFileFormRes[];
+  public modalRef: any;
+  public searchString: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +29,13 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
   ) {
   }
+  public open(template) {
+    this.modalRef = this.modalService.open(template, { windowClass: 'customPrimary' });
+  }
 
+  public dismissModal(reason) {
+    this.modalRef.close();
+  }
   public ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
@@ -85,6 +93,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
         windowClass: 'customPrimary'
       }
     );
+    modalRef.componentInstance.folderName = this.activeFolderName;
     modalRef.componentInstance.type = 'file';
     modalRef.componentInstance.item = item;
     modalRef.result.then((res: any) => {

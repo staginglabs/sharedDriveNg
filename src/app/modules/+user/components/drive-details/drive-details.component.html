@@ -27,7 +27,7 @@
           </svg>
         </span>
       </div>
-      <input type="text" class="form-control mr-4" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input type="text" name="searchString" [(ngModel)]="searchString" class="form-control mr-4" placeholder="Search for File Name..." aria-label="Username" aria-describedby="basic-addon1">
       <div class="sideButton">
         <app-upload-file-button></app-upload-file-button>
       </div>
@@ -42,7 +42,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of fileList">
+        <tr *ngFor="let item of fileList | myFilter : 'name' : searchString">
           <td>
             <span class="pr-3"><svg width="32" height="31" viewBox="0 0 32 31" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -52,10 +52,30 @@
                 <rect x="8" y="16" width="16" height="1" rx="0.5" fill="white" />
                 <rect x="8" y="19" width="8" height="1" rx="0.5" fill="white" />
               </svg></span>
-            {{item.displayName}}
+            {{item.name}}
           </td>
           <td>{{item.lastModified | date}}</td>
-          <td>{{item.note}}</td>
+          <td>
+            <ng-container *ngIf="!item.note">-</ng-container>
+            <ng-container *ngIf="item.note">
+                <div (click)="open(content)">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4231 0C14.859 0 15.2308 0.153845 15.5385 0.461538C15.8462 0.769232 16 1.14102 16 1.57692V11.1923C16 11.6282 15.8462 12.0064 15.5385 12.3269C15.2308 12.6474 14.859 12.8077 14.4231 12.8077H3.19231L0 16V1.57692C0 1.14102 0.153845 0.769232 0.461538 0.461538C0.769232 0.153845 1.14102 0 1.57692 0H14.4231Z" fill="#005073"/>
+                    </svg>
+                  </div>
+                <ng-template #content let-modal>
+                    <div class="modal-header bg-primary text-white">
+                        <p class="modal-title" id="modal-primary-title">{{item.name}}</p>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true" class="text-white">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body" id="note_section">
+                    <p class="note_box">{{item.note}}</p>
+                    </div>
+                  </ng-template>
+                </ng-container>
+            </td>
           <td>
             <div ngbDropdown class="tdEllipsisIcon" placement="top-right">
               <span ngbDropdownToggle>
@@ -68,7 +88,8 @@
                 </svg>
               </span>
               <div ngbDropdownMenu>
-                <button ngbDropdownItem (click)="downloadFile(item)"><span class="drop-icon"><svg width="12" height="15" viewBox="0 0 12 15"
+                <button ngbDropdownItem (click)="downloadFile(item)"><span class="drop-icon">
+                  <svg width="12" height="15" viewBox="0 0 12 15"
                       fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
