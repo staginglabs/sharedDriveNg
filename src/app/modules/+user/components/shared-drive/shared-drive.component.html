@@ -25,6 +25,16 @@
       </div>
     </section>
 
+    <ng-container *ngIf="gettingFoldersInProgress$ | async">
+      <section class="loading_wrap">
+        <div class="loading">
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+          <div class="loading-bar"></div>
+        </div>
+      </section>
+    </ng-container>
 
     <ng-container *ngIf="(foldersList$ | async).length">
 

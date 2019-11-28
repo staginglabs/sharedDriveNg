@@ -2,7 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 import { IS3FilesReq, IFileFormRes } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
@@ -16,6 +16,7 @@ import { NotesModalComponent } from '../notes-modal';
   templateUrl: './drive-details.component.html'
 })
 export class DriveDetailsComponent implements OnInit, OnDestroy {
+  public gettingfileInProgress$: Observable<boolean>;
   public activeFolderName: string;
   public fileList: IFileFormRes[];
   public modalRef: any;
@@ -29,6 +30,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private modalService: NgbModal,
   ) {
+    this.gettingfileInProgress$ = this.store.pipe(select(p => p.user.gettingfileInProgress), takeUntil(this.destroyed$));
   }
 
   public ngOnDestroy() {
@@ -41,10 +43,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     // listen for user files
     this.store.pipe(select(p => p.user.files), takeUntil(this.destroyed$))
     .subscribe(d => {
-      if (d && d.length) {
-        this.fileList = d;
-        console.log(this.fileList);
-      }
+      this.fileList = d;
     });
 
     // listen for trigger request

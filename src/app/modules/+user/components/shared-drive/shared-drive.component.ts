@@ -12,6 +12,7 @@ import { UserActions } from 'src/app/actions';
   templateUrl: './shared-drive.component.html'
 })
 export class SharedDriveComponent implements OnInit, OnDestroy {
+  public gettingFoldersInProgress$: Observable<boolean>;
   public foldersList$: Observable<string[]>;
   public isChildRouteActivated = false;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -21,6 +22,9 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private userActions: UserActions
   ) {
+
+    // listen on folders request
+    this.gettingFoldersInProgress$ = this.store.pipe(select(p => p.user.gettingFoldersInProgress), takeUntil(this.destroyed$));
     // listen on folders
     this.foldersList$ = this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$));
   }

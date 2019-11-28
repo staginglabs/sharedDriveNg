@@ -1,16 +1,18 @@
-﻿import { Component, OnInit, OnDestroy, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AuthActions, UserActions } from 'src/app/actions';
+import { UserActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil, take } from 'rxjs/operators';
 import { IUserData, IFileForm, IS3UploadRes } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
 import { clone } from 'src/app/lodash.optimized';
+import { MY_FILES } from 'src/app/app.constant';
+
 
 @Component({
   selector: 'app-upload-file-button',
@@ -18,6 +20,7 @@ import { clone } from 'src/app/lodash.optimized';
   templateUrl: './upload-file.component.html'
 })
 export class UploadFileComponent implements OnInit, OnDestroy {
+  public activeFolderName: string;
   public drivePath: string;
   public uploadFileProgress: boolean;
   public uploadFileError: boolean;
@@ -48,12 +51,22 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     // listen for token and user details
-    this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
+    this.store.pipe(select(p => p.auth.details), take(1))
     .subscribe(d => {
       this.data = d;
     });
     // init form
     this.initForm();
+
+    // listen for params and set active folder
+    this.route.params.pipe(take(1))
+    .subscribe(params => {
+      if (params && params['driveId']) {
+        this.activeFolderName = params['driveId'];
+      } else {
+        this.activeFolderName = MY_FILES;
+      }
+    });
   }
 
   public openDialog(template) {
@@ -100,7 +113,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       obj.name = this.fileName;
       // handle for zip and dmg and few other types
       obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`;
-      obj.folderName = (this.findUploader() === 'user') ? 'myfiles' : 'iva2018';
       this.doUploadFile(obj);
     }
   }
@@ -145,14 +157,16 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     obj.location = res.Location;
     obj.isDeleted = false;
     obj.uploadedBy = this.findUploader();
+    obj.folderName = this.activeFolderName;
     this.hitApi(obj);
   }
 
   private findUploader(): 'user' | 'admin' {
-    if (this.drivePath.indexOf('myfiles') !== -1) {
-      return 'user';
+    if (this.activeFolderName === MY_FILES) {
+      return (this.data && this.data.is_admin) ? 'admin' : 'user';
+    } else {
+      return 'admin';
     }
-    return 'admin';
   }
 
   private initForm() {
@@ -164,15 +178,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private getDrivePath() {
-    const c = 'shared-drive/drive/myFiles';
-    const p = 'shared-drive';
-    if (this.router.url.indexOf(c) !== -1) {
-      this.drivePath = `${this.data.user_email}/myfiles`;
-    } else if (this.router.url.indexOf(p) !== -1) {
-      this.drivePath = `${this.data.user_email}/myfiles`;
-    } else {
-      this.drivePath = `${this.data.user_email}/iva2018`;
-    }
+    this.drivePath = `${this.data.user_email}/${this.activeFolderName}`;
   }
 
   private getS3Files() {
