@@ -1,7 +1,7 @@
 :host{
   display: block;
   .commonPadLeft {
-    padding: 2.938rem 4rem 0;
+    padding: 2.938rem 4rem 4rem;
 
     .btn-primary.btn-sm {
       width: 8.313em;
@@ -70,6 +70,21 @@
       }
 
 
+    }
+    .form-control:focus {
+      background-color: #fff;
+      border-color: snow;
+      outline: 0;
+      box-shadow:none;
+      border: 1px solid #ced4da;
+      border-left: 0;
+    }
+    .form-control{
+      border-left: 0;
+      padding: 0.438rem 0.25rem;
+    }
+    .input-group-text{
+      border-right: 0;
     }
   }
 }
