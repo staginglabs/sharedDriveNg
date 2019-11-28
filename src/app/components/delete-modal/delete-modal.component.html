@@ -1,47 +1,42 @@
-﻿<!-- <div class="modelPopup customWarning"> -->
-<!-- <ng-template #deleteTemplate let-modal class="rounded-0 border-0"> -->
-  <div class="modal-header bg-danger text-white">
-    <p class="modal-title" id="modal-basic-title"><span class="popupTopIcon"><svg width="17" height="18"
-          viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z"
-            fill="#ffffff" />
-        </svg>
-      </span>Delete {{type}}</p>
-    <button type="button" class="close text-white" aria-label="Close" (click)="closeModal('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body p-4">
-    <p class="text-center text-danger pb-2">
+﻿<div class="modal-header bg-danger text-white">
+  <p class="modal-title" id="modal-basic-title"><span class="popupTopIcon"><svg width="17" height="18"
+        viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z"
+          fill="#ffffff" />
+      </svg>
+    </span>Delete {{type}}</p>
+  <button type="button" class="close text-white" aria-label="Close" (click)="closeModal('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-4">
+  <p class="text-center text-danger pb-2">
+    <ng-container *ngIf="type === 'file'">
+      Are you sure you want to delete the following file permanentely from this drive?
+    </ng-container>
+    <ng-container *ngIf="type !== 'file'">
+      Are you sure you want to delete the following Folder permanentely from
+      this drive?
+    </ng-container>
+  </p>
+  <div class="file_name text-center d-flex justify-content-center align-items-center">
+    <span>
+      <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="25" height="21" rx="2" fill="#D84040" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M7.97876 7.78157H8.81755V13.5339H14.7914V14.3416H8.81755C8.58569 14.3416 8.38793 14.2628 8.22426 14.1052C8.06059 13.9476 7.97876 13.7572 7.97876 13.5339V7.78157ZM11.8147 10.244L10.536 11.8791H15.6506L13.9321 9.8402L12.6739 11.3571L11.8147 10.244ZM16.4894 11.8791C16.4894 12.1024 16.4076 12.2961 16.2439 12.4603C16.0802 12.6244 15.8825 12.7065 15.6506 12.7065H10.536C10.3042 12.7065 10.103 12.6244 9.93252 12.4603C9.76204 12.2961 9.6768 12.1024 9.6768 11.8791V6.95418C9.6768 6.73091 9.76204 6.54048 9.93252 6.38288C10.103 6.22528 10.3042 6.14648 10.536 6.14648H15.6506C15.8825 6.14648 16.0802 6.22528 16.2439 6.38288C16.4076 6.54048 16.4894 6.73091 16.4894 6.95418V11.8791Z"
+          fill="white" />
+      </svg>
+    </span>
+    <h5 class="text-danger d-inline-block mb-0 pl-3">
       <ng-container *ngIf="type === 'file'">
-        Are you sure you want to delete the following file permanentely from this drive?
+        {{item.displayName}}
       </ng-container>
-      <ng-container *ngIf="type !== 'file'">
-        Are you sure you want to delete the following Folder permanentely from
-        this drive?
-      </ng-container>
-    </p>
-    <div class="file_name text-center d-flex justify-content-center align-items-center">
-      <span>
-        <svg width="25"
-          height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="25" height="21" rx="2" fill="#D84040" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M7.97876 7.78157H8.81755V13.5339H14.7914V14.3416H8.81755C8.58569 14.3416 8.38793 14.2628 8.22426 14.1052C8.06059 13.9476 7.97876 13.7572 7.97876 13.5339V7.78157ZM11.8147 10.244L10.536 11.8791H15.6506L13.9321 9.8402L12.6739 11.3571L11.8147 10.244ZM16.4894 11.8791C16.4894 12.1024 16.4076 12.2961 16.2439 12.4603C16.0802 12.6244 15.8825 12.7065 15.6506 12.7065H10.536C10.3042 12.7065 10.103 12.6244 9.93252 12.4603C9.76204 12.2961 9.6768 12.1024 9.6768 11.8791V6.95418C9.6768 6.73091 9.76204 6.54048 9.93252 6.38288C10.103 6.22528 10.3042 6.14648 10.536 6.14648H15.6506C15.8825 6.14648 16.0802 6.22528 16.2439 6.38288C16.4076 6.54048 16.4894 6.73091 16.4894 6.95418V11.8791Z"
-            fill="white" />
-        </svg>
-      </span>
-      <h5 class="text-danger d-inline-block mb-0 pl-3">
-        <ng-container *ngIf="type === 'file'">
-          {{item.displayName}}
-        </ng-container>
-      </h5>
-    </div>
+    </h5>
   </div>
-  <div class="modal-footer border-0 text-center justify-content-center flex-column">
-    <button type="button" class="btn bg-danger rounded-0 text-white mb-2"
-      (click)="doDelete()">Delete</button>
-    <a href="javascript:void(0);" class="noCancel" (click)="closeModal('Save click')">No, Cancel.</a>
-  </div>
-<!-- </ng-template> -->
+</div>
+<div class="modal-footer border-0 text-center justify-content-center flex-column">
+  <button type="button" class="btn bg-danger rounded-0 text-white mb-2" (click)="doDelete()">Delete</button>
+  <a href="javascript:void(0);" class="noCancel" (click)="closeModal('Save click')">No, Cancel.</a>
+</div>

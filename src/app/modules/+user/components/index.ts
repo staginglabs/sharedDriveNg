@@ -6,6 +6,7 @@ import { SharedDriveComponent } from './shared-drive';
 import { AccountDetailsComponent } from './account-details';
 import { DriveDetailsComponent } from './drive-details';
 import { UploadFileComponent } from './upload-file';
+import { NotesModalComponent } from './notes-modal';
 
 
 export { DashboardComponent } from './dashboard';
@@ -15,6 +16,12 @@ export { SharedDriveComponent } from './shared-drive';
 export { AccountDetailsComponent } from './account-details';
 export { DriveDetailsComponent } from './drive-details';
 export { UploadFileComponent } from './upload-file';
+export { NotesModalComponent } from './notes-modal';
+
+
+export const MODAL_COMP: any[] = [
+  NotesModalComponent
+];
 
 export const USER_COMPONENTS: any[] = [
   NavigationComponent,

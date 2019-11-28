@@ -58,22 +58,11 @@
           <td>
             <ng-container *ngIf="!item.note">-</ng-container>
             <ng-container *ngIf="item.note">
-                <div (click)="open(content)">
+                <div class="cp" (click)="openNotesModal(item)">
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4231 0C14.859 0 15.2308 0.153845 15.5385 0.461538C15.8462 0.769232 16 1.14102 16 1.57692V11.1923C16 11.6282 15.8462 12.0064 15.5385 12.3269C15.2308 12.6474 14.859 12.8077 14.4231 12.8077H3.19231L0 16V1.57692C0 1.14102 0.153845 0.769232 0.461538 0.461538C0.769232 0.153845 1.14102 0 1.57692 0H14.4231Z" fill="#005073"/>
                     </svg>
                   </div>
-                <ng-template #content let-modal>
-                    <div class="modal-header bg-primary text-white">
-                        <p class="modal-title" id="modal-primary-title">{{item.name}}</p>
-                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                            <span aria-hidden="true" class="text-white">&times;</span>
-                        </button>
-                      </div>
-                    <div class="modal-body" id="note_section">
-                    <p class="note_box">{{item.note}}</p>
-                    </div>
-                  </ng-template>
                 </ng-container>
             </td>
           <td>

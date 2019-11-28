@@ -9,6 +9,7 @@ import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModalComponent } from 'src/app/components';
+import { NotesModalComponent } from '../notes-modal';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -29,13 +30,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
   ) {
   }
-  public open(template) {
-    this.modalRef = this.modalService.open(template, { windowClass: 'customPrimary' });
-  }
 
-  public dismissModal(reason) {
-    this.modalRef.close();
-  }
   public ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
@@ -60,12 +55,6 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    // listen for user details
-    // this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
-    // .subscribe(d => {
-    //   console.log(d);
-    // });
-
     // listen for params
     this.route.params.pipe(takeUntil(this.destroyed$))
     .subscribe(params => {
@@ -80,9 +69,22 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public openNotesModal(item: IFileFormRes) {
+    if (item) {
+      const modalRef = this.modalService.open(
+        NotesModalComponent,
+        {
+          windowClass: 'customPrimary'
+        }
+      );
+      modalRef.componentInstance.item = item;
+      modalRef.result.then((res: any) => {
+        console.log(res);
+      });
+    }
+  }
+
   public downloadFile(item: IFileFormRes) {
-    console.log('downloadFile');
-    console.log(item);
     this.uploadService.downloadFile(item.key, item.displayName);
   }
 

@@ -10,7 +10,8 @@ import {
   SharedDriveComponent,
   AccountDetailsComponent,
   AddressComponent,
-  DriveDetailsComponent
+  DriveDetailsComponent,
+  MODAL_COMP
 } from './components';
 import { UserComponent } from './user.component';
 
@@ -41,12 +42,16 @@ const USER_ROUTES: Routes = [
 @NgModule({
   declarations: [
     UserComponent,
-    USER_COMPONENTS
+    USER_COMPONENTS,
+    MODAL_COMP
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild(USER_ROUTES)
+  ],
+  entryComponents: [
+    MODAL_COMP
   ]
 })
 export class UserModule { }
