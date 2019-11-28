@@ -40,6 +40,11 @@ export class UserService {
     return this.http.post(url, payload);
   }
 
+  public getS3Folders(): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.getUsersS3Folders;
+    return this.http.get(url);
+  }
+
   public getS3Files(payload: IS3FilesReq): Promise<BaseResponse<any, any>> {
     const url = USER_URIS.getUsersS3Files;
     return this.http.post(url, payload);

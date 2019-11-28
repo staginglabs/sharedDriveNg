@@ -18,6 +18,8 @@ export const USER_ACTIONS = {
   UPDATE_PROFILE_RES: 'USER_ACTIONS_UPDATE_PROFILE_RES',
   CHANGE_PASSWORD_REQ: 'USER_ACTIONS_CHANGE_PASSWORD_REQ',
   CHANGE_PASSWORD_RES: 'USER_ACTIONS_CHANGE_PASSWORD_RES',
+  GET_FOLDERS_REQ: 'USER_ACTIONS_GET_FOLDERS_REQ',
+  GET_FOLDERS_RES: 'USER_ACTIONS_GET_FOLDERS_RES',
   GET_FILES_REQ: 'USER_ACTIONS_GET_FILES_REQ',
   GET_FILES_RES: 'USER_ACTIONS_GET_FILES_RES',
   TRIGGER_GET_FILES_REQ: 'USER_ACTIONS_TRIGGER_GET_FILES_REQ',
@@ -27,6 +29,19 @@ const EMPTY_ACTION = { type: USER_ACTIONS.EMPTY_ACTION };
 
 @Injectable()
 export class UserActions {
+
+  @Effect()
+  public getFoldersReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_FOLDERS_REQ),
+    switchMap((action: CustomActions) => this.userService.getS3Folders()),
+    map(res => this.getFoldersRes(res))
+  );
+
+  @Effect()
+  public getFoldersRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_FOLDERS_RES),
+    map((action: CustomActions) => EMPTY_ACTION)
+  );
 
   @Effect()
   public getFilesReq$: Observable<Action> = this.action$.pipe(
@@ -144,6 +159,19 @@ export class UserActions {
   public changePasswordRes(payload: any): CustomActions {
     return {
       type: USER_ACTIONS.CHANGE_PASSWORD_RES,
+      payload
+    };
+  }
+
+  public getFoldersReq(): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_FOLDERS_REQ
+    };
+  }
+
+  public getFoldersRes(payload: BaseResponse<any, any>): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_FOLDERS_RES,
       payload
     };
   }

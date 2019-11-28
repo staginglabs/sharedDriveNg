@@ -4,8 +4,10 @@ import {
   BaseResponse, IIOrderRootRes,
   IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes
 } from '../models';
+import { MY_FILES } from '../app.constant';
 
 export interface UserState {
+  folders: string[];
   orders: IOrderRes[];
   details: IUserDetailsData;
   updateProfileProgress: boolean;
@@ -14,6 +16,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  folders: [],
   orders: null,
   details: null,
   updateProfileProgress: false,
@@ -48,6 +51,22 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.UPDATE_PROFILE_RES: {
       return {...state, updateProfileProgress: false };
+    }
+    case USER_ACTIONS.GET_FOLDERS_REQ: {
+      return { ...state, folders: [] };
+    }
+    case USER_ACTIONS.GET_FOLDERS_RES: {
+      const res: BaseResponse<string[], any> = action.payload;
+      if (res && res.body && res.body.length) {
+        let arr = [];
+        res.body.forEach(name => {
+          if (name !== MY_FILES) {
+            arr.push(name.trim());
+          }
+        });
+        return { ...state, folders: arr };
+      }
+      return state;
     }
     case USER_ACTIONS.GET_FILES_REQ: {
       return { ...state, files: [] };

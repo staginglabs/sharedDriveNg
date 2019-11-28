@@ -2,6 +2,16 @@
   display: block;
   width: 100%;
 
+  .ellpDots.dropdown-toggle::after{
+    display: none;
+  }
+  .ellpDots svg ellipse {
+    fill: #fff;
+  }
+  .ellpDots.blue svg ellipse {
+    fill: #005073;
+  }
+
   .commonPadLeft {
 
     #head {
@@ -21,9 +31,6 @@
       display: inline-block;
     }
 
-    a.card-dot {
-      float: right;
-    }
 
     .card-body {
       width: 16.438em;

@@ -9,6 +9,7 @@ export const USER_URIS = {
   updateUserDetails: `${url}updateUserDetails`,
   getUserInfo: `${url}getUserInfo`,
   insertFiles: `${url}insertFiles`,
+  getUsersS3Folders: `${url}getUsersFolders`,
   getUsersS3Files: `${url}getUsersS3Files`,
   performDelete: `${url}performDelete`,
 };
