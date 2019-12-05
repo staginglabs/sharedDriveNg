@@ -37,7 +37,7 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
   public ngOnInit() {
 
     // get user folders
-    this.store.dispatch(this.userActions.getFoldersReq());
+    this.store.dispatch(this.userActions.getFoldersReq('1'));
 
     this.setVal(this.router.routerState.snapshot);
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(resp => {
@@ -56,7 +56,11 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
   }
 
   private setVal(r: RouterStateSnapshot) {
-    this.isChildRouteActivated = (r.url === '/user/shared-drive') ? false : true;
+    if (r.url === '/user/shared-drive' || r.url === '/admin/shared-drive') {
+      this.isChildRouteActivated = false;
+    } else {
+      this.isChildRouteActivated = true;
+    }
   }
 
 }

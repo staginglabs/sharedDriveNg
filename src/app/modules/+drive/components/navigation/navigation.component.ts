@@ -1,26 +1,23 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
-import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  styleUrls: ['./dashboard.component.scss'],
-  templateUrl: './dashboard.component.html'
+  selector: 'app-user-navigation',
+  styleUrls: ['./navigation.component.scss'],
+  templateUrl: './navigation.component.html'
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-  public closeResult: string;
+export class NavigationComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private authActions: AuthActions,
+    private authActions: AuthActions
   ) {
   }
 
@@ -30,7 +27,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('hello from dashboard');
+    // listen for token and user details
+    this.store.pipe(select(p => p.auth.token), takeUntil(this.destroyed$))
+    .subscribe(token => {
+      if (!token) {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  public doLogout(e: any) {
+    if (e) {
+      this.store.dispatch(this.authActions.signOut());
+    }
   }
 
 }

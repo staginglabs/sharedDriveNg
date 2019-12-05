@@ -7,6 +7,7 @@ export interface IChangePasswordReq {
 export interface ISuccessRes {
   status: string;
   message: string;
+  code?: string;
 }
 
 export interface IOrderRes {
@@ -139,6 +140,7 @@ export interface IS3DownloadRes {
 
 export interface IS3FilesReq {
   folderName: string;
+  userId: string;
 }
 
 export interface IFileFormRes {
@@ -183,4 +185,15 @@ export interface IUserUploadObj extends IFileForm {
    * Key to which the object was uploaded.
    */
   Key: string;
+}
+
+
+export interface IUserList {
+  id: number;
+  isOffline: boolean;
+  createdDate: string;
+  email: string;
+  name: string;
+  userStatus: string;
+  displayName: string;
 }

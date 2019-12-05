@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
@@ -8,19 +8,22 @@ import { IS3FilesReq, IFileFormRes } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteModalComponent } from 'src/app/components';
 import { NotesModalComponent } from '../notes-modal';
+import { DeleteModalComponent } from 'src/app/components/delete-modal';
 
 @Component({
-  styleUrls: ['./drive-details.component.scss'],
-  templateUrl: './drive-details.component.html'
+  selector: 'app-file-list-view',
+  styleUrls: ['./file-list.component.scss'],
+  templateUrl: './file-list.component.html'
 })
-export class DriveDetailsComponent implements OnInit, OnDestroy {
+export class FileListComponent implements OnInit, OnDestroy {
+
+  @Input() public fileList: IFileFormRes[];
+  @Input() public searchString: string;
+
   public gettingfileInProgress$: Observable<boolean>;
   public activeFolderName: string;
-  public fileList: IFileFormRes[];
   public modalRef: any;
-  public searchString: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     private route: ActivatedRoute,
@@ -40,17 +43,12 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    // listen for user files
-    this.store.pipe(select(p => p.user.files), takeUntil(this.destroyed$))
-    .subscribe(d => {
-      this.fileList = d;
-    });
-
     // listen for trigger request
     this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res) {
-        this.prepareS3Req();
+        console.log(res);
+        // this.prepareS3Req();
       }
     });
 
@@ -60,9 +58,6 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       if (params) {
         if (params['driveId']) {
           this.activeFolderName = params['driveId'];
-          this.getS3Files();
-        } else {
-          // redirect to some otehr route
         }
       }
     });
@@ -108,20 +103,21 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private prepareS3Req() {
-    this.route.params.pipe(take(1)).subscribe(params => {
-      if (params) {
-        if (params['driveId']) {
-          this.activeFolderName = params['driveId'];
-          this.getS3Files();
-        }
-      }
-    });
-  }
+  // private prepareS3Req() {
+  //   this.route.params.pipe(take(1)).subscribe(params => {
+  //     if (params) {
+  //       if (params['driveId']) {
+  //         this.activeFolderName = params['driveId'];
+  //         this.getS3Files();
+  //       }
+  //     }
+  //   });
+  // }
 
   private getS3Files() {
     let obj: IS3FilesReq = {
-      folderName: this.activeFolderName
+      folderName: this.activeFolderName,
+      userId: '1'
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
   }

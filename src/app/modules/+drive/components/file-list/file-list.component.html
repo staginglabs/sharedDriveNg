@@ -1,0 +1,76 @@
+﻿
+<section>
+
+  <app-loader-small [status]="gettingfileInProgress$ | async"></app-loader-small>
+
+  <ng-container *ngIf="fileList && fileList.length === 0 && !(gettingfileInProgress$ | async)">
+    <p class="lead">No Files Found. Try upload file.</p>
+  </ng-container>
+
+
+
+  <table class="table" *ngIf="fileList && fileList.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">File Name</th>
+        <th scope="col">Date Uploaded</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of fileList | myFilter : 'name' : searchString">
+        <td>
+          <span class="pr-3"><svg width="32" height="31" viewBox="0 0 32 31" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <rect width="32" height="31" rx="2" fill="#005073" />
+              <rect x="8" y="10" width="16" height="1" rx="0.5" fill="white" />
+              <rect x="8" y="13" width="16" height="1" rx="0.5" fill="white" />
+              <rect x="8" y="16" width="16" height="1" rx="0.5" fill="white" />
+              <rect x="8" y="19" width="8" height="1" rx="0.5" fill="white" />
+            </svg></span>
+          {{item.displayName}}
+        </td>
+        <td>{{item.lastModified | date}}</td>
+        <td>
+          <ng-container *ngIf="!item.note">-</ng-container>
+          <ng-container *ngIf="item.note">
+            <div class="cp" (click)="openNotesModal(item)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4231 0C14.859 0 15.2308 0.153845 15.5385 0.461538C15.8462 0.769232 16 1.14102 16 1.57692V11.1923C16 11.6282 15.8462 12.0064 15.5385 12.3269C15.2308 12.6474 14.859 12.8077 14.4231 12.8077H3.19231L0 16V1.57692C0 1.14102 0.153845 0.769232 0.461538 0.461538C0.769232 0.153845 1.14102 0 1.57692 0H14.4231Z" fill="#005073"/>
+              </svg>
+            </div>
+          </ng-container>
+        </td>
+        <td>
+          <div ngbDropdown class="tdEllipsisIcon" placement="top-right">
+            <span ngbDropdownToggle>
+              <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="4" cy="3.5" rx="4" ry="3.5" fill="#C4C4C4" />
+              </svg><svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="4" cy="3.5" rx="4" ry="3.5" fill="#C4C4C4" />
+              </svg><svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="4" cy="3.5" rx="4" ry="3.5" fill="#C4C4C4" />
+              </svg>
+            </span>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem (click)="downloadFile(item)"><span class="drop-icon">
+                <svg width="12" height="15" viewBox="0 0 12 15"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
+                      fill="#C4C4C4" />
+                  </svg></span>Download</button>
+              <button ngbDropdownItem (click)="deleteFile(item)"><span class="drop-icon"><svg width="17" height="18" viewBox="0 0 17 18"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z"
+                      fill="#C4C4C4" />
+                  </svg></span>Delete</button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

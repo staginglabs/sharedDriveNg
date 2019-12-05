@@ -2,11 +2,16 @@ import { CustomActions, USER_ACTIONS } from '../actions';
 import { cloneDeep } from '../lodash.optimized';
 import {
   BaseResponse, IIOrderRootRes,
-  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes
+  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes, IUserList
 } from '../models';
 import { MY_FILES } from '../app.constant';
 
 export interface UserState {
+  listUserErrorDetails: any;
+  gettingUsersInProgress: boolean;
+  allUsers: any[];
+  onlineUsers: any[];
+  offlineUsers: any[];
   gettingFoldersInProgress: boolean;
   folders: string[];
   orders: IOrderRes[];
@@ -18,6 +23,11 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  listUserErrorDetails: null,
+  gettingUsersInProgress: false,
+  allUsers: [],
+  onlineUsers: [],
+  offlineUsers: [],
   folders: [],
   gettingFoldersInProgress: false,
   orders: null,
@@ -39,6 +49,34 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
         return { ...state, orders: res.body.data };
       }
       return { ...state, orders: [] };
+    }
+    case USER_ACTIONS.GET_USERS_REQ: {
+      return {...state, gettingUsersInProgress: true, listUserErrorDetails: null };
+    }
+    case USER_ACTIONS.LIST_USERS_WARNING: {
+      const res: BaseResponse<any, any> = action.payload;
+      return {
+        ...state,
+        listUserErrorDetails: res.error,
+        gettingUsersInProgress: false,
+        allUsers: [],
+        onlineUsers: [],
+        offlineUsers: [],
+      };
+    }
+    case USER_ACTIONS.GET_USERS_RES: {
+      const res: BaseResponse<IUserList[], any> = action.payload;
+      let arr: IUserList[] = cloneDeep(res.body);
+      let onlineUsers = arr.filter(item => item.isOffline);
+      let offlineUsers = arr.filter(item => !item.isOffline);
+      return {
+        ...state,
+        allUsers: res.body,
+        gettingUsersInProgress: false,
+        listUserErrorDetails: null,
+        onlineUsers,
+        offlineUsers
+      };
     }
     case USER_ACTIONS.GET_PROFILE_REQ: {
       return state;

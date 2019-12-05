@@ -7,11 +7,8 @@ import {
   USER_COMPONENTS,
   DashboardComponent,
   OrderComponent,
-  SharedDriveComponent,
   AccountDetailsComponent,
   AddressComponent,
-  DriveDetailsComponent,
-  MODAL_COMP
 } from './components';
 import { UserComponent } from './user.component';
 
@@ -22,14 +19,9 @@ const USER_ROUTES: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'orders', component: OrderComponent },
-      // { path: 'orders/:orderId', component: OrderDetailsComponent },
       {
         path: 'shared-drive',
-        component: SharedDriveComponent,
-        children: [
-          { path: 'drive/:driveId', component: DriveDetailsComponent },
-          { path: '**', redirectTo: '', pathMatch: 'full' }
-        ]
+        loadChildren: './../+drive/drive.module#DriveModule'
       },
       { path: 'account-details', component: AccountDetailsComponent },
       { path: 'address', component: AddressComponent },
@@ -42,8 +34,7 @@ const USER_ROUTES: Routes = [
 @NgModule({
   declarations: [
     UserComponent,
-    USER_COMPONENTS,
-    MODAL_COMP
+    USER_COMPONENTS
   ],
   imports: [
     CommonModule,
@@ -51,7 +42,6 @@ const USER_ROUTES: Routes = [
     RouterModule.forChild(USER_ROUTES)
   ],
   entryComponents: [
-    MODAL_COMP
   ]
 })
 export class UserModule { }

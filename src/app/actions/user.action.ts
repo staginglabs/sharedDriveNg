@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { CustomActions } from '.';
 import { UserService } from '../services';
 import { BaseResponse, IUserDetailsData, ISuccessRes, IS3FilesReq, IFileFormRes } from '../models';
@@ -10,6 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 
 export const USER_ACTIONS = {
   EMPTY_ACTION: 'USER_ACTIONS_EMPTY_ACTION',
+  GET_USERS_REQ: 'USER_ACTIONS_GET_USERS_REQ',
+  GET_USERS_RES: 'USER_ACTIONS_GET_USERS_RES',
+  LIST_USERS_WARNING: 'USER_ACTIONS_LIST_USERS_WARNING',
   GET_ORDERS_REQ: 'USER_ACTIONS_GET_ORDERS_REQ',
   GET_ORDERS_RES: 'USER_ACTIONS_GET_ORDERS_RES',
   GET_PROFILE_REQ: 'USER_ACTIONS_GET_PROFILE_REQ',
@@ -31,9 +34,30 @@ const EMPTY_ACTION = { type: USER_ACTIONS.EMPTY_ACTION };
 export class UserActions {
 
   @Effect()
+  public getUsersReq$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_USERS_REQ),
+    switchMap((action: CustomActions) => {
+      return from(this.userService.getAllUsers()).pipe(
+        map(response => {
+          return this.getUsersRes(response);
+        }),
+        catchError((err: any) => {
+          return of(this.getUsersErrorRes(err));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  public getUsersRes$: Observable<Action> = this.action$.pipe(
+    ofType(USER_ACTIONS.GET_USERS_REQ),
+    map((action: CustomActions) => EMPTY_ACTION)
+  );
+
+  @Effect()
   public getFoldersReq$: Observable<Action> = this.action$.pipe(
     ofType(USER_ACTIONS.GET_FOLDERS_REQ),
-    switchMap((action: CustomActions) => this.userService.getS3Folders()),
+    switchMap((action: CustomActions) => this.userService.getS3Folders(action.payload)),
     map(res => this.getFoldersRes(res))
   );
 
@@ -108,6 +132,26 @@ export class UserActions {
     private userService: UserService
   ) { }
 
+  public getUsersReq(): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_USERS_REQ
+    };
+  }
+
+  public getUsersRes(payload: BaseResponse<any, any>): CustomActions {
+    return {
+      type: USER_ACTIONS.GET_USERS_RES,
+      payload
+    };
+  }
+
+  public getUsersErrorRes(payload: BaseResponse<any, any>): CustomActions {
+    return {
+      type: USER_ACTIONS.LIST_USERS_WARNING,
+      payload
+    };
+  }
+
   public getUserOrdersReq(payload: string): CustomActions {
     return {
       type: USER_ACTIONS.GET_ORDERS_REQ,
@@ -163,13 +207,14 @@ export class UserActions {
     };
   }
 
-  public getFoldersReq(): CustomActions {
+  public getFoldersReq(payload: string): CustomActions {
     return {
-      type: USER_ACTIONS.GET_FOLDERS_REQ
+      type: USER_ACTIONS.GET_FOLDERS_REQ,
+      payload
     };
   }
 
-  public getFoldersRes(payload: BaseResponse<any, any>): CustomActions {
+  public getFoldersRes(payload: BaseResponse<any[], any>): CustomActions {
     return {
       type: USER_ACTIONS.GET_FOLDERS_RES,
       payload

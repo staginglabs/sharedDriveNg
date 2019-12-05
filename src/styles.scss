@@ -91,6 +91,26 @@ body {
   }
 }
 
+// common search bar
+.form-group.custom {
+  position: relative;
+  .form-control {
+    background-color: #F1F1F1;
+    padding-left: 3rem;
+  }
+  &:before {
+    position: absolute;
+    content: "";
+    left: 2.2%;
+    top: 31%;
+    width: 1rem;
+    height: 1rem;
+    background: url(/assets/images/search.svg) no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 // override table
 .table .thead-dark.bg-primary th {
   background-color: $primary;
@@ -126,6 +146,17 @@ body {
     text-decoration: none;
 
   }
+}
+
+// ellipsis icon on card
+.ellpDots.dropdown-toggle::after{
+  display: none;
+}
+.ellpDots svg ellipse {
+  fill: #fff;
+}
+.ellpDots.blue svg ellipse {
+  fill: #005073;
 }
 
 // universal dialog Styles
@@ -171,13 +202,6 @@ body {
           border-radius: 0;
         }
       }
-      .modal-footer {
-        button {
-          font-size: 1.065em;
-          font-weight: bold;
-        }
-      }
-
     }
   }
 }

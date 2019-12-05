@@ -17,6 +17,11 @@ export class UserService {
     return this.http.post(url, payload);
   }
 
+  public getAllUsers(): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.getAllUsers;
+    return this.http.get(url);
+  }
+
   public getUserInfo(): Promise<BaseResponse<IUserDetailsData, any>> {
     const url = USER_URIS.getUserInfo;
     return this.http.post(url, {});
@@ -40,13 +45,14 @@ export class UserService {
     return this.http.post(url, payload);
   }
 
-  public getS3Folders(): Promise<BaseResponse<any, any>> {
-    const url = USER_URIS.getUsersS3Folders;
+  public getS3Folders(userId: string): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.getUsersS3Folders.replace(':userId', userId);
     return this.http.get(url);
   }
 
   public getS3Files(payload: IS3FilesReq): Promise<BaseResponse<any, any>> {
-    const url = USER_URIS.getUsersS3Files;
-    return this.http.post(url, payload);
+    // ?userId=1&folderName=myfiles
+    const url = USER_URIS.getUsersS3Files.replace(':userId', payload.userId).replace(':folderName', payload.folderName);
+    return this.http.get(url);
   }
 }

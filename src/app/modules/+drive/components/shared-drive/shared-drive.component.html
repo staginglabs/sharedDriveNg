@@ -25,16 +25,7 @@
       </div>
     </section>
 
-    <ng-container *ngIf="gettingFoldersInProgress$ | async">
-      <section class="loading_wrap">
-        <div class="loading">
-          <div class="loading-bar"></div>
-          <div class="loading-bar"></div>
-          <div class="loading-bar"></div>
-          <div class="loading-bar"></div>
-        </div>
-      </section>
-    </ng-container>
+    <app-loader-small [status]="gettingFoldersInProgress$ | async"></app-loader-small>
 
     <ng-container *ngIf="(foldersList$ | async).length">
 
@@ -47,7 +38,7 @@
           <div class="card-body-sec">
             <div class="d-flex justify-content-between">
               <button type="button" class="btn btn-light">
-                <ng-container *ngTemplateOutlet="userIconTemp"></ng-container>
+                <ng-container *ngTemplateOutlet="fileIconTemp"></ng-container>
               </button>
               <ng-container *ngTemplateOutlet="ellipTemp; context: {color: 'blue', item: item}"></ng-container>
             </div>
@@ -69,6 +60,12 @@
         fill="#005073" />
     </svg>
   </ng-template>
+
+  <ng-template #fileIconTemp>
+    <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.763184 2.45783H1.99429V10.6679H10.7622V11.8207H1.99429C1.65398 11.8207 1.36372 11.7082 1.12351 11.4833C0.88329 11.2584 0.763184 10.9866 0.763184 10.6679V2.45783ZM6.39324 5.97242L4.51656 8.30611H12.0233L9.50104 5.39603L7.65438 7.56102L6.39324 5.97242ZM13.2544 8.30611C13.2544 8.62477 13.1343 8.90124 12.8941 9.13555C12.6539 9.36986 12.3636 9.48701 12.0233 9.48701H4.51656C4.17625 9.48701 3.88099 9.36986 3.63076 9.13555C3.38054 8.90124 3.25542 8.62477 3.25542 8.30611V1.27693C3.25542 0.958273 3.38054 0.686481 3.63076 0.461546C3.88099 0.236611 4.17625 0.124146 4.51656 0.124146H12.0233C12.3636 0.124146 12.6539 0.236611 12.8941 0.461546C13.1343 0.686481 13.2544 0.958273 13.2544 1.27693V8.30611Z" fill="#005073"/>
+      </svg>
+    </ng-template>
 
   <ng-template #ellipTemp let-color="color" let-item="item">
     <div ngbDropdown class="tdEllipsisIcon w-auto" placement="bottom-left">
