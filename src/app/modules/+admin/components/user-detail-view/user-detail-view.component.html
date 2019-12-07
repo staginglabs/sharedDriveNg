@@ -86,7 +86,7 @@
       </svg>
     </a>
     <div ngbDropdownMenu>
-      <button ngbDropdownItem (click)="downloadFolder(item)"><span class="drop-icon pr-2"><svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4" /></svg></span>Download</button>
+      <!-- <button ngbDropdownItem (click)="downloadFolder(item)"><span class="drop-icon pr-2"><svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4" /></svg></span>Download</button> -->
       <button ngbDropdownItem  (click)="deleteFolder(item)"><span class="drop-icon pr-2"><svg width="17" height="18" viewBox="0 0 17 18"
             fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -106,18 +106,19 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <form [formGroup]="form" (ngSubmit)="createFolder()" novalidate>
   <div class="modal-body">
     <div class="form-group">
       <label>Folder Name</label>
-      <input type="text" class="form-control" name="folderName"  />
+      <input type="text" class="form-control" formControlName="folderName" name="folderName"  />
     </div>
     <div class="form-group">
       <label>Description</label>
-      <textarea class="form-control" name="description"></textarea>
+      <textarea class="form-control" formControlName="description" name="description"></textarea>
     </div>
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
-    <button type="button" class="btn bg-primary w-100 rounded-0 text-white"
-      (click)="dismissModal()">Create Folder</button>
+    <button [disabled]="form.invalid" type="submit" class="btn btn-primary btn-block">Create Folder</button>
   </div>
+  </form>
 </ng-template>

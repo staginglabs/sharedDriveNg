@@ -46,12 +46,23 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
       this.deleteFileFromS3();
       this.doS3FileDelete();
     } else {
-      //
+      this.uploadService.deleteS3Object(this.folderName)
+      .then(res => {
+        if (this.type === 'folder') {
+          this.toast.success('Folder deleted successfully!', 'success');
+          this.modal.close({action: this.type, msg: 'FOLDER_DELETED'});
+        } else {
+          this.toast.success('User\'s shared drive deleted successfully!', 'success');
+          this.modal.close({action: this.type, msg: 'USER_DELETED'});
+        }
+      })
+      .catch(console.log);
     }
   }
 
   private deleteFileFromS3() {
-    this.uploadService.deleteS3Object(this.item.key);
+    let key = `${this.item.key}/`;
+    this.uploadService.deleteS3Object(key);
   }
 
   private doS3FileDelete() {

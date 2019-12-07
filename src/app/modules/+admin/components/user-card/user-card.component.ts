@@ -2,6 +2,8 @@
 import { ReplaySubject } from 'rxjs';
 import { IUserList } from 'src/app/models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DeleteModalComponent } from 'src/app/components/delete-modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-card',
@@ -16,6 +18,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
+    private modalService: NgbModal,
     private route: ActivatedRoute,
   ) {}
 
@@ -31,6 +34,20 @@ export class UserCardComponent implements OnInit, OnDestroy {
   public deleteUser(item) {
     console.log('deleteUser');
     console.log(item);
+    let key = `${item.email}/`;
+    const modalRef = this.modalService.open(
+      DeleteModalComponent,
+      {
+        windowClass: 'customPrimary'
+      }
+    );
+    modalRef.componentInstance.folderName = key;
+    modalRef.componentInstance.type = 'user';
+    modalRef.componentInstance.item = item;
+    modalRef.result.then((res: any) => {
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   public viewUser(item) {

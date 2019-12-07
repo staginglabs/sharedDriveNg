@@ -9,6 +9,9 @@ import { IUserList, IS3FilesReq, IFileFormRes } from 'src/app/models';
 import { find } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UploadService } from 'src/app/services/upload.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DeleteModalComponent } from 'src/app/components/delete-modal';
 
 @Component({
   styleUrls: ['./user-detail-view.component.scss'],
@@ -16,17 +19,20 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserDetailViewComponent implements OnInit, OnDestroy {
   public modalRef: any;
+  public form: FormGroup;
   public activeUser: IUserList;
   public allUsers$: Observable<IUserList[]>;
   public foldersList$: Observable<string[]>;
   public filesList$: Observable<IFileFormRes[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
     private userActions: UserActions,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private uploadService: UploadService
   ) {
     this.allUsers$ = this.store.pipe(select(p => p.user.allUsers), takeUntil(this.destroyed$));
     // listen on folders
@@ -41,6 +47,8 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
+    this.initForm();
 
     // listen for params and find active user
     this.route.params.pipe(takeUntil(this.destroyed$))
@@ -62,6 +70,37 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
 
   public dismissModal() {
     this.modalRef.close();
+  }
+
+  public deleteFolder(item) {
+    let key = `${this.activeUser.email}/${item}/`;
+    const modalRef = this.modalService.open(
+      DeleteModalComponent,
+      {
+        windowClass: 'customPrimary'
+      }
+    );
+    modalRef.componentInstance.folderName = key;
+    modalRef.componentInstance.type = 'folder';
+    modalRef.result.then((res: any) => {
+      //
+    }).catch(err => {
+      // console.log(err);
+    });
+  }
+
+  public createFolder() {
+    if (this.form.valid) {
+      const data: any = this.form.value;
+      let key = `${this.activeUser.email}/${data.folderName}/`;
+      this.uploadService.createFolder(key)
+      .then(res => {
+        this.dismissModal();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
   }
 
   private findActiveUser(id: number) {
@@ -89,6 +128,13 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
       userId: this.activeUser.id.toString()
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
+  }
+
+  private initForm() {
+    this.form = this.fb.group({
+      folderName: [null, Validators.required],
+      description: [null]
+    });
   }
 
 }

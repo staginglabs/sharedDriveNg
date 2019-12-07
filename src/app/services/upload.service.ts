@@ -97,13 +97,13 @@ export class UploadService {
       if (!name) {
         reject('Album names must contain at least one non-space character.');
       }
-      if (name.indexOf('/') !== -1) {
-        reject('Album names cannot contain slashes.');
-      }
-      let Key = encodeURIComponent(name) + '/';
+      // if (name.indexOf('/') !== -1) {
+      //   reject('Album names cannot contain slashes.');
+      // }
+      // let Key = `${name}/`;
       let params = {
         Bucket: BUCKET.NAME,
-        Key
+        Key: name
       };
       s3.putObject(params, (err, data) => {
         if (err) {
