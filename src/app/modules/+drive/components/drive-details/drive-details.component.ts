@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { IS3FilesReq, IFileFormRes } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './drive-details.component.html'
 })
 export class DriveDetailsComponent implements OnInit, OnDestroy {
+  public showBreadCrumb = true;
   public activeFolderName: string;
   public filesList$: Observable<IFileFormRes[]>;
   public searchString: string;
@@ -51,13 +52,26 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.uriUtils(this.router.routerState.snapshot);
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(resp => {
+      if (resp) {
+        this.uriUtils(this.router.routerState.snapshot);
+      }
+    });
   }
 
   public goBack(e: any) {
-    // routerLink="drive/myFiles"
     if (e) {
-      console.log('go back');
       this.location.back();
+    }
+  }
+
+  private uriUtils(r: RouterStateSnapshot) {
+    if (r.url.includes('/admin/shared-drive')) {
+      this.showBreadCrumb = false;
+    } else {
+      this.showBreadCrumb = true;
     }
   }
 

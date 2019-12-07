@@ -56,10 +56,13 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
   }
 
   private setVal(r: RouterStateSnapshot) {
-    if (r.url === '/user/shared-drive' || r.url === '/admin/shared-drive') {
+    if (r.url === '/user/shared-drive') {
       this.isChildRouteActivated = false;
     } else {
       this.isChildRouteActivated = true;
+    }
+    if (r.url === '/admin/shared-drive') {
+      this.router.navigate([`/admin/shared-drive/drive/myfiles`]);
     }
   }
 

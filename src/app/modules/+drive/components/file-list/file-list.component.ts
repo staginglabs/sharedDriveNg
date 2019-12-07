@@ -47,8 +47,7 @@ export class FileListComponent implements OnInit, OnDestroy {
     this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res) {
-        console.log(res);
-        // this.prepareS3Req();
+        this.prepareS3Req();
       }
     });
 
@@ -93,26 +92,23 @@ export class FileListComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.type = 'file';
     modalRef.componentInstance.item = item;
     modalRef.result.then((res: any) => {
-      console.log(res);
-      // completed action and now do refresh actions
-      if (res && res.action) {
-        //
-      }
+      //
     }).catch(err => {
       // console.log(err);
     });
   }
 
-  // private prepareS3Req() {
-  //   this.route.params.pipe(take(1)).subscribe(params => {
-  //     if (params) {
-  //       if (params['driveId']) {
-  //         this.activeFolderName = params['driveId'];
-  //         this.getS3Files();
-  //       }
-  //     }
-  //   });
-  // }
+  private prepareS3Req() {
+    this.route.params.pipe(take(1)).subscribe(params => {
+      console.log(params);
+      if (params) {
+        // if (params['driveId']) {
+        //   this.activeFolderName = params['driveId'];
+        //   this.getS3Files();
+        // }
+      }
+    });
+  }
 
   private getS3Files() {
     let obj: IS3FilesReq = {

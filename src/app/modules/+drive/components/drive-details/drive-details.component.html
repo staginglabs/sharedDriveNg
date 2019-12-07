@@ -1,4 +1,4 @@
-﻿<div class="custom-breadcrumb">
+﻿<div class="custom-breadcrumb" *ngIf="showBreadCrumb">
   <a href="javascript:void(0)" (click)="goBack($event)">
     <span class="pr-3">
       <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,7 +15,7 @@
 <section class="commonPadLeft p-5">
 
   <section id="sharedMainhead">
-    <h4 class="text-capitalize">{{activeFolderName}}</h4>
+    <p class="text-capitalize lead">{{activeFolderName}}</p>
 
     <div class="justify-content-between d-flex mb-3">
       <div class="form-group custom flex-grow-1">

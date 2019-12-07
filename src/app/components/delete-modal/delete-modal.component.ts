@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
+import { UploadService } from 'src/app/services/upload.service';
 
 @Component({
   styleUrls: ['./delete-modal.component.scss'],
@@ -22,7 +23,8 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private toast: ToastrService,
     private store: Store<AppState>,
-    private userActions: UserActions
+    private userActions: UserActions,
+    private uploadService: UploadService
   ) {}
 
 
@@ -41,10 +43,15 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
 
   public doDelete() {
     if (this.type === 'file') {
+      this.deleteFileFromS3();
       this.doS3FileDelete();
     } else {
       //
     }
+  }
+
+  private deleteFileFromS3() {
+    this.uploadService.deleteS3Object(this.item.key);
   }
 
   private doS3FileDelete() {

@@ -27,6 +27,23 @@ export class UploadService {
     private fileSaverService: FileSaverService
   ) { }
 
+  public deleteS3Object(Key: string): Promise<any> {
+    const params = {
+      Bucket: BUCKET.NAME,
+      Key
+    };
+    return new Promise((resolve, reject) => {
+      s3.deleteObject(params, (err, data: any) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          console.log(data);
+          resolve(data);
+        }
+      });
+    });
+  }
   public uploadfile(obj: any): Promise<any> {
     const params = {
       Bucket: BUCKET.NAME,
@@ -63,7 +80,7 @@ export class UploadService {
   public listFiles() {
     let params = {
       Bucket: BUCKET.NAME,
-      // Delimiter: '/'
+      Delimiter: '/'
     };
     s3.listObjects(params, (err, data) => {
       if (err) {
