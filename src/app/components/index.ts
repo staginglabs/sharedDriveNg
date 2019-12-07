@@ -5,7 +5,7 @@ import { HeaderComponent } from './header';
 import { FooterComponent } from './footer';
 import { CreateDriveS3Component } from './create-drive-s3';
 import { DeleteModalComponent } from './delete-modal';
-import { NotesModalComponent } from '../modules/+drive';
+import { NotesModalComponent, DRIVE_COMPONENTS } from '../modules/+drive';
 
 export { LoginComponent } from './login';
 export { TokenVerifyComponent } from './token-verify';
@@ -20,7 +20,8 @@ export const ENTRY_COMPONENTS = [
 
 export const CORE_COMPONENTS = [
   HeaderComponent,
-  FooterComponent
+  FooterComponent,
+  DRIVE_COMPONENTS
 ];
 
 export const ALL_COMPONENTS: any[] = [

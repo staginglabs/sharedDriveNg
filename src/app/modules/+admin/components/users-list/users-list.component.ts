@@ -13,6 +13,8 @@ import { IUserList } from 'src/app/models';
   templateUrl: './users-list.component.html'
 })
 export class UsersListComponent implements OnInit, OnDestroy {
+  public isCollapsed = false;
+  public isOfflineCollapsed = false;
   public allUsers$: Observable<IUserList[]>;
   public onlineUsers$: Observable<IUserList[]>;
   public offlineUsers$: Observable<IUserList[]>;

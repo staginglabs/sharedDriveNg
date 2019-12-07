@@ -4,7 +4,6 @@ import { SharedModule } from './../../shared/shared.module';
 import { Routes, RouterModule } from '@angular/router';
 
 import {
-  DRIVE_COMPONENTS,
   SharedDriveComponent,
   DriveDetailsComponent
 } from './components';
@@ -23,12 +22,13 @@ const USER_ROUTES: Routes = [
 
 @NgModule({
   declarations: [
-    DRIVE_COMPONENTS
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild(USER_ROUTES)
+  ],
+  exports: [
   ],
   entryComponents: [
   ]

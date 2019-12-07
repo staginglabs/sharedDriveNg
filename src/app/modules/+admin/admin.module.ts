@@ -10,6 +10,7 @@ import {
   AdminDashboardComponent,
   UserDetailViewComponent,
 } from './components';
+import { DriveDetailsComponent } from '../+drive/components/drive-details';
 
 
 const USER_ROUTES: Routes = [
@@ -27,8 +28,8 @@ const USER_ROUTES: Routes = [
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
           { path: 'user/:userId', component: UserDetailViewComponent },
-          // { path: 'user/:userId/folder/:folderId', component: AccountDetailsComponent },
-          // { path: '**', redirectTo: '', pathMatch: 'full' }
+          { path: 'user/:userId/drive/:driveId', component: DriveDetailsComponent },
+          { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
       }
     ]

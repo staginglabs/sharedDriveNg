@@ -10,6 +10,7 @@ import { CORE_COMPONENTS, ENTRY_COMPONENTS } from '../components';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { COMMON_EXP_COMPOS } from '../modules/+drive';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { COMMON_EXP_COMPOS } from '../modules/+drive';
     FormsModule,
     ReactiveFormsModule,
     PipeModule,
+    RouterModule,
     NgSelectModule
   ],
   entryComponents: [

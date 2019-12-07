@@ -13,7 +13,6 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-  public activeDriveId: number;
   public allUsers$: Observable<IUserList[]>;
   public onlineUsers$: Observable<IUserList[]>;
   public offlineUsers$: Observable<IUserList[]>;
@@ -38,13 +37,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // listen for params and set drive id
-    this.route.parent.params.pipe(takeUntil(this.destroyed$))
-    .subscribe(params => {
-      if (params && params['dId']) {
-        this.activeDriveId = +params['dId'];
-      }
-    });
+    //
   }
 
   public open(temp: any) {

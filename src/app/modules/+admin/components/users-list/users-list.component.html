@@ -1,7 +1,7 @@
 ﻿<section class="d-flex subLeftTab flex-column">
   <a class="nav-link overView" routerLinkActive="active" routerLink="dashboard">Overview</a>
-  <a class="nav-link online" routerLinkActive="active" routerLink="dashboard" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+  <a href="javascript:void(0)" class="nav-link online" (click)="onlineCollapsed = !onlineCollapsed"
+    [attr.aria-expanded]="!onlineCollapsed" aria-controls="onlineCollapse">
     <span class="pr-2"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M1.50221 0L0 1.38618L5 6L10 1.38618L8.49779 0L5 3.22763L1.50221 0Z" fill="#005073" />
@@ -9,7 +9,7 @@
       <span>Online</span>
   </a>
 
-  <div id="collapseExample" [ngbCollapse]="isCollapsed">
+  <div id="onlineCollapse" [ngbCollapse]="onlineCollapsed">
     <ng-container *ngIf="!(onlineUsers$ | async)">
       <p>No Users</p>
     </ng-container>
@@ -24,9 +24,9 @@
     </ng-container>
   </div>
 
-  <a class="nav-link online" routerLinkActive="active" routerLink="dashboard"
+  <a class="nav-link online" href="javascript:void(0)"
     (click)="isOfflineCollapsed = !isOfflineCollapsed" [attr.aria-expanded]="isOfflineCollapsed"
-    aria-controls="collapseTwo">
+    aria-controls="offlineCollapse">
     <span class="pr-2"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M1.50221 0L0 1.38618L5 6L10 1.38618L8.49779 0L5 3.22763L1.50221 0Z" fill="#005073" />
@@ -35,7 +35,7 @@
     <span>Offline</span>
   </a>
 
-  <div id="collapseTwo" [ngbCollapse]="!isOfflineCollapsed">
+  <div id="offlineCollapse" [ngbCollapse]="!isOfflineCollapsed">
     <ng-container *ngIf="!(offlineUsers$ | async)">
       <p>No Users</p>
     </ng-container>

@@ -1,7 +1,7 @@
 :host{
   display: block;
+  width: 100%;
   .commonPadLeft {
-    padding: 2.938rem 4rem 4rem;
 
     .btn-primary.btn-sm {
       width: 8.313em;
@@ -9,17 +9,7 @@
     }
 
     #sharedMainhead {
-      .input-group {
-        padding: 2.75em 0 2em;
-      }
 
-      .input-group-text {
-        background: transparent;
-      }
-
-      .form-control {
-        border-radius: 0 5px 5px 0;
-      }
 
       .table {
         tbody {
@@ -70,21 +60,6 @@
       }
 
 
-    }
-    .form-control:focus {
-      background-color: #fff;
-      border-color: snow;
-      outline: 0;
-      box-shadow:none;
-      border: 1px solid #ced4da;
-      border-left: 0;
-    }
-    .form-control{
-      border-left: 0;
-      padding: 0.438rem 0.25rem;
-    }
-    .input-group-text{
-      border-right: 0;
     }
   }
 }

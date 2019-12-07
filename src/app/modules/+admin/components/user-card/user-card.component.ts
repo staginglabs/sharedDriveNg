@@ -10,7 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class UserCardComponent implements OnInit, OnDestroy {
 
-  @Input() public driveId: number;
   @Input() public user: IUserList;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -26,6 +25,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    //
   }
 
   public deleteUser(item) {
@@ -34,10 +34,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
   }
 
   public viewUser(item) {
-    // console.log('viewUser');
-    console.log(item);
-    console.log(this.driveId);
-    this.router.navigate(['admin', 'drive', this.driveId, 'user', item.id]);
+    this.router.navigate(['admin', 'drive', 'external', 'user', item.id]);
   }
 
 }
