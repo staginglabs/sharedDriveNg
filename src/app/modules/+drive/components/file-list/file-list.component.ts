@@ -62,6 +62,10 @@ export class FileListComponent implements OnInit, OnDestroy {
     });
   }
 
+  public moveFile() {
+
+  }
+
   public openNotesModal(item: IFileFormRes) {
     if (item) {
       const modalRef = this.modalService.open(
@@ -85,7 +89,7 @@ export class FileListComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(
       DeleteModalComponent,
       {
-        windowClass: 'customPrimary'
+        windowClass: 'customWarning'
       }
     );
     modalRef.componentInstance.folderName = this.activeFolderName;

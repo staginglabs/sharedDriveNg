@@ -27,18 +27,22 @@
     </ng-container>
   </p>
   <div class="file_name text-center d-flex justify-content-center align-items-center">
-    <span>
-      <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="25" height="21" rx="2" fill="#D84040" />
-        <path fill-rule="evenodd" clip-rule="evenodd"
-          d="M7.97876 7.78157H8.81755V13.5339H14.7914V14.3416H8.81755C8.58569 14.3416 8.38793 14.2628 8.22426 14.1052C8.06059 13.9476 7.97876 13.7572 7.97876 13.5339V7.78157ZM11.8147 10.244L10.536 11.8791H15.6506L13.9321 9.8402L12.6739 11.3571L11.8147 10.244ZM16.4894 11.8791C16.4894 12.1024 16.4076 12.2961 16.2439 12.4603C16.0802 12.6244 15.8825 12.7065 15.6506 12.7065H10.536C10.3042 12.7065 10.103 12.6244 9.93252 12.4603C9.76204 12.2961 9.6768 12.1024 9.6768 11.8791V6.95418C9.6768 6.73091 9.76204 6.54048 9.93252 6.38288C10.103 6.22528 10.3042 6.14648 10.536 6.14648H15.6506C15.8825 6.14648 16.0802 6.22528 16.2439 6.38288C16.4076 6.54048 16.4894 6.73091 16.4894 6.95418V11.8791Z"
-          fill="white" />
-      </svg>
+    <span [ngSwitch]="type">
+      <ng-container *ngSwitchCase="'file'">
+        <ng-container *ngTemplateOutlet="fileIconTemp"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'folder'">
+        <ng-container *ngTemplateOutlet="folderIconTemp"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngTemplateOutlet="userIconTemp"></ng-container>
+      </ng-container>
     </span>
     <h5 class="text-danger d-inline-block mb-0 pl-3">
-      <ng-container *ngIf="type === 'file' || type === 'user'">
+      <ng-container *ngIf="type === 'file'">
         {{item.displayName}}
       </ng-container>
+      <ng-container *ngIf="type === 'folder' || type === 'user'">{{displayName}}</ng-container>
     </h5>
   </div>
 </div>
@@ -46,3 +50,30 @@
   <button type="button" class="btn bg-danger rounded-0 text-white mb-2" (click)="doDelete()">Delete</button>
   <a href="javascript:void(0);" class="noCancel" (click)="closeModal('Save click')">No, Cancel.</a>
 </div>
+
+
+<ng-template #fileIconTemp>
+<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="21" height="20" rx="2" fill="#D84040"/>
+  <rect x="5.25" y="6.45166" width="10.5" height="0.645161" rx="0.322581" fill="white"/>
+  <rect x="5.25" y="8.38708" width="10.5" height="0.645161" rx="0.322581" fill="white"/>
+  <rect x="5.25" y="10.3226" width="10.5" height="0.645161" rx="0.322581" fill="white"/>
+  <rect x="5.25" y="12.2581" width="5.25" height="0.645161" rx="0.322581" fill="white"/>
+</svg>
+</ng-template>
+
+<ng-template #folderIconTemp>
+<svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="25" height="21" rx="2" fill="#D84040" />
+  <path fill-rule="evenodd" clip-rule="evenodd"
+    d="M7.97876 7.78157H8.81755V13.5339H14.7914V14.3416H8.81755C8.58569 14.3416 8.38793 14.2628 8.22426 14.1052C8.06059 13.9476 7.97876 13.7572 7.97876 13.5339V7.78157ZM11.8147 10.244L10.536 11.8791H15.6506L13.9321 9.8402L12.6739 11.3571L11.8147 10.244ZM16.4894 11.8791C16.4894 12.1024 16.4076 12.2961 16.2439 12.4603C16.0802 12.6244 15.8825 12.7065 15.6506 12.7065H10.536C10.3042 12.7065 10.103 12.6244 9.93252 12.4603C9.76204 12.2961 9.6768 12.1024 9.6768 11.8791V6.95418C9.6768 6.73091 9.76204 6.54048 9.93252 6.38288C10.103 6.22528 10.3042 6.14648 10.536 6.14648H15.6506C15.8825 6.14648 16.0802 6.22528 16.2439 6.38288C16.4076 6.54048 16.4894 6.73091 16.4894 6.95418V11.8791Z"
+    fill="white" />
+</svg>
+</ng-template>
+
+<ng-template #userIconTemp>
+<svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="25" height="21" rx="2" fill="#D84040"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.625 10.48C16.165 10.48 16.765 10.56 17.425 10.72C18.155 10.91 18.75 11.155 19.21 11.455C19.75 11.815 20.02 12.22 20.02 12.67V14.23H16.27V12.67C16.27 11.82 15.86 11.1 15.04 10.51C15.18 10.49 15.375 10.48 15.625 10.48ZM10.645 10.48C11.185 10.48 11.78 10.56 12.43 10.72C13.16 10.91 13.75 11.155 14.2 11.455C14.74 11.815 15.01 12.22 15.01 12.67V14.23H6.25V12.67C6.25 12.22 6.52 11.815 7.06 11.455C7.52 11.155 8.115 10.91 8.845 10.72C9.505 10.56 10.105 10.48 10.645 10.48ZM10.645 9.25C10.315 9.25 10.005 9.165 9.715 8.995C9.425 8.825 9.195 8.595 9.025 8.305C8.855 8.015 8.77 7.705 8.77 7.375C8.77 7.045 8.855 6.735 9.025 6.445C9.195 6.155 9.425 5.925 9.715 5.755C10.005 5.585 10.315 5.5 10.645 5.5C10.975 5.5 11.2825 5.585 11.5675 5.755C11.8525 5.925 12.0775 6.1525 12.2425 6.4375C12.4075 6.7225 12.49 7.035 12.49 7.375C12.49 7.715 12.4075 8.0275 12.2425 8.3125C12.0775 8.5975 11.8525 8.825 11.5675 8.995C11.2825 9.165 10.975 9.25 10.645 9.25ZM15.625 9.25C15.295 9.25 14.985 9.165 14.695 8.995C14.405 8.825 14.175 8.595 14.005 8.305C13.835 8.015 13.75 7.705 13.75 7.375C13.75 7.045 13.835 6.735 14.005 6.445C14.175 6.155 14.405 5.925 14.695 5.755C14.985 5.585 15.295 5.5 15.625 5.5C15.955 5.5 16.265 5.585 16.555 5.755C16.845 5.925 17.075 6.155 17.245 6.445C17.415 6.735 17.5 7.045 17.5 7.375C17.5 7.705 17.415 8.015 17.245 8.305C17.075 8.595 16.845 8.825 16.555 8.995C16.265 9.165 15.955 9.25 15.625 9.25Z" fill="white"/>
+</svg>
+</ng-template>

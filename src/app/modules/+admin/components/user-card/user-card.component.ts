@@ -32,18 +32,17 @@ export class UserCardComponent implements OnInit, OnDestroy {
   }
 
   public deleteUser(item) {
-    console.log('deleteUser');
-    console.log(item);
     let key = `${item.email}/`;
     const modalRef = this.modalService.open(
       DeleteModalComponent,
       {
-        windowClass: 'customPrimary'
+        windowClass: 'customWarning'
       }
     );
     modalRef.componentInstance.folderName = key;
     modalRef.componentInstance.type = 'user';
     modalRef.componentInstance.item = item;
+    modalRef.componentInstance.displayName = item.displayName;
     modalRef.result.then((res: any) => {
     }).catch(err => {
       console.log(err);

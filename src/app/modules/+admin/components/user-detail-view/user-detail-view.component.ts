@@ -77,11 +77,12 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(
       DeleteModalComponent,
       {
-        windowClass: 'customPrimary'
+        windowClass: 'customWarning'
       }
     );
     modalRef.componentInstance.folderName = key;
     modalRef.componentInstance.type = 'folder';
+    modalRef.componentInstance.displayName = item;
     modalRef.result.then((res: any) => {
       //
     }).catch(err => {

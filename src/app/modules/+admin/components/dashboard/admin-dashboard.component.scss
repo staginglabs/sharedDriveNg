@@ -11,42 +11,6 @@
       min-width: 500px;
       max-width: 800px;
       padding-top: 0.5rem;
-
-      .topBread {
-
-      }
-      .topTwoBread {
-        .breadcrumb {
-          position: relative;
-          .breadcrumb-item {
-            font-size: 1.250em;
-            a {
-              &:hover {
-                text-decoration: none;
-              }
-            }
-          }
-          .childBread {
-            &:before {
-              content: ">";
-              color: #005073;
-            }
-          }
-          li.settingIcon {
-            position: absolute;
-            right: 4px;
-            button {
-              background: transparent;
-              padding: 0;
-              line-height: 0;
-              border: none;
-              &:focus {
-                outline: none;
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

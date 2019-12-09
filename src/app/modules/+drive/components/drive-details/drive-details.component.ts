@@ -4,11 +4,12 @@ import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@ang
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
-import { IS3FilesReq, IFileFormRes } from 'src/app/models';
+import { takeUntil, filter, take } from 'rxjs/operators';
+import { IS3FilesReq, IFileFormRes, IUserList } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { find } from 'src/app/lodash.optimized';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -16,9 +17,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DriveDetailsComponent implements OnInit, OnDestroy {
   public showBreadCrumb = true;
+  public showDeepBreadCrumb = true;
   public activeFolderName: string;
   public filesList$: Observable<IFileFormRes[]>;
   public searchString: string;
+  public activeUser: IUserList;
+  public allUsers$: Observable<IUserList[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +35,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   ) {
     // listen for user files
     this.filesList$ = this.store.pipe(select(p => p.user.files), takeUntil(this.destroyed$));
+    this.allUsers$ = this.store.pipe(select(p => p.user.allUsers), takeUntil(this.destroyed$));
   }
 
   public ngOnDestroy() {
@@ -59,11 +64,27 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
         this.uriUtils(this.router.routerState.snapshot);
       }
     });
+
+    // listen on user id
+    // listen for params and find active user
+    this.route.params.pipe(takeUntil(this.destroyed$))
+    .subscribe(params => {
+      console.log(params);
+      if (params && params['userId']) {
+        this.findActiveUser(+params['userId']);
+      }
+    });
   }
 
   public goBack(e: any) {
     if (e) {
       this.location.back();
+    }
+  }
+
+  public goToUserDetailView() {
+    if (this.activeUser) {
+      this.router.navigate(['admin', 'drive', 'external', 'user', this.activeUser.id ]);
     }
   }
 
@@ -73,6 +94,8 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.showBreadCrumb = true;
     }
+
+    this.showDeepBreadCrumb = (r.url.includes('/admin/drive/external/')) ? true : false;
   }
 
   private getS3Files() {
@@ -81,6 +104,15 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       userId: '1'
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
+  }
+
+  private findActiveUser(id: number) {
+    this.allUsers$.pipe(take(3)).subscribe(res => {
+      if (res && res.length) {
+        this.activeUser = find(res, ['id', id]);
+        console.log(this.activeUser);
+      }
+    });
   }
 
 }

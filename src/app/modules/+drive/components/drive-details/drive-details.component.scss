@@ -62,4 +62,37 @@
 
     }
   }
+  .topTwoBread {
+    .breadcrumb {
+      position: relative;
+      padding: 0;
+      .breadcrumb-item {
+        font-size: 1.250em;
+        a {
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+      .childBread {
+        &:before {
+          content: ">";
+          color: #005073;
+        }
+      }
+      li.settingIcon {
+        position: absolute;
+        right: 4px;
+        button {
+          background: transparent;
+          padding: 0;
+          line-height: 0;
+          border: none;
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
 }

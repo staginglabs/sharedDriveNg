@@ -14,6 +14,7 @@ import { UploadService } from 'src/app/services/upload.service';
   templateUrl: './delete-modal.component.html'
 })
 export class DeleteModalComponent implements OnInit, OnDestroy {
+  @Input() public displayName: string;
   @Input() public folderName: string;
   @Input() public type: string;
   @Input() public item: IFileFormRes;
