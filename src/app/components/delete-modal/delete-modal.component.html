@@ -47,7 +47,7 @@
   </div>
 </div>
 <div class="modal-footer border-0 text-center justify-content-center flex-column">
-  <button type="button" class="btn bg-danger rounded-0 text-white mb-2" (click)="doDelete()">Delete</button>
+  <button [disabled]="actionInProgress" type="button" class="btn bg-danger rounded-0 text-white mb-2" (click)="doDelete()">Delete</button>
   <a href="javascript:void(0);" class="noCancel" (click)="closeModal('Save click')">No, Cancel.</a>
 </div>
 

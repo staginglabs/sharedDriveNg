@@ -26,6 +26,7 @@ export const USER_ACTIONS = {
   GET_FILES_REQ: 'USER_ACTIONS_GET_FILES_REQ',
   GET_FILES_RES: 'USER_ACTIONS_GET_FILES_RES',
   TRIGGER_GET_FILES_REQ: 'USER_ACTIONS_TRIGGER_GET_FILES_REQ',
+  TRIGGER_GET_FOLDER_REQ: 'USER_ACTIONS_TRIGGER_GET_FOLDER_REQ',
 };
 
 const EMPTY_ACTION = { type: USER_ACTIONS.EMPTY_ACTION };
@@ -238,6 +239,13 @@ export class UserActions {
   public triggerFileReq(payload: boolean): CustomActions {
     return {
       type: USER_ACTIONS.TRIGGER_GET_FILES_REQ,
+      payload
+    };
+  }
+
+  public triggerFolderReq(payload: boolean): CustomActions {
+    return {
+      type: USER_ACTIONS.TRIGGER_GET_FOLDER_REQ,
       payload
     };
   }

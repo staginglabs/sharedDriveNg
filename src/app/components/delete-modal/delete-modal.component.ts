@@ -19,6 +19,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   @Input() public type: string;
   @Input() public item: IFileFormRes;
   @Input() public userId: string;
+  public actionInProgress: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public modal: NgbActiveModal,
@@ -36,7 +37,9 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    console.log(this.folderName);
     console.log(this.userId);
+    console.log(this.displayName);
   }
 
   public closeModal(reason: string) {
@@ -44,6 +47,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   }
 
   public doDelete() {
+    this.actionInProgress = true;
     if (this.type === 'file') {
       this.deleteFileFromS3();
       this.doS3FileDelete();
@@ -51,8 +55,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
       this.uploadService.deleteS3Object(this.folderName)
       .then(res => {
         if (this.type === 'folder') {
-          this.toast.success('Folder deleted successfully!', 'success');
-          this.modal.close({action: this.type, msg: 'FOLDER_DELETED'});
+          this.deleteObjects();
         } else {
           this.toast.success('User\'s shared drive deleted successfully!', 'success');
           this.modal.close({action: this.type, msg: 'USER_DELETED'});
@@ -60,6 +63,28 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
       })
       .catch(console.log);
     }
+  }
+
+  private deleteObjects() {
+    let obj = {
+      folderName: this.displayName,
+      userId: this.userId
+    };
+    this.userService.deleteUserFolder(obj)
+    .then((res: BaseResponse<ISuccessRes, any>) => {
+      this.actionInProgress = false;
+      this.getS3Folders();
+      this.toast.success('Folder deleted successfully!', 'success');
+      this.modal.close({action: this.type, msg: 'FOLDER_DELETED'});
+    })
+    .catch((e: BaseResponse<any, any>) => {
+      this.actionInProgress = false;
+      try {
+        this.toast.error(e.error.message, 'Error');
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   private deleteFileFromS3() {
@@ -75,6 +100,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     };
     this.userService.deleteUsersS3Files(obj)
     .then((res: BaseResponse<ISuccessRes, any>) => {
+      this.actionInProgress = false;
       this.toast.success(res.body.message, res.body.status);
       this.modal.close({action: this.type, msg: 'FILE_DELETED'});
       this.getS3Files();
@@ -93,6 +119,14 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(this.userActions.triggerFileReq(true));
     setTimeout(() => {
       this.store.dispatch(this.userActions.triggerFileReq(false));
+    }, 1000);
+  }
+
+  private getS3Folders() {
+    // initiate folder req and reset after a delay
+    this.store.dispatch(this.userActions.triggerFolderReq(true));
+    setTimeout(() => {
+      this.store.dispatch(this.userActions.triggerFolderReq(false));
     }, 1000);
   }
 

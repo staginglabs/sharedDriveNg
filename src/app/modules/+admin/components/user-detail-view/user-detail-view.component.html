@@ -118,7 +118,7 @@
     </div>
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
-    <button [disabled]="form.invalid" type="submit" class="btn btn-primary btn-block">Create Folder</button>
+    <button [disabled]="form.invalid || folderCreationInProgress" type="submit" class="btn btn-primary btn-block">Create Folder</button>
   </div>
   </form>
 </ng-template>

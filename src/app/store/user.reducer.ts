@@ -20,6 +20,7 @@ export interface UserState {
   gettingfileInProgress: boolean;
   files: IFileFormRes[];
   triggerFileReq: boolean;
+  triggerFolderReq: boolean;
 }
 
 const initialState: UserState = {
@@ -35,7 +36,8 @@ const initialState: UserState = {
   gettingfileInProgress: false,
   updateProfileProgress: false,
   files: [],
-  triggerFileReq: false
+  triggerFileReq: false,
+  triggerFolderReq: false
 };
 
 export function userReducer(state = initialState, action: CustomActions): UserState {
@@ -124,6 +126,9 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.TRIGGER_GET_FILES_REQ: {
       return { ...state, triggerFileReq: action.payload };
+    }
+    case USER_ACTIONS.TRIGGER_GET_FOLDER_REQ: {
+      return { ...state, triggerFolderReq: action.payload };
     }
     default: {
       return state;

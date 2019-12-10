@@ -50,6 +50,16 @@ export class UserService {
     return this.http.get(url);
   }
 
+  public createFolderForUser(payload: any): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.createFolderForUser;
+    return this.http.post(url, payload);
+  }
+
+  public deleteUserFolder(payload: any): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.deleteUserFolder;
+    return this.http.post(url, payload);
+  }
+
   public getS3Files(payload: IS3FilesReq): Promise<BaseResponse<any, any>> {
     // ?userId=1&folderName=myfiles
     const url = USER_URIS.getUsersS3Files.replace(':userId', payload.userId).replace(':folderName', payload.folderName);
