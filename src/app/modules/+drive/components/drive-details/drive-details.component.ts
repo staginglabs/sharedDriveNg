@@ -3,9 +3,9 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, filter, take } from 'rxjs/operators';
-import { IS3FilesReq, IFileFormRes, IUserList } from 'src/app/models';
+import { IS3FilesReq, IFileFormRes, IUserList, IUserData, IUserDetailsData } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,6 +22,8 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   public filesList$: Observable<IFileFormRes[]>;
   public searchString: string;
   public activeUser: IUserList;
+  public activeUserId: string;
+  public userData: IUserDetailsData;
   public allUsers$: Observable<IUserList[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
@@ -45,16 +47,46 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
+    // listen for token and user details
+    this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    .subscribe(d => {
+      this.userData = d;
+    });
+
+    // listen
+    combineLatest([
+      this.route.params.pipe(takeUntil(this.destroyed$)),
+      this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    ])
+    .subscribe((arr: any[]) => {
+      const params = arr[0];
+      this.userData = arr[1];
+      if (params && this.userData) {
+        if (params['driveId']) {
+          this.activeFolderName = params['driveId'];
+        }
+        if (!params['userId']) {
+          this.getS3Files();
+        }
+      }
+    });
+
+    // listen for trigger request and get files
+    this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
+    .subscribe(res => {
+      if (res) {
+        this.prepareS3Req();
+      }
+    });
+
     // listen for params
     this.route.params.pipe(takeUntil(this.destroyed$))
     .subscribe(params => {
-      if (params) {
-        if (params['driveId']) {
-          this.activeFolderName = params['driveId'];
-          this.getS3Files();
-        } else {
-          // redirect to some otehr route
-        }
+      if (params && params['driveId']) {
+        this.activeFolderName = params['driveId'];
+      }
+      if (params && params['userId']) {
+        this.findActiveUser(+params['userId']);
       }
     });
 
@@ -65,15 +97,6 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    // listen on user id
-    // listen for params and find active user
-    this.route.params.pipe(takeUntil(this.destroyed$))
-    .subscribe(params => {
-      console.log(params);
-      if (params && params['userId']) {
-        this.findActiveUser(+params['userId']);
-      }
-    });
   }
 
   public goBack(e: any) {
@@ -99,9 +122,10 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getS3Files() {
+    this.activeUserId = (this.activeUser) ? this.activeUser.id.toString() : this.userData.id;
     let obj: IS3FilesReq = {
       folderName: this.activeFolderName,
-      userId: '1'
+      userId: this.activeUserId
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
   }
@@ -110,9 +134,16 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     this.allUsers$.pipe(take(3)).subscribe(res => {
       if (res && res.length) {
         this.activeUser = find(res, ['id', id]);
-        console.log(this.activeUser);
+        if (this.activeUser && this.activeFolderName) {
+          this.getS3Files();
+        }
       }
     });
+  }
+
+  private prepareS3Req() {
+    console.log('in prepareS3Req');
+    this.getS3Files();
   }
 
 }

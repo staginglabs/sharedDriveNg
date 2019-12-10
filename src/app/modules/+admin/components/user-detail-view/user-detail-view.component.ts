@@ -108,7 +108,6 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
     this.allUsers$.pipe(take(3)).subscribe(res => {
       if (res && res.length) {
         this.activeUser = find(res, ['id', id]);
-        console.log(this.activeUser);
         if (this.activeUser) {
           this.getS3Folders();
           this.getS3Files();

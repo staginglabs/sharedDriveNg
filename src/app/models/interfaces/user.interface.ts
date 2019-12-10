@@ -105,6 +105,7 @@ export interface IShippingDetails {
 
 // user details data
 export interface IUserDetailsData {
+  id: string;
   user_nicename: string;
   user_email?: any;
   display_name?: any;

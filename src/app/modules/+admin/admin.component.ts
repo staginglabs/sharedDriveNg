@@ -1,12 +1,9 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services';
+import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AuthActions } from 'src/app/actions';
-import { ISignInRequest } from 'src/app/models';
+import { UserActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -16,10 +13,8 @@ import { ReplaySubject } from 'rxjs';
 export class AdminComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private store: Store<AppState>,
-    private authActions: AuthActions
+    private userActions: UserActions
   ) {
   }
 
@@ -29,7 +24,13 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // console.log('hello from dashboard');
+    // listen for token
+    this.store.pipe(select(p => p.auth.token), takeUntil(this.destroyed$))
+    .subscribe(d => {
+      if (d) {
+        this.store.dispatch(this.userActions.getProfileReq());
+      }
+    });
   }
 
 }

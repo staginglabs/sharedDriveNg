@@ -57,8 +57,8 @@
     <!-- end folders -->
 
     <!-- table start -->
-    <section class="d-flex w-100 flex-column">
-      <app-file-list-view [searchString]="searchString" [fileList]="filesList$ | async"></app-file-list-view>
+    <section class="d-flex w-100 flex-column" *ngIf="activeUser">
+      <app-file-list-view [userId]="activeUser.id" [folderList]="foldersList$ | async" [searchString]="searchString" [fileList]="filesList$ | async"></app-file-list-view>
     </section>
     <!-- end table -->
 

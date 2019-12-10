@@ -1,10 +1,8 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { AuthActions, UserActions } from 'src/app/actions';
+import { UserActions } from 'src/app/actions';
 import { IUserData } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 
@@ -17,10 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public data: IUserData;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private store: Store<AppState>,
-    private authActions: AuthActions,
     private userActions: UserActions
   ) {
   }

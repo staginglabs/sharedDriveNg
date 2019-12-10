@@ -18,6 +18,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   @Input() public folderName: string;
   @Input() public type: string;
   @Input() public item: IFileFormRes;
+  @Input() public userId: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public modal: NgbActiveModal,
@@ -35,7 +36,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    //
+    console.log(this.userId);
   }
 
   public closeModal(reason: string) {
@@ -69,17 +70,21 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   private doS3FileDelete() {
     let obj = {
       id: this.item.id,
-      folderName: this.folderName
+      folderName: this.folderName,
+      userId: this.userId
     };
     this.userService.deleteUsersS3Files(obj)
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.toast.success(res.body.message, res.body.status);
-      this.getS3Files();
       this.modal.close({action: this.type, msg: 'FILE_DELETED'});
+      this.getS3Files();
     })
-    .catch(err => {
-      console.log(err);
-      this.toast.error('something went wrong!', 'Error');
+    .catch((e: BaseResponse<any, any>) => {
+      try {
+        this.toast.error(e.error.error.message, 'Error');
+      } catch (error) {
+        console.log(error);
+      }
     });
   }
 
@@ -87,8 +92,8 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     // initiate get files req and reset after a delay
     this.store.dispatch(this.userActions.triggerFileReq(true));
     setTimeout(() => {
-      this.store.dispatch(this.userActions.triggerFileReq(true));
-    }, 5000);
+      this.store.dispatch(this.userActions.triggerFileReq(false));
+    }, 1000);
   }
 
 }

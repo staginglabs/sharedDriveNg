@@ -4,13 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil, take } from 'rxjs/operators';
-import { IUserData, IFileForm, IS3UploadRes } from 'src/app/models';
+import { IUserData, IFileForm, IS3UploadRes, IUserList, IUserDetailsData } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
-import { clone } from 'src/app/lodash.optimized';
+import { clone, find } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 
 
@@ -28,8 +28,11 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   public uploadFileSuccess: boolean;
   public form: FormGroup;
   public data: IUserData;
+  public userData: IUserDetailsData;
   public modalRef: any;
   public fileName: any;
+  public activeUser: IUserList;
+  public allUsers$: Observable<IUserList[]>;
   private fileObj: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
@@ -42,6 +45,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private userActions: UserActions
   ) {
+    this.allUsers$ = this.store.pipe(select(p => p.user.allUsers), takeUntil(this.destroyed$));
   }
 
   public ngOnDestroy() {
@@ -50,13 +54,31 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
+    // listen for params
+    // listen for params and find active user
+    this.route.params.pipe(takeUntil(this.destroyed$))
+    .subscribe(params => {
+      if (params && params['userId']) {
+        this.findActiveUser(+params['userId']);
+      }
+    });
+
+    // listen for token and user details
+    this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    .subscribe(d => {
+      this.userData = d;
+      // init form
+      if (d) {
+        this.initForm();
+      }
+    });
+
     // listen for token and user details
     this.store.pipe(select(p => p.auth.details), take(1))
     .subscribe(d => {
       this.data = d;
     });
-    // init form
-    this.initForm();
 
     // listen for params and set active folder
     this.route.params.pipe(take(1))
@@ -136,6 +158,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private hitApi(obj) {
+    let userId: any = (this.activeUser) ? this.activeUser.id : this.userData.id;
+    obj.userId = userId;
+    console.log(userId);
     this.userService.insertFileEntry(obj)
     .then(result => {
       this.getS3Files();
@@ -170,23 +195,34 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
+    let eml: any = (this.activeUser) ? this.activeUser.email : this.userData.user_email;
     this.form = this.fb.group({
-      email: [this.data.user_email, Validators.required],
+      email: [eml, Validators.required],
       note: [null],
       file: [null, Validators.required]
     });
   }
 
   private getDrivePath() {
-    this.drivePath = `${this.data.user_email}/${this.activeFolderName}`;
+    let eml: any = (this.activeUser) ? this.activeUser.email : this.userData.user_email;
+    this.drivePath = `${eml}/${this.activeFolderName}`;
   }
 
   private getS3Files() {
     // initiate get files req and reset after a delay
     this.store.dispatch(this.userActions.triggerFileReq(true));
     setTimeout(() => {
-      this.store.dispatch(this.userActions.triggerFileReq(true));
-    }, 5000);
+      this.store.dispatch(this.userActions.triggerFileReq(false));
+    }, 1000);
+  }
+
+  private findActiveUser(id: number) {
+    this.allUsers$.pipe(take(3)).subscribe(res => {
+      if (res && res.length) {
+        this.activeUser = find(res, ['id', id]);
+        this.initForm();
+      }
+    });
   }
 
 }

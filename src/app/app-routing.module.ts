@@ -12,7 +12,7 @@ import {
 const routes: Routes = [
   {
     path: 'admin',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: './modules/+admin/admin.module#AdminModule'
   },
   {
