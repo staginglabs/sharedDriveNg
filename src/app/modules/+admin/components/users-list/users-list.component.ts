@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
@@ -13,15 +12,13 @@ import { IUserList } from 'src/app/models';
   templateUrl: './users-list.component.html'
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  public isCollapsed = false;
+  public onlineCollapsed = false;
   public isOfflineCollapsed = false;
   public allUsers$: Observable<IUserList[]>;
   public onlineUsers$: Observable<IUserList[]>;
   public offlineUsers$: Observable<IUserList[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private store: Store<AppState>,
     private userActions: UserActions,
   ) {

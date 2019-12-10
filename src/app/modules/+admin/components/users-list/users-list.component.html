@@ -1,7 +1,7 @@
 ﻿<section class="d-flex subLeftTab flex-column">
   <a class="nav-link overView" routerLinkActive="active" routerLink="dashboard">Overview</a>
   <a href="javascript:void(0)" class="nav-link online" (click)="onlineCollapsed = !onlineCollapsed"
-    [attr.aria-expanded]="!onlineCollapsed" aria-controls="onlineCollapse">
+    [attr.aria-expanded]="onlineCollapsed" aria-controls="onlineCollapse">
     <span class="pr-2"><svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M1.50221 0L0 1.38618L5 6L10 1.38618L8.49779 0L5 3.22763L1.50221 0Z" fill="#005073" />

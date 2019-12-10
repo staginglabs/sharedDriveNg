@@ -69,8 +69,8 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     case USER_ACTIONS.GET_USERS_RES: {
       const res: BaseResponse<IUserList[], any> = action.payload;
       let arr: IUserList[] = cloneDeep(res.body);
-      let onlineUsers = arr.filter(item => item.isOffline);
-      let offlineUsers = arr.filter(item => !item.isOffline);
+      let onlineUsers = arr.filter(item => !item.isOffline);
+      let offlineUsers = arr.filter(item => item.isOffline);
       return {
         ...state,
         allUsers: res.body,

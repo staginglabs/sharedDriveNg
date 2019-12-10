@@ -4,7 +4,7 @@
   <app-loader-small [status]="gettingfileInProgress$ | async"></app-loader-small>
 
   <ng-container *ngIf="fileList && fileList.length === 0 && !(gettingfileInProgress$ | async)">
-    <p class="lead">No Files Found. Try upload file.</p>
+    <p class="lead pt-5">No Files Found. Try upload file.</p>
   </ng-container>
 
 
