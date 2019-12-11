@@ -128,6 +128,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       userId: this.activeUserId
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
+    this.getS3Folders();
   }
 
   private findActiveUser(id: number) {
@@ -141,8 +142,13 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getS3Folders() {
+    if (this.activeUser) {
+      this.store.dispatch(this.userActions.getFoldersReq(this.activeUser.id.toString()));
+    }
+  }
+
   private prepareS3Req() {
-    console.log('in prepareS3Req');
     this.getS3Files();
   }
 

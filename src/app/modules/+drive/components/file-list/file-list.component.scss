@@ -1,6 +1,8 @@
 :host{
   display: block;
-
+  #cntr {
+    max-height: 140px;
+  }
   .table {
     tbody {
       tr:hover {

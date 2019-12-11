@@ -9,6 +9,7 @@
     background-color: #23282D;
   }
   #rightSection {
+    width: calc(100vw - 160px);
     background-color: #F1F1F1;
     .lead {
       font-size: 1.125em;

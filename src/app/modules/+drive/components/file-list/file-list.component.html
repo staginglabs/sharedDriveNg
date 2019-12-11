@@ -98,22 +98,20 @@
     <p class="mb-1">Folder Name <sup class="text-danger"> *</sup></p>
     <p class="mb-4 .text-white-50">{{selectedItemToMove.displayName}}</p>
     <p class="mb-1">Select Folder</p>
-    <section ngbDropdown>
-      <div ngbDropdownToggle class="folderOption my-2 d-flex align-items-center ">
+    <section class="overflow-auto" id="cntr">
+      <a href="javascript:void(0)" class="folderOption my-2 d-flex align-items-center" *ngFor="let name of folderList" (click)="setActiveFolder(name)">
         <button class="mr-3">
           <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M0.119629 2.15197H0.949674V8.17824H6.86121V9.02439H0.949674C0.720229 9.02439 0.52453 8.94184 0.362569 8.77674C0.200608 8.61163 0.119629 8.41214 0.119629 8.17824V2.15197ZM3.91557 4.73171L2.65025 6.44465H7.7115L6.01092 4.30863L4.76586 5.89775L3.91557 4.73171ZM8.54155 6.44465C8.54155 6.67855 8.46057 6.88149 8.29861 7.05347C8.13665 7.22546 7.94095 7.31145 7.7115 7.31145H2.65025C2.42081 7.31145 2.22174 7.22546 2.05303 7.05347C1.88432 6.88149 1.79996 6.67855 1.79996 6.44465V1.28518C1.79996 1.05128 1.88432 0.851785 2.05303 0.686681C2.22174 0.521577 2.42081 0.439026 2.65025 0.439026H7.7115C7.94095 0.439026 8.13665 0.521577 8.29861 0.686681C8.46057 0.851785 8.54155 1.05128 8.54155 1.28518V6.44465Z" fill="#005073"/>
           </svg>
         </button>
-        <p class="mb-0">{{destinationFolder}}</p>
-      </div>
-      <div ngbDropdownMenu>
-        <button (click)="setActiveFolder(name)" ngbDropdownItem *ngFor="let name of folderList">{{name}}</button>
-      </div>
+        <p class="mb-0">{{name}}</p>
+      </a>
     </section>
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
-    <button [disabled]="!destinationFolder || destinationFolder === 'Please Select'" type="button" class="btn btn-primary btn-block"
-      (click)="submitMoveFile()">Move Folder</button>
+    <button [disabled]="errandInProgress || !destinationFolder || destinationFolder === 'Please Select'" type="button" class="btn btn-primary btn-block" (click)="submitMoveFile()">
+      <span *ngIf="errandInProgress" class="spinner-border spinner-border-sm mr-1"></span>
+      Move Folder</button>
   </div>
 </ng-template>

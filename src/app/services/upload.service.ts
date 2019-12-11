@@ -4,7 +4,6 @@ import * as AWS from 'aws-sdk/global';
 import * as S3 from 'aws-sdk/clients/s3';
 import { FileSaverService } from './file-saver.service';
 import { BUCKET } from '../app.constant';
-import { IS3DownloadRes } from '../models';
 
 // Initialize the Amazon Cognito credentials provider
 AWS.config.region = 'us-east-2';
@@ -26,6 +25,24 @@ export class UploadService {
   constructor(
     private fileSaverService: FileSaverService
   ) { }
+
+  // copy s3 object and then delete object
+  public copyS3Object(oldKey, newKey: string): Promise<any> {
+    const params = {
+      Bucket: BUCKET.NAME,
+      CopySource: `${BUCKET.NAME}/${oldKey}`,
+      Key: newKey
+    };
+    return new Promise((resolve, reject) => {
+      s3.copyObject(params, (err, data: any) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
 
   public deleteS3Object(Key: string): Promise<any> {
     const params = {

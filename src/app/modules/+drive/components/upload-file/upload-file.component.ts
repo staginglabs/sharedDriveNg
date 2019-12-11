@@ -160,7 +160,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   private hitApi(obj) {
     let userId: any = (this.activeUser) ? this.activeUser.id : this.userData.id;
     obj.userId = userId;
-    console.log(userId);
     this.userService.insertFileEntry(obj)
     .then(result => {
       this.getS3Files();

@@ -45,7 +45,7 @@ export class UserService {
     return this.http.post(url, payload);
   }
 
-  public insertFileEntry(payload: IFileForm): Promise<BaseResponse<any, any>> {
+  public insertFileEntry(payload: any): Promise<BaseResponse<any, any>> {
     const url = USER_URIS.insertFiles;
     return this.http.post(url, payload);
   }
