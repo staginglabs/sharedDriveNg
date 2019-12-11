@@ -37,9 +37,9 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log(this.folderName);
-    console.log(this.userId);
-    console.log(this.displayName);
+    // console.log(this.folderName);
+    // console.log(this.userId);
+    // console.log(this.displayName);
   }
 
   public closeModal(reason: string) {
@@ -57,12 +57,32 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
         if (this.type === 'folder') {
           this.deleteObjects();
         } else {
-          this.toast.success('User\'s shared drive deleted successfully!', 'success');
-          this.modal.close({action: this.type, msg: 'USER_DELETED'});
+          this.deleteUser();
         }
       })
       .catch(console.log);
     }
+  }
+
+  private deleteUser() {
+    const obj = {
+      userId: this.item.id
+    };
+    this.userService.deleteUser(obj)
+    .then((res: BaseResponse<ISuccessRes, any>) => {
+      this.actionInProgress = false;
+      this.getUsers();
+      this.toast.success('User\'s shared drive deleted successfully!', 'success');
+      this.modal.close({action: this.type, msg: 'USER_DELETED'});
+    })
+    .catch((e: BaseResponse<any, any>) => {
+      this.actionInProgress = false;
+      try {
+        this.toast.error(e.error.message, 'Error');
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   private deleteObjects() {
@@ -128,6 +148,10 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.store.dispatch(this.userActions.triggerFolderReq(false));
     }, 1000);
+  }
+
+  private getUsers() {
+    this.store.dispatch(this.userActions.getUsersReq());
   }
 
 }

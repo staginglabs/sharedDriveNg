@@ -1,7 +1,19 @@
 :host{
-  display: block;
+  display: flex;
   width: 100%;
-  // padding: 1rem 4.625em 2rem 1.625em;
+  flex-direction: column;
+  justify-content: space-between;
+  .dropup{
+    width: 100%;
+  }
+  #dropdownUsr{
+    padding: 1rem;
+    cursor: pointer;
+    color: white;
+    &:hover{
+      background-color: #4280BD
+    }
+  }
   .nav-link {
     font-size: 0.875em;
     font-weight: bold;

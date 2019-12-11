@@ -10,8 +10,9 @@ import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
-  styleUrls: ['./dummy.component.scss'],
-  templateUrl: './dummy.component.html'
+  template: `<p class="lead">Loading...</p>`
+  // styleUrls: ['./dummy.component.scss'],
+  // templateUrl: './dummy.component.html'
 })
 export class DummyComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -29,7 +30,17 @@ export class DummyComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('hello from dummy');
+    // listen for token and user details
+    this.store.pipe(select(p => p.auth), takeUntil(this.destroyed$))
+    .subscribe(state => {
+      if (state.token && state.details) {
+        if (state.details.is_admin) {
+          this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+        } else {
+          this.router.navigate(['/user/dashboard']);
+        }
+      }
+    });
   }
 
 }

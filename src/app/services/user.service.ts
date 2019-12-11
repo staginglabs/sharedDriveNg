@@ -27,6 +27,11 @@ export class UserService {
     return this.http.post(url, {});
   }
 
+  public deleteUser(payload: any): Promise<BaseResponse<any, any>> {
+    const url = USER_URIS.deleteUser;
+    return this.http.post(url, payload);
+  }
+
   public getUserOrders(): Promise<BaseResponse<any, any>> {
     const url = USER_URIS.getUserOrders;
     return this.http.post(url, {});

@@ -34,12 +34,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(state => {
       if (state.token && state.details) {
         this.store.dispatch(this.userActions.getProfileReq());
-        this.router.navigate(['/user/dashboard']);
-        // if (state.details.is_admin) {
-        //   this.router.navigate(['/admin']);
-        // } else {
-        //   this.router.navigate(['/user']);
-        // }
+        if (state.details.is_admin) {
+          this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+        } else {
+          this.router.navigate(['/user/dashboard']);
+        }
       }
     });
 
@@ -50,7 +49,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.errMsg = err;
         this.submitted = false;
         this.loading = false;
-        // console.log(this.errMsg);
       }
     });
   }

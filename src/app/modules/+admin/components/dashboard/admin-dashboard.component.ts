@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable } from 'rxjs';
@@ -38,12 +37,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     //
-  }
-
-  public open(temp: any) {
-    console.log('open modal');
-    const modalRef = this.modalService.open(temp);
-    modalRef.componentInstance.name = 'World';
   }
 
 }
