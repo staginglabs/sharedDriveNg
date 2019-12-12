@@ -41,13 +41,13 @@ export class AuthActions {
     ofType(AUTH_ACTIONS.SIGNIN_RESPONSE),
     map((action: CustomActions) => {
       let res: BaseResponse<ISignInResponse, any> = action.payload;
-      if (res.status === 500) {
-        if (res.error.code === 'incorrect_password') {
-          this.toast.error('Incorrect Password', 'Error');
+      if (res.status === 422) {
+        if (res.error.code === 'AUTHENTICATION_FAILURE') {
+          this.toast.error('Incorrect username or Password', 'Error');
         } else if (res.error.code === 'invalid_username') {
           this.toast.error('Incorrect Username', 'Error');
         } else {
-          this.toast.error('Something went wrong!', 'Error');
+          this.toast.error('Incorrect username or Password', 'Error');
         }
       }
       return EMPTY_ACTION;
