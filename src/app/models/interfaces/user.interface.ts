@@ -11,6 +11,12 @@ export interface ISuccessRes {
 }
 
 export interface IOrderRes {
+  subtotal: any;
+  created_at: any;
+  payment_details: any;
+  id: any;
+  billing_address: any;
+  currency: any;
   line_items: ILineItem[];
   order_key: string;
   order_number: string;

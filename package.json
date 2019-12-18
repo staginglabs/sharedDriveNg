@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration=dev",
     "build": "ng build",
+    "build:prod": "ng build --prod --base-href https://consult.tax/clientes/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

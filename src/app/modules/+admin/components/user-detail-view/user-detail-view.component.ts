@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './user-detail-view.component.html'
 })
 export class UserDetailViewComponent implements OnInit, OnDestroy {
+  public searchString: string;
   public folderCreationInProgress: boolean;
   public modalRef: any;
   public form: FormGroup;

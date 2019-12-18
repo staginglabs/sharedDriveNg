@@ -95,7 +95,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     });
   }
 
-  public allowOnlyNumbers(event, val: any): boolean {
+  public allowOnlyNumbers(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;

@@ -10,6 +10,7 @@ import {
 } from './components';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'admin',
     canActivate: [AuthGuard, AdminGuard],
@@ -24,7 +25,7 @@ const routes: Routes = [
   { path: 'token-verify', component: TokenVerifyComponent },
   { path: 'create-drive-s3', component: CreateDriveS3Component },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({

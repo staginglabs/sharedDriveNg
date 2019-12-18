@@ -39,6 +39,8 @@ export class DummyComponent implements OnInit, OnDestroy {
         } else {
           this.router.navigate(['/user/dashboard']);
         }
+      } else {
+        this.router.navigate(['/login']);
       }
     });
   }

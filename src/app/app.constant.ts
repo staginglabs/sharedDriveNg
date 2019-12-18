@@ -1,7 +1,7 @@
 import { environment } from 'src/environments/environment';
 
 // tslint:disable-next-line: max-line-length
-export const USER_ICON_PATH = `assets/images/user.svg`;
+export const USER_ICON_PATH = `./assets/images/user.svg`;
 export const EMAIL_REGEX = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 export const MY_FILES = 'myfiles';
 export const BUCKET = {
