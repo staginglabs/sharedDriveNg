@@ -14,6 +14,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { UserService } from 'src/app/services';
 import { ToastrService } from 'ngx-toastr';
+import { CreateFolderModalComponent } from 'src/app/modules/+drive/components/create-folder';
 
 @Component({
   styleUrls: ['./user-detail-view.component.scss'],
@@ -78,12 +79,12 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  public openModal(template: any) {
-    this.modalRef = this.modalService.open(template, { windowClass: 'customPrimary' });
-  }
-
-  public dismissModal() {
-    this.modalRef.close();
+  public openModal() {
+    if (this.activeUser) {
+      let modalRef = this.modalService.open(CreateFolderModalComponent, { windowClass: 'customPrimary' });
+      modalRef.componentInstance.activeUserEmail = this.activeUser.email;
+      modalRef.componentInstance.activeUserId = this.activeUser.id;
+    }
   }
 
   public deleteFolder(item) {
@@ -98,45 +99,6 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.type = 'folder';
     modalRef.componentInstance.displayName = item;
     modalRef.componentInstance.userId = this.activeUser.id.toString();
-  }
-
-  public createFolder() {
-    if (this.form.valid) {
-      this.folderCreationInProgress = true;
-      const data: any = this.form.value;
-      const name = data.folderName.trim();
-      let key = `${this.activeUser.email}/${name}/`;
-      this.uploadService.createFolder(key)
-      .then(res => {
-        this.createFolderEntry(name);
-      })
-      .catch(err => {
-        console.log(err);
-        this.folderCreationInProgress = false;
-      });
-    }
-  }
-
-  private createFolderEntry(name: string) {
-    const obj = {
-      folderName: name,
-      userId: this.activeUser.id
-    };
-    this.userService.createFolderForUser(obj)
-    .then((res: BaseResponse<ISuccessRes, any>) => {
-      this.getS3Folders();
-      this.folderCreationInProgress = false;
-      this.toast.success(res.body.message, 'success');
-      this.dismissModal();
-    })
-    .catch((e: BaseResponse<any, any>) => {
-      this.folderCreationInProgress = false;
-      try {
-        this.toast.error(e.error.message, 'Error');
-      } catch (error) {
-        console.log(error);
-      }
-    });
   }
 
   private findActiveUser(id: number) {

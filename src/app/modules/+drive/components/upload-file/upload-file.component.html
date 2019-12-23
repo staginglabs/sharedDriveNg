@@ -37,7 +37,7 @@
         </label>
         <div id="fileWrapper">
           <input id="fileInpt" formControlName="file" class="form-control" type="file" name="file" (change)="onfileInputChange($event)"
-          accept="application/pdf, image/*" />
+          accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf" />
           <button type="button" (click)="triggerUploadFile($event)" class="browseFile text-secondary cp"><span class="browseIcon pr-2"><svg width="12" height="15"
             viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -46,6 +46,7 @@
           </svg></span>Browse for File
           </button>
         </div>
+        <small id="fileInptHelp" class="form-text text-muted">Allowed files: .pdf, .xlsx, .docx, .pptx</small>
       </div>
       <div class="form-group">
         <label>Note</label>

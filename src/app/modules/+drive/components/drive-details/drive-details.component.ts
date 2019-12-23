@@ -10,6 +10,7 @@ import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { find } from 'src/app/lodash.optimized';
+import { CreateFolderModalComponent } from '../create-folder';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -97,6 +98,12 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  public openModal() {
+    let modalRef = this.modalService.open(CreateFolderModalComponent, { windowClass: 'customPrimary' });
+    modalRef.componentInstance.activeUserEmail = (this.activeUser) ? this.activeUser.email : this.userData.user_email;
+    modalRef.componentInstance.activeUserId = (this.activeUser) ? this.activeUser.id : +this.userData.id;
   }
 
   public goBack(e: any) {

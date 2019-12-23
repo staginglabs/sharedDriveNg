@@ -1,0 +1,23 @@
+﻿<div class="modal-header bg-primary text-white">
+  <p class="modal-title" id="modal-primary-title">Create New Folder</p>
+  <button type="button" class="close text-white" aria-label="Close" (click)="dismissModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="createFolder()" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Folder Name</label>
+      <input type="text" class="form-control" formControlName="folderName" name="folderName"  />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" formControlName="description" name="description"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer border-0 text-center justify-content-center">
+    <button [disabled]="form.invalid || folderCreationInProgress" type="submit" class="btn btn-primary btn-block">
+      <span *ngIf="folderCreationInProgress" class="spinner-border spinner-border-sm mr-1"></span>
+      Create Folder</button>
+  </div>
+</form>

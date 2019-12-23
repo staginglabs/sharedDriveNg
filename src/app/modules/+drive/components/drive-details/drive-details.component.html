@@ -19,7 +19,12 @@
   </section>
 
   <section id="sharedMainhead">
-    <p *ngIf="!showDeepBreadCrumb" class="text-capitalize lead">{{activeFolderName}}</p>
+    <div *ngIf="!showDeepBreadCrumb" class="justify-content-between d-flex mb-3">
+      <p class="text-capitalize lead">{{activeFolderName}}</p>
+      <div class="ml-3">
+        <button class="btn btn-primary" (click)="openModal()">+ Create Folder</button>
+      </div>
+    </div>
 
     <div class="justify-content-between d-flex mb-3">
       <div class="form-group custom flex-grow-1">
@@ -48,10 +53,6 @@
       </svg>
       </span>{{activeUser.displayName}}</a></li>
     <li class="breadcrumb-item childBread"><a href="javascript:void(0)">{{activeFolderName}}</a></li>
-    <li class="settingIcon"><button><svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8.10982V5.88797H13.2134C13.0629 5.1792 12.7655 4.52264 12.3595 3.93941L13.274 3.06955L11.6258 1.49759L10.7101 2.36856C10.0989 1.98307 9.40951 1.69978 8.66647 1.55758V0.333344H6.33353V1.55758C5.59048 1.70089 4.89993 1.98418 4.2887 2.36967L3.37419 1.49982L1.72596 3.07178L2.63931 3.94052C2.23338 4.52264 1.93593 5.18031 1.78662 5.88797H0.5V8.10982H1.78662C1.93709 8.81859 2.23454 9.47515 2.64048 10.0584L1.72596 10.9305L3.37652 12.5002L4.28987 11.6292C4.9011 12.0158 5.59049 12.298 6.33469 12.4402V13.6656H8.66764V12.4402C9.41185 12.2958 10.1012 12.0136 10.7125 11.627L11.627 12.4969L13.2752 10.9249L12.3619 10.0562C12.7666 9.47404 13.0641 8.81748 13.2134 8.10982H14.5ZM7.49883 9.22075C6.20988 9.22075 5.16589 8.22536 5.16589 6.9989C5.16589 5.77244 6.20988 4.77705 7.49883 4.77705C8.78662 4.77705 9.83178 5.77244 9.83178 6.9989C9.83178 8.22536 8.78662 9.22075 7.49883 9.22075Z" fill="#CCCCCC"/>
-      </svg></button>
-      </li>
   </ol>
 </nav>
 </div>

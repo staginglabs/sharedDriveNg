@@ -9,7 +9,7 @@
     <ngb-tab title="All">
       <ng-template ngbTabContent>
         <app-loader-small [status]="gettingUsersInProgress$ | async"></app-loader-small>
-        <div class="d-flex flex-row flex-wrap">
+        <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngFor="let user of allUsers$ | async | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>
           </ng-container>
@@ -18,7 +18,7 @@
     </ngb-tab>
     <ngb-tab title="Online">
       <ng-template ngbTabContent>
-        <div class="d-flex flex-row flex-wrap">
+        <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!onlineUsers$ || (onlineUsers$ | async).length === 0">
             <p class="lead pt-5 text-center w-100">No Users</p>
           </ng-container>
@@ -31,7 +31,7 @@
 
     <ngb-tab title="Offline">
       <ng-template ngbTabContent>
-        <div class="d-flex flex-row flex-wrap">
+        <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!offlineUsers$ || (offlineUsers$ | async).length === 0">
             <p class="lead pt-5 text-center w-100">No Users</p>
           </ng-container>

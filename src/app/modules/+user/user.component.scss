@@ -18,5 +18,8 @@
   #leftSection{
     width: 320px;
   }
+  #rightSection {
+    width: calc(100vw - 320px);
+  }
 }
 

@@ -1,7 +1,5 @@
 :host {
   display: block;
-  margin-right: 3em;
-  margin-top: 1.5rem;
 }
 .card {
   border: none;
@@ -23,8 +21,8 @@ a.card-dot {
 }
 
 .card-body {
-  width: 16.438em;
-  height: 6.813em;
+  width: 16rem;
+  height: 7rem;
   background: #005073;
   border-bottom: 1px solid #E0E0E0;
   box-sizing: border-box;
@@ -42,9 +40,9 @@ a.card-dot {
 }
 
 .card-body-sec {
-  width: 18.688em;
-  height: 7.625em;
-  padding: 1rem 1.25rem;
+  width: 16rem;
+  height: 7rem;
+  padding: 1rem;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
 

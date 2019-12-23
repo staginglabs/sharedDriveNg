@@ -5,7 +5,11 @@ import { HeaderComponent } from './header';
 import { FooterComponent } from './footer';
 import { CreateDriveS3Component } from './create-drive-s3';
 import { DeleteModalComponent } from './delete-modal';
-import { NotesModalComponent, DRIVE_COMPONENTS } from '../modules/+drive';
+import {
+  DRIVE_COMPONENTS,
+  NotesModalComponent,
+  CreateFolderModalComponent
+} from '../modules/+drive';
 
 export { LoginComponent } from './login';
 export { TokenVerifyComponent } from './token-verify';
@@ -15,7 +19,8 @@ export { DeleteModalComponent } from './delete-modal';
 
 export const ENTRY_COMPONENTS = [
   DeleteModalComponent,
-  NotesModalComponent
+  NotesModalComponent,
+  CreateFolderModalComponent
 ];
 
 export const CORE_COMPONENTS = [

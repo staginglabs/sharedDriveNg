@@ -8,9 +8,14 @@
       padding-bottom: .5rem;
     }
     #adminTabs {
-      min-width: 500px;
-      max-width: 800px;
       padding-top: 0.5rem;
     }
+  }
+  .adminDbshCardWrp app-user-card{
+    margin-top: 1.5rem;
+    margin-right: 2.5rem;
+  }
+  .adminDbshCardWrp app-user-card:nth-child(3n){
+    margin-right: 0;
   }
 }
