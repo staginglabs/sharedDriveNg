@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UserActions } from 'src/app/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./create-folder-modal.component.scss'],
@@ -21,6 +22,7 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
   public folderCreationInProgress: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     public modal: NgbActiveModal,
     private fb: FormBuilder,
     private toast: ToastrService,

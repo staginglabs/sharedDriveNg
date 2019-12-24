@@ -15,6 +15,7 @@ import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { UserService } from 'src/app/services';
 import { ToastrService } from 'ngx-toastr';
 import { CreateFolderModalComponent } from 'src/app/modules/+drive/components/create-folder';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./user-detail-view.component.scss'],
@@ -31,6 +32,7 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
   public filesList$: Observable<IFileFormRes[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,

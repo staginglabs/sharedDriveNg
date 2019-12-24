@@ -1,8 +1,8 @@
 ﻿<section class="d-flex flex-column">
-  <a class="nav-link" routerLinkActive="active" routerLink="dashboard">Dashboard</a>
-  <a class="nav-link" routerLinkActive="active" routerLink="orders">Orders</a>
-  <a class="nav-link" routerLinkActive="active" routerLink="shared-drive">Shared Drive</a>
-  <a class="nav-link" routerLinkActive="active" routerLink="account-details">Account Details</a>
-  <a class="nav-link" routerLinkActive="active" routerLink="address">Address</a>
-  <a href="javascript:void(0)" (click)="doLogout($event)" class="btn btn-outline-danger">Logout</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="dashboard">{{ 'cmn.dashboard' | translate }}</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="orders">{{ 'cmn.orders' | translate }}</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="shared-drive">{{ 'cmn.sharedDrive' | translate }}</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="account-details">{{ 'cmn.accountDetails' | translate }}</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="address">{{ 'cmn.address' | translate }}</a>
+  <a href="javascript:void(0)" (click)="doLogout($event)" class="btn btn-outline-danger">{{ 'cmn.logout' | translate }}</a>
 </section>

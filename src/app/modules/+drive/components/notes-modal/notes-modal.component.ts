@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./notes-modal.component.scss'],
@@ -10,6 +11,7 @@ export class NotesModalComponent implements OnInit, OnDestroy {
   @Input() public item: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     public modal: NgbActiveModal
   ) {}
 

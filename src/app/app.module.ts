@@ -3,13 +3,15 @@ import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/c
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // third party libs
 import { ToastrModule } from 'ngx-toastr';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -35,6 +37,10 @@ export function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
 }
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer, clearState];
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +63,14 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer, cle
     // Store modules
     ActionModule.forRoot(),
     // StoreRouterConnectingModule,
-    StoreModule.forRoot(reducers, { metaReducers })
+    StoreModule.forRoot(reducers, { metaReducers }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+          useFactory: createTranslateLoader, // exported factory function needed for AoT compilation
+          deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

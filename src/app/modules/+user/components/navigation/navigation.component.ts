@@ -5,6 +5,7 @@ import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-navigation',
@@ -14,6 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 export class NavigationComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

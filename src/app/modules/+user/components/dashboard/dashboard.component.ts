@@ -8,6 +8,7 @@ import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
 import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./dashboard.component.scss'],
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public closeResult: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

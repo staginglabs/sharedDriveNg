@@ -10,6 +10,7 @@ import { clone, isEmpty } from 'src/app/lodash.optimized';
 import { EMAIL_REGEX } from 'src/app/app.constant';
 import { takeUntil } from 'rxjs/operators';
 import { UserActions } from 'src/app/actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./address.component.scss'],
@@ -27,6 +28,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private localService: LocalService,

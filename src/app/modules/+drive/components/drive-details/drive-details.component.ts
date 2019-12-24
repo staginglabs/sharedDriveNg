@@ -11,6 +11,7 @@ import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { find } from 'src/app/lodash.optimized';
 import { CreateFolderModalComponent } from '../create-folder';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -28,6 +29,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   public allUsers$: Observable<IUserList[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

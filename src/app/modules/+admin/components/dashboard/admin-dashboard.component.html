@@ -1,7 +1,7 @@
 ﻿<section class="d-flex h-100 subRightsec flex-column p-5">
-  <div class="lead">Overview</div>
+  <div class="lead">{{ 'cmn.overview' | translate }}</div>
   <div class="form-group custom">
-    <input class="form-control" placeholder="Search for users..." type="search" name="searchString" [(ngModel)]="searchString" />
+    <input class="form-control" placeholder="{{ 'placeholder.user' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
   </div>
 
   <!-- tabs -->
@@ -20,7 +20,7 @@
       <ng-template ngbTabContent>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!onlineUsers$ || (onlineUsers$ | async).length === 0">
-            <p class="lead pt-5 text-center w-100">No Users</p>
+            <p class="lead pt-5 text-center w-100">{{ 'cmn.noUsers' | translate }}</p>
           </ng-container>
           <ng-container *ngFor="let user of onlineUsers$ | async | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>
@@ -33,7 +33,7 @@
       <ng-template ngbTabContent>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!offlineUsers$ || (offlineUsers$ | async).length === 0">
-            <p class="lead pt-5 text-center w-100">No Users</p>
+            <p class="lead pt-5 text-center w-100">{{ 'cmn.noUsers' | translate }}</p>
           </ng-container>
           <ng-container *ngFor="let user of offlineUsers$ | async | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>

@@ -8,6 +8,7 @@ import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
 import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   template: `<p class="lead">Loading...</p>`
@@ -17,6 +18,7 @@ import { ReplaySubject } from 'rxjs';
 export class DummyComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

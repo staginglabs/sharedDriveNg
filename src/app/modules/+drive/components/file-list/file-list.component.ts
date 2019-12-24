@@ -12,6 +12,7 @@ import { NotesModalComponent } from '../notes-modal';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { clone } from 'src/app/lodash.optimized';
 import { UserService } from 'src/app/services';
+import { TranslateService } from '@ngx-translate/core';
 const SELECT_OPT = 'Please Select';
 
 @Component({
@@ -34,6 +35,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   public showMoveOption = false;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

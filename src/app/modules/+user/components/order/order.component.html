@@ -1,5 +1,5 @@
 ﻿<ng-container *ngIf="loading">
-  <p class="lead">Getting Data Please wait...</p>
+  <p class="lead">{{ 'userOrder.lm' | translate }}</p>
 </ng-container>
 
 <ng-container *ngIf="!activateOrderDetailsView && !loading">
@@ -7,8 +7,8 @@
     <ng-container *ngIf="orders && orders.length === 0">
       <div class="orderRequest">
         <ngb-alert [dismissible]="false" [type]="'success'">
-          <p class="mb-0">No order has been made yet..!</p>
-          <button class="btn btn-primary rounded-0">Go to shop</button>
+          <p class="mb-0">{{ 'userOrder.no' | translate }}</p>
+          <button class="btn btn-primary rounded-0">{{ 'btn.gt' | translate }}</button>
         </ngb-alert>
       </div>
     </ng-container>
@@ -17,11 +17,11 @@
       <table class="table table-hover">
         <thead class="thead-dark bg-primary">
           <tr>
-            <th scope="col">Order</th>
-            <th scope="col">Date</th>
-            <th scope="col">Status</th>
-            <th scope="col">Total</th>
-            <th scope="col">Action</th>
+            <th scope="col">{{ 'table.order' | translate }}</th>
+            <th scope="col">{{ 'table.date' | translate }}</th>
+            <th scope="col">{{ 'table.status' | translate }}</th>
+            <th scope="col">{{ 'table.total' | translate }}</th>
+            <th scope="col">{{ 'table.action' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
             <td>{{item.created_at | date}}</td>
             <td>{{item.status}}</td>
             <td>{{item.total | currency:item.currency}}</td>
-            <td><button (click)="showOrderDetails(item)" class="btn btn-sm btn-primary">View</button></td>
+            <td><button (click)="showOrderDetails(item)" class="btn btn-sm btn-primary">{{ 'btn.view' | translate }}</button></td>
           </tr>
         </tbody>
       </table>
@@ -53,7 +53,7 @@
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M6 1.50221L4.61382 0L0 5L4.61382 10L6 8.49779L2.77237 5L6 1.50221Z" fill="#949494" />
         </svg>
-      </span>Overview
+      </span>{{ 'cmn.overview' | translate }}
     </a>
   </div>
   <section class="p-5 w-75">
@@ -63,14 +63,14 @@
     <div class="card consultax">
       <div class="card-body p-0">
         <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
-          <h5 class="">Order Details</h5>
+          <h5 class="">{{ 'userOrder.od' | translate }}</h5>
         </div>
         <div class="card-text">
           <table class="table">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Total</th>
+                <th scope="col">{{ 'table.product' | translate }}</th>
+                <th scope="col">{{ 'table.total' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +101,7 @@
     <div class="card consultax">
       <div class="card-body p-0">
         <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
-          <h5 class="">Billing Address</h5>
+          <h5 class="">{{ 'userAccount.ba' | translate }}</h5>
         </div>
         <address class="card-text" *ngIf="selectedOrder.billing_address">
           {{selectedOrder.billing_address.company}}<br>

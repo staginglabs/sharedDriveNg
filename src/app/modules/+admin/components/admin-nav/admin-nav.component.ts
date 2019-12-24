@@ -5,6 +5,7 @@ import { AuthActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IUserData } from 'src/app/models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-nav',
@@ -15,6 +16,7 @@ export class AdminNavComponent implements OnInit, OnDestroy {
   public user: IUserData;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private store: Store<AppState>,
     private authActions: AuthActions
   ) {

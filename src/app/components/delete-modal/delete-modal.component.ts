@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./delete-modal.component.scss'],
@@ -22,6 +23,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   public actionInProgress: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     public modal: NgbActiveModal,
     private userService: UserService,
     private toast: ToastrService,

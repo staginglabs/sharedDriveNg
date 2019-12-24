@@ -2,12 +2,11 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions, UserActions } from 'src/app/actions';
-import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./login.component.scss'],
@@ -21,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public errMsg: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,

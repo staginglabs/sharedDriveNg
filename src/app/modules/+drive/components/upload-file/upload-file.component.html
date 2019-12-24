@@ -2,13 +2,13 @@
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M11.25 1.41671L0.0950013 1.41671L0.0950015 0.0167075L11.25 0.0167084L11.25 1.41671ZM3.27667 11.8334L3.27667 7.66671L0.0950007 7.66671L5.6725 2.81671L11.25 7.66671L8.06833 7.66671L8.06833 11.8334L3.27667 11.8334Z"
-      fill="white" /></svg> Upload File
+      fill="white" /></svg> {{ 'btn.uf' | translate }}
 </button>
 
 
 <ng-template #content let-modal>
   <div class="modal-header bg-primary text-white">
-    <p class="modal-title" id="modal-primary-title">Upload New File</p>
+    <p class="modal-title" id="modal-primary-title">{{ 'upload.heading' | translate }}</p>
     <button type="button" class="close text-white" aria-label="Close" (click)="dismissModal('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,7 +18,7 @@
 
     <ng-container *ngIf="uploadFileSuccess">
       <ngb-alert [type]="'success'" [dismissible]="false">
-        Your file "{{fileName}}" has been uploaded successfully.
+        {{ uploadMsg }}
       </ngb-alert>
     </ng-container>
 
@@ -32,7 +32,7 @@
 
       <div class="form-group">
         <label>
-          File <sup class="text-danger"> *</sup>
+          {{ 'upload.file' | translate }} <sup class="text-danger"> *</sup>
           <span class="ml-3" *ngIf="form.get('file').value">{{form.get('file').value}}</span>
         </label>
         <div id="fileWrapper">
@@ -43,25 +43,25 @@
             <path
               d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
               fill="#C4C4C4" />
-          </svg></span>Browse for File
+          </svg></span>{{ 'upload.browseFileTxt' | translate }}
           </button>
         </div>
-        <small id="fileInptHelp" class="form-text text-muted">Allowed files: .pdf, .xlsx, .docx, .pptx</small>
+        <small id="fileInptHelp" class="form-text text-muted">{{ 'upload.allowedFiles' | translate }}</small>
       </div>
       <div class="form-group">
-        <label>Note</label>
-        <textarea formControlName="note" name="note" class="form-control" rows="3" placeholder="Add an optional note to this file" class="form-control"></textarea>
+        <label>{{ 'upload.note' | translate }}</label>
+        <textarea formControlName="note" name="note" class="form-control" rows="3" placeholder="{{ 'upload.notePlaceholder' | translate }}" class="form-control"></textarea>
       </div>
     </ng-container>
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
     <ng-container *ngIf="uploadFileSuccess">
-      <button (click)="dismissModal('Cross click')" class="btn btn-light btn-block">Close</button>
+      <button (click)="dismissModal('Cross click')" class="btn btn-light btn-block">{{ 'btn.close' | translate }}</button>
     </ng-container>
     <ng-container *ngIf="!uploadFileSuccess">
       <button [disabled]="form.invalid || uploadFileProgress" class="btn bg-primary btn-block rounded-0 text-white">
         <span *ngIf="uploadFileProgress" class="spinner-border spinner-border-sm mr-1"></span>
-        Upload File
+        {{ 'btn.uf' | translate }}
       </button>
     </ng-container>
   </div>

@@ -5,6 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./admin.component.scss'],
@@ -14,6 +15,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   public heading: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private store: Store<AppState>,
     private userActions: UserActions,
     private router: Router,
@@ -44,9 +46,9 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   private setVal(r: RouterStateSnapshot) {
     if (r.url.indexOf('/admin/shared-drive') !== -1) {
-      this.heading = `Drive / Internal Drive`;
+      this.heading = this.translate.instant('cmn.int');
     } else {
-      this.heading = `Drive / External Drive`;
+      this.heading = this.translate.instant('cmn.ext');
     }
   }
 

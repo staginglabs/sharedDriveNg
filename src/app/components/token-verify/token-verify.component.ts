@@ -1,14 +1,13 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
-import { ISignInRequest, ITokenReq, BaseResponse } from 'src/app/models';
+import { ITokenReq, BaseResponse } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./token-verify.component.scss'],
@@ -20,6 +19,7 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
   public token: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

@@ -8,6 +8,7 @@ import { ReplaySubject } from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil } from 'rxjs/operators';
 import { IUserData, IOrderRes } from 'src/app/models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./order.component.scss'],
@@ -22,6 +23,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   private token: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

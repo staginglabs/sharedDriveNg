@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { IUserDetailsData, IChangePasswordReq, BaseResponse, ISuccessRes } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UserService } from 'src/app/services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./account-details.component.scss'],
@@ -20,6 +21,7 @@ export class AccountDetailsComponent implements OnInit, OnDestroy {
   public changePasswordForm: FormGroup;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

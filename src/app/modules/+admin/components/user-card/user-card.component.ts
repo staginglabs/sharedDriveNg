@@ -4,6 +4,7 @@ import { IUserList } from 'src/app/models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-card',
@@ -17,6 +18,7 @@ export class UserCardComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
+    public translate: TranslateService,
     public router: Router,
     private modalService: NgbModal,
     private route: ActivatedRoute,

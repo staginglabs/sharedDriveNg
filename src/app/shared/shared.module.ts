@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { COMMON_EXP_COMPOS } from '../modules/+drive';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     PipeModule,
     RouterModule,
-    NgSelectModule
+    NgSelectModule,
+    TranslateModule
   ],
   entryComponents: [
     ENTRY_COMPONENTS
@@ -39,7 +41,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     PipeModule,
     NgSelectModule,
-    LoaderComponent
+    LoaderComponent,
+    TranslateModule
   ]
 })
 export class SharedModule {}

@@ -1,15 +1,15 @@
 ﻿<section class="d-flex flex-column w-100">
-  <a class="nav-link" routerLinkActive="active" routerLink="shared-drive/drive/myfiles">Internal Drive</a>
-  <a class="nav-link" routerLinkActive="active" routerLink="drive/external">External Drive</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="shared-drive/drive/myfiles">{{ 'cmn.int' | translate }}</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="drive/external">{{ 'cmn.ext' | translate }}</a>
 </section>
 
 <section class="d-flex" *ngIf="user">
   <div ngbDropdown placement="top-left" class="">
-    <div id="dropdownUsr" ngbDropdownToggle>Welcome, User</div>
+    <div id="dropdownUsr" ngbDropdownToggle>{{ 'cmn.welcome' | translate }}</div>
     <div ngbDropdownMenu aria-labelledby="dropdownUsr">
       <button ngbDropdownItem>{{user.display_name}}</button>
       <div class="dropdown-divider"></div>
-      <button ngbDropdownItem (click)="logout()">Logout</button>
+      <button ngbDropdownItem (click)="logout()">{{ 'cmn.logout' | translate }}</button>
     </div>
   </div>
 </section>

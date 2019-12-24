@@ -5,6 +5,7 @@ import { UserActions } from 'src/app/actions';
 import { ReplaySubject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IUserList } from 'src/app/models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -19,6 +20,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
   public offlineUsers$: Observable<IUserList[]>;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private store: Store<AppState>,
     private userActions: UserActions,
   ) {

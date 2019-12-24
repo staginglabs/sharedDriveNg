@@ -6,6 +6,7 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IUserList } from 'src/app/models';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./admin-dashboard.component.scss'],
@@ -19,6 +20,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   public searchString: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,

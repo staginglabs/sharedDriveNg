@@ -8,6 +8,7 @@ import { BaseResponse } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/services/upload.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./create-drive-s3.component.scss'],
@@ -19,6 +20,7 @@ export class CreateDriveS3Component implements OnInit, OnDestroy {
   public email: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private uploadService: UploadService

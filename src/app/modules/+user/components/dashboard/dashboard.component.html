@@ -1,13 +1,13 @@
-﻿<p class="lead text-primary">Welcome to you Client Area<p>
+﻿<p class="lead text-primary">{{ 'userDashboard.wlcMsg' | translate }}<p>
 <section class="dashCards d-flex">
   <div class="card mr-4">
       <figure class="figure text-center pt-4 mb-0">
           <img src="./assets/images/checklist.png" class="figure-img img-fluid" alt="...">
         </figure>
     <div class="card-body text-center">
-      <h5 class="card-title text-primary">Recent Orders</h5>
-      <p class="card-text">You can view your recent orders.</p>
-      <a routerLink="/user/orders" class="btn btn-primary rounded-0 w-100">Click Here</a>
+      <h5 class="card-title text-primary">{{ 'userDashboard.ra' | translate }}</h5>
+      <p class="card-text">{{ 'userDashboard.raHead' | translate }}</p>
+      <a routerLink="/user/orders" class="btn btn-primary rounded-0 w-100">{{ 'btn.ch' | translate }}</a>
     </div>
   </div>
 
@@ -16,9 +16,9 @@
       <img src="./assets/images/location.png" class="figure-img img-fluid" alt="...">
     </figure>
     <div class="card-body text-center">
-      <h5 class="card-title text-primary">Manage Addresses</h5>
-      <p class="card-text">Manage your shipping and billing addresses.</p>
-      <a routerLink="/user/address" class="btn btn-primary rounded-0 w-100">Click Here</a>
+      <h5 class="card-title text-primary">{{ 'userDashboard.ma' | translate }}</h5>
+      <p class="card-text">{{ 'userDashboard.maHead' | translate }}</p>
+      <a routerLink="/user/address" class="btn btn-primary rounded-0 w-100">{{ 'btn.ch' | translate }}</a>
     </div>
   </div>
 
@@ -27,9 +27,9 @@
           <img src="./assets/images/password-encryption.png" class="figure-img img-fluid" alt="...">
         </figure>
     <div class="card-body text-center">
-      <h5 class="card-title text-primary">Your Password</h5>
-      <p class="card-text">Edit your password and account details.</p>
-      <a routerLink="/user/account-details" class="btn btn-primary rounded-0 w-100">Click Here</a>
+      <h5 class="card-title text-primary">{{ 'userDashboard.yp' | translate }}</h5>
+      <p class="card-text">{{ 'userDashboard.ypHead' | translate }}</p>
+      <a routerLink="/user/account-details" class="btn btn-primary rounded-0 w-100">{{ 'btn.ch' | translate }}</a>
     </div>
   </div>
 </section>

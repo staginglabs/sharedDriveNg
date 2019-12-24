@@ -12,6 +12,7 @@ import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
 import { clone, find } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,11 +21,12 @@ import { MY_FILES } from 'src/app/app.constant';
   templateUrl: './upload-file.component.html'
 })
 export class UploadFileComponent implements OnInit, OnDestroy {
+  public uploadMsg: string;
   public activeFolderName: string;
   public drivePath: string;
   public uploadFileProgress: boolean;
   public uploadFileError: boolean;
-  public uploadErrorMsg = 'Something went wrong!';
+  public uploadErrorMsg: string;
   public uploadFileSuccess: boolean;
   public form: FormGroup;
   public data: IUserData;
@@ -36,6 +38,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   private fileObj: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
@@ -46,6 +49,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     private userActions: UserActions
   ) {
     this.allUsers$ = this.store.pipe(select(p => p.user.allUsers), takeUntil(this.destroyed$));
+    this.setErrMsg('Something went wrong!');
   }
 
   public ngOnDestroy() {
@@ -120,7 +124,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       // getting file size in mb
       let size = this.fileObj.size / 1024 / 1024;
       if (size > 1) {
-        this.uploadErrorMsg = 'File size limit exceeds. try again with file size less than 10mb';
+        this.setErrMsg('File size limit exceeds. try again with file size less than 10mb');
         this.uploadFileError = true;
         return;
       }
@@ -166,6 +170,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       this.uploadFileError = false;
       this.uploadFileProgress = false;
       this.uploadFileSuccess = true;
+      this.uploadMsg = this.translate.instant('upload.msg', { fileName: this.fileName });
       // reset form
       this.initForm();
     })
@@ -222,6 +227,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
         this.initForm();
       }
     });
+  }
+
+  private setErrMsg(str) {
+    this.uploadErrorMsg = this.translate.instant('upload.err', { msg: str });
   }
 
 }

@@ -9,7 +9,7 @@
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M6 1.50221L4.61382 0L0 5L4.61382 10L6 8.49779L2.77237 5L6 1.50221Z" fill="#949494" />
       </svg>
-    </span>Overview
+    </span>{{ 'cmn.overview' | translate }}
   </a>
 </div>
 <section class="commonPadLeft p-5">
@@ -22,13 +22,13 @@
     <div *ngIf="!showDeepBreadCrumb" class="justify-content-between d-flex mb-3">
       <p class="text-capitalize lead">{{activeFolderName}}</p>
       <div class="ml-3">
-        <button class="btn btn-primary" (click)="openModal()">+ Create Folder</button>
+        <button class="btn btn-primary" (click)="openModal()">+ {{ 'btn.cf' | translate }}</button>
       </div>
     </div>
 
     <div class="justify-content-between d-flex mb-3">
       <div class="form-group custom flex-grow-1">
-        <input class="form-control" placeholder="Search for file..." type="search" name="searchString" [(ngModel)]="searchString" />
+        <input class="form-control" placeholder="{{ 'placeholder.file' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
       </div>
       <div class="sideButton  ml-4">
         <app-upload-file-button></app-upload-file-button>

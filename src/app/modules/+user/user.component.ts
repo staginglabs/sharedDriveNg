@@ -1,13 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
-import { ISignInRequest } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   styleUrls: ['./user.component.scss'],
@@ -16,6 +13,7 @@ import { ReplaySubject } from 'rxjs';
 export class UserComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
