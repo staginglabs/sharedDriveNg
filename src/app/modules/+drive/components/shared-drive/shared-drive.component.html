@@ -35,7 +35,7 @@
 
       <section id="mainContent">
         <div class="card" *ngFor="let item of (foldersList$ | async)">
-          <div class="card-body-sec" routerLink="drive/{{item}}">
+          <div class="card-body-sec cp" routerLink="drive/{{item}}">
             <div class="d-flex justify-content-between">
               <button type="button" class="btn btn-light">
                 <ng-container *ngTemplateOutlet="fileIconTemp"></ng-container>

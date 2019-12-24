@@ -38,7 +38,7 @@ export function clearState(reducer: ActionReducer<any>): ActionReducer<any> {
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer, clearState];
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
 @NgModule({

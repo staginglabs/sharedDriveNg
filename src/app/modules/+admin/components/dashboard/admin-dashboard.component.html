@@ -1,12 +1,12 @@
 ﻿<section class="d-flex h-100 subRightsec flex-column p-5">
   <div class="lead">{{ 'cmn.overview' | translate }}</div>
   <div class="form-group custom">
-    <input class="form-control" placeholder="{{ 'placeholder.user' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
+    <input class="form-control" placeholder="{{ 'placeholder.users' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
   </div>
 
   <!-- tabs -->
   <ngb-tabset id="adminTabs">
-    <ngb-tab title="All">
+    <ngb-tab title="{{ 'cmn.all' | translate }}">
       <ng-template ngbTabContent>
         <app-loader-small [status]="gettingUsersInProgress$ | async"></app-loader-small>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
@@ -16,7 +16,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="Online">
+    <ngb-tab title="{{ 'cmn.online' | translate }}">
       <ng-template ngbTabContent>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!onlineUsers$ || (onlineUsers$ | async).length === 0">
@@ -29,7 +29,7 @@
       </ng-template>
     </ngb-tab>
 
-    <ngb-tab title="Offline">
+    <ngb-tab title="{{ 'cmn.offline' | translate }}">
       <ng-template ngbTabContent>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
           <ng-container *ngIf="!offlineUsers$ || (offlineUsers$ | async).length === 0">
