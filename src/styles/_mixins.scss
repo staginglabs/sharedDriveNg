@@ -13,3 +13,29 @@
     margin: 0;
   }
 }
+
+@mixin generateCardBodyStyle() {
+  width: 16rem;
+  height: 7rem;
+  padding: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+
+  .btn.btn-light {
+    padding: 0 0.55em 0.1em;
+  }
+
+  h5 {
+    padding-top: 0.5em;
+    margin-bottom: 0;
+    color: #005073;
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  .downText {
+    font-size: 0.625em;
+  }
+}

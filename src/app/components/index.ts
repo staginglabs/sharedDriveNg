@@ -26,7 +26,7 @@ export const ENTRY_COMPONENTS = [
 export const CORE_COMPONENTS = [
   HeaderComponent,
   FooterComponent,
-  DRIVE_COMPONENTS
+  DRIVE_COMPONENTS,
 ];
 
 export const ALL_COMPONENTS: any[] = [

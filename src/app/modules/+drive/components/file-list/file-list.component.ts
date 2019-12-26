@@ -63,7 +63,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
     this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res && res.length) {
-        this.folderList = res;
+        this.folderList = res.map(item => item.name);
         if (this.activeFolderName !== 'myfiles') {
           this.folderList.splice( this.folderList.indexOf(this.activeFolderName), 1 );
           // this.folderList.unshift('myfiles');

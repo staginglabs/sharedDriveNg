@@ -2,6 +2,7 @@ import { SharedDriveComponent } from './shared-drive';
 import { DriveDetailsComponent } from './drive-details';
 import { UploadFileComponent } from './upload-file';
 import { FileListComponent } from './file-list';
+import { FolderCardComponent } from './folder-card';
 export { SharedDriveComponent } from './shared-drive';
 export { DriveDetailsComponent } from './drive-details';
 export { UploadFileComponent } from './upload-file';
@@ -15,6 +16,7 @@ export const COMMON_EXP_COMPOS: any[] = [
 ];
 
 export const DRIVE_COMPONENTS: any[] = [
+  FolderCardComponent,
   SharedDriveComponent,
   DriveDetailsComponent,
   UploadFileComponent

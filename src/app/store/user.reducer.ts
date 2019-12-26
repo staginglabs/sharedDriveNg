@@ -13,7 +13,7 @@ export interface UserState {
   onlineUsers: any[];
   offlineUsers: any[];
   gettingFoldersInProgress: boolean;
-  folders: string[];
+  folders: any[];
   orders: IOrderRes[];
   details: IUserDetailsData;
   updateProfileProgress: boolean;
@@ -100,17 +100,37 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
       return { ...state, folders: [], gettingFoldersInProgress: true };
     }
     case USER_ACTIONS.GET_FOLDERS_RES: {
-      const res: BaseResponse<string[], any> = action.payload;
+      const res: BaseResponse<any, any> = action.payload;
       let arr = [];
-      if (res && res.body && res.body.length) {
-        res.body.forEach(name => {
-          name = name.trim();
-          if (name !== MY_FILES) {
-            if (arr.indexOf(name) === -1 ) {
-              arr.push(name);
+      let a = [];
+      if (res && res.body) {
+        if (typeof(res.body) === 'string') {
+          res.body.split(',').forEach(key => {
+            if (key !== MY_FILES) {
+              a.push(key);
+              let obj = {
+                name: key,
+                description: null
+              };
+              if (a.indexOf(name) === -1 ) {
+                arr.push(obj);
+              }
             }
-          }
-        });
+          });
+        } else {
+          Object.keys(res.body).forEach(key => {
+            if (key !== MY_FILES) {
+              a.push(key);
+              let obj = {
+                name: key,
+                description: res.body[key]
+              };
+              if (a.indexOf(name) === -1 ) {
+                arr.push(obj);
+              }
+            }
+          });
+        }
       }
       return { ...state, folders: arr, gettingFoldersInProgress: false };
     }

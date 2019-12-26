@@ -52,14 +52,14 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
       const data: any = this.form.value;
       const name = data.folderName.trim();
       let key = `${this.activeUserEmail}/${name}/`;
-      this.uploadService.createFolder(key)
-      .then(res => {
-        this.createFolderEntry(name);
-      })
-      .catch(err => {
-        console.log(err);
-        this.folderCreationInProgress = false;
-      });
+      this.createFolderEntry(data);
+      // this.uploadService.createFolder(key)
+      // .then(res => {
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      //   this.folderCreationInProgress = false;
+      // });
     }
   }
 
@@ -70,11 +70,8 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createFolderEntry(name: string) {
-    const obj = {
-      folderName: name,
-      userId: this.activeUserId
-    };
+  private createFolderEntry(obj: any) {
+    obj.userId = this.activeUserId;
     this.userService.createFolderForUser(obj)
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.getS3Folders();

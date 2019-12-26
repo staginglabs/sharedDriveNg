@@ -89,20 +89,6 @@ export class UserDetailViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  public deleteFolder(item) {
-    let key = `${this.activeUser.email}/${item}/`;
-    const modalRef = this.modalService.open(
-      DeleteModalComponent,
-      {
-        windowClass: 'customWarning'
-      }
-    );
-    modalRef.componentInstance.folderName = key;
-    modalRef.componentInstance.type = 'folder';
-    modalRef.componentInstance.displayName = item;
-    modalRef.componentInstance.userId = this.activeUser.id.toString();
-  }
-
   private findActiveUser(id: number) {
     this.allUsers$.pipe(take(3)).subscribe(res => {
       if (res && res.length) {

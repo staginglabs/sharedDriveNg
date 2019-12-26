@@ -1,0 +1,46 @@
+﻿
+<div class="card">
+  <div class="card-body-sec cp" routerLink="drive/{{item.name}}">
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-light">
+        <ng-container *ngTemplateOutlet="fileIconTemp"></ng-container>
+      </button>
+      <ng-container *ngTemplateOutlet="ellipTemp; context: {color: 'blue', item: item}"></ng-container>
+    </div>
+    <h5>
+      <a routerLink="drive/{{item.name}}">{{item.name}}</a>
+    </h5>
+  </div>
+</div>
+<ng-template #fileIconTemp>
+  <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.763184 2.45783H1.99429V10.6679H10.7622V11.8207H1.99429C1.65398 11.8207 1.36372 11.7082 1.12351 11.4833C0.88329 11.2584 0.763184 10.9866 0.763184 10.6679V2.45783ZM6.39324 5.97242L4.51656 8.30611H12.0233L9.50104 5.39603L7.65438 7.56102L6.39324 5.97242ZM13.2544 8.30611C13.2544 8.62477 13.1343 8.90124 12.8941 9.13555C12.6539 9.36986 12.3636 9.48701 12.0233 9.48701H4.51656C4.17625 9.48701 3.88099 9.36986 3.63076 9.13555C3.38054 8.90124 3.25542 8.62477 3.25542 8.30611V1.27693C3.25542 0.958273 3.38054 0.686481 3.63076 0.461546C3.88099 0.236611 4.17625 0.124146 4.51656 0.124146H12.0233C12.3636 0.124146 12.6539 0.236611 12.8941 0.461546C13.1343 0.686481 13.2544 0.958273 13.2544 1.27693V8.30611Z" fill="#005073"/>
+    </svg>
+  </ng-template>
+
+  <ng-template #ellipTemp let-color="color" let-item="item">
+    <div (click)="$event.stopPropagation()" ngbDropdown class="tdEllipsisIcon w-auto" placement="bottom-left">
+      <a ngbDropdownToggle href="javascript:void(0);" class="card-dot ellpDots {{color}}">
+        <svg width="5" height="4" viewBox="0 0 5 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="2.52478" cy="1.92069" rx="1.9242" ry="1.87931" fill="none" />
+        </svg>
+        <svg width="5" height="4" viewBox="0 0 5 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="2.52478" cy="1.92069" rx="1.9242" ry="1.87931" fill="none" />
+        </svg>
+        <svg width="5" height="4" viewBox="0 0 5 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="2.52478" cy="1.92069" rx="1.9242" ry="1.87931" fill="none" />
+        </svg>
+      </a>
+      <div ngbDropdownMenu>
+        <button ngbDropdownItem (click)="showDriveInfo(item)">
+          <span class="pr-2"><svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.50004 15.5C4.13479 15.5 0.583374 12.1362 0.583374 8C0.583374 3.86525 4.13479 0.5 8.50004 0.5C12.8653 0.5 16.4167 3.8645 16.4167 8C16.4167 12.1362 12.8653 15.5 8.50004 15.5ZM8.50004 2C5.008 2 2.16671 4.69175 2.16671 8C2.16671 11.3082 5.008 14 8.50004 14C11.9921 14 14.8334 11.3082 14.8334 8C14.8334 4.69175 11.9921 2 8.50004 2ZM9.29171 10.25V7.25C9.29171 6.836 8.93783 6.5 8.50004 6.5H6.91671V8H7.70837V10.25H6.12504V11.75H10.875V10.25H9.29171ZM8.50004 5.9375C9.04657 5.9375 9.48962 5.51777 9.48962 5C9.48962 4.48223 9.04657 4.0625 8.50004 4.0625C7.95351 4.0625 7.51046 4.48223 7.51046 5C7.51046 5.51777 7.95351 5.9375 8.50004 5.9375Z" fill="#C4C4C4"/></svg></span>
+          <span>Drive Info</span>
+        </button>
+        <!-- <button ngbDropdownItem (click)="downloadFolder(item)"><span class="drop-icon pr-2"><svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4" /></svg></span>{{ 'btn.download' | translate }}</button> -->
+        <button ngbDropdownItem  (click)="deleteFolder(item)">
+          <span class="drop-icon pr-2"><svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z" fill="#C4C4C4" /></svg></span>
+          <span>{{ 'btn.delete' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>

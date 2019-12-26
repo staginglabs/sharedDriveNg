@@ -68,10 +68,8 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
     });
   }
 
-  public deleteFolder(item) {
-    console.log(item);
-    console.log(this.userData);
-    let key = `${this.userData.user_email}/${item}/`;
+  public deleteFolder(item: any) {
+    let key = `${this.userData.user_email}/${item.name}/`;
     const modalRef = this.modalService.open(
       DeleteModalComponent,
       {
@@ -80,7 +78,7 @@ export class SharedDriveComponent implements OnInit, OnDestroy {
     );
     modalRef.componentInstance.folderName = key;
     modalRef.componentInstance.type = 'folder';
-    modalRef.componentInstance.displayName = item;
+    modalRef.componentInstance.displayName = item.name;
     modalRef.componentInstance.userId = this.userData.id.toString();
   }
 
