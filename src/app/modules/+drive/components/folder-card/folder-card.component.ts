@@ -34,7 +34,7 @@ export class FolderCardComponent implements OnInit, OnDestroy {
   public showDriveInfo(item: any) {
     if (item) {
       let o: any = {};
-      o.displayName = 'Drive Info';
+      o.displayName = this.translate.instant('cmn.driveInfo');
       o.note = item.description;
       const modalRef = this.modalService.open(
         NotesModalComponent,
