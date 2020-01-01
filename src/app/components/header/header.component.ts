@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public changeLanguage(code) {
-    console.log('changeLanguage:', code);
     this.translate.use(code);
   }
 
