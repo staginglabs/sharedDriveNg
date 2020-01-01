@@ -1,15 +1,18 @@
-﻿<app-user-header></app-user-header>
+﻿<section class="custom-background theme-Divi woocommerce-account woocommerce-page woocommerce-js et_button_no_icon et_button_custom_icon et_pb_button_helper_class et_fixed_nav et_show_nav et_cover_background et_secondary_nav_enabled et_secondary_nav_two_panels et_pb_gutter osx et_pb_gutters3 et_primary_nav_dropdown_animation_fade et_secondary_nav_dropdown_animation_fade et_pb_footer_columns4 et_header_style_left et_full_width_page et_divi_theme et-db et_minified_js et_minified_css customize-support chrome">
+<app-user-header></app-user-header>
 <main>
-  <section class="container-fluid" id="logoSpace">
-    <h2 class="text-primary">{{ 'cmn.sharedDrive' | translate }}</h2>
-    <p>{{ 'cmn.myFiles' | translate }}</p>
+  <section id="mainTitleWrap">
+    <div class="container">
+      <h1 class="entry-title main_title">{{ 'cmn.sharedDrive' | translate }}</h1>
+      <p>{{ 'cmn.myFiles' | translate }}</p>
+    </div>
   </section>
-  <section class="container-fluid">
-    <div class="row flex-row">
+  <section class="container">
+    <div class="d-flex flex-row">
       <div class="d-flex" id="leftSection">
         <app-user-navigation></app-user-navigation>
       </div>
-      <div class="d-flex flex-grow-1" id="rightSection">
+      <div class="d-flex flex-grow-1 woocommerce-MyAccount-content" id="rightSection">
         <router-outlet></router-outlet>
       </div>
     </div>
@@ -17,3 +20,4 @@
 </main>
 
 <app-user-footer></app-user-footer>
+</section>

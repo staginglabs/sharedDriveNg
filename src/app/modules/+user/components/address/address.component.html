@@ -1,14 +1,14 @@
-﻿<section class="p-5 w-75">
+﻿<section class="w-100">
 
   <ng-container *ngIf="!isEditMode">
 
-    <p>{{ 'userAccount.adHeading' | translate }}</p>
+    <p class="lead mb-3">{{ 'userAccount.adHeading' | translate }}</p>
 
     <div class="d-flex">
-      <div class="mr-5">
+      <div class="w-50 mr-3">
         <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'billing'}"></ng-container>
       </div>
-      <div class="">
+      <div class="w-50">
         <ng-container *ngTemplateOutlet="addressCardTemp; context: {type: 'shipping'}"></ng-container>
       </div>
     </div>
@@ -122,6 +122,28 @@
           <button (click)="setEditMode(type)" class="btn btn-light btn-sm">{{ 'btn.edit' | translate }}</button>
         </ng-container>
       </div>
+      <!-- shipping -->
+      <address *ngIf="userData">
+        <ng-container *ngIf="type === 'shipping'">
+          {{userData[type].shipping_company}} <br>
+          {{userData[type].shipping_address_1}} <br>
+          {{userData[type].shipping_address_2}} <br>
+          {{userData[type].shipping_city}} {{userData[type].shipping_postcode}}<br>
+          {{userData[type].shipping_state}} <br>
+        </ng-container>
+
+        <!-- billing -->
+        <ng-container *ngIf="type === 'billing'">
+          {{userData[type].billing_first_name}} {{userData[type].billing_last_name}}<br>
+          {{userData[type].billing_address_1}}
+          {{userData[type].billing_address_2}} <br>
+          {{userData[type].billing_email}} <br>
+          {{userData[type].billing_phone}} <br>
+          {{userData[type].billing_city}} {{userData[type].billing_state}}<br>
+          {{userData[type].billing_postcode}} {{userData[type].billing_country}}<br>
+        </ng-container>
+      </address>
+
     </div>
   </div>
 </ng-template>

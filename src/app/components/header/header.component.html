@@ -1,44 +1,112 @@
-﻿<div class="container-fluid" id="topBar">
-  <div class="row">
-    <div class="col" *ngIf="data">
-      <a href="javascript:void(0)">{{data.billing_phone}}</a>
-      <a href="javascript:void(0)">{{data.user_email}}</a>
-    </div>
+﻿<div id="top-header">
+  <div class="container">
+    <div id="et-info">
+      <span id="et-info-phone">{{data.billing_phone}}</span>
+      <a href="mailto:info@consult.tax"><span id="et-info-email">{{data.user_email}}</span></a>
+      <ul class="et-social-icons">
+        <li class="et-social-icon et-social-facebook">
+          <a href="http://facebook.com" class="icon">
+            <span>Facebook</span>
+          </a>
+        </li>
+        <li class="et-social-icon et-social-instagram">
+          <a href="http://instagram.com" class="icon">
+            <span>Instagram</span>
+          </a>
+        </li>
+      </ul>
+    </div> <!-- #et-info -->
+
+    <div id="et-secondary-menu" class="d-flex">
+      <div class="wpglobus-selector-box">
+        <a href="javascript:void(0)" class="wpglobus-current-language" (click)="changeLanguage('en')">
+          <img src="https://consult.tax/wp-content/plugins/wpglobus/flags/us.png">&nbsp;
+        </a>
+        <a href="javascript:void(0)" (click)="changeLanguage('es')">
+          <img src="https://consult.tax/wp-content/plugins/wpglobus/flags/es.png">&nbsp;
+        </a>
+      </div>
+      <a href="https://consult.tax/cart/" class="et-cart-info">
+        <span></span>
+      </a>
+    </div> <!-- #et-secondary-menu -->
+
   </div>
 </div>
 
-<nav class="navbar nav-bar navbar-expand-md navbar-light bg-white">
-  <a class="navbar-brand" href="javascript:void(0)">Fixed navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item ">
-        <a class="nav-link" href="javascript:void(0)">Servicios Online</a>
-      </li>
-      <li class="nav-item" ngbDropdown>
-        <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown1" role="button">
-            Nuestros Servicios
-        </a>
-        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Action</a>
-          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Another action</a>
-          <a class="dropdown-item" href="javascript:void(0)" (click)="$event.preventDefault()">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)">Quienes Somos</a>
-      </li>
-    </ul>
-    <div ngbDropdown class="d-inline-block ml-4">
-      <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Mi Cuenta</button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem>Action - 1</button>
-        <button ngbDropdownItem>Another Action</button>
-        <button ngbDropdownItem>Something else is here</button>
-      </div>
-    </div>
+<!-- end top header -->
 
-  </div>
-</nav>
+<!-- <header id="main-header" data-height-onload="98" class="et-fixed-header" data-height-loaded="true" data-fixed-height-onload="64"> -->
+<header id="main-header" style="top: 36px;">
+  <div class="container clearfix et_menu_container">
+          <div class="logo_container">
+      <span class="logo_helper"></span>
+      <a href="https://consult.tax/">
+        <img src="https://consult.tax/wp-content/uploads/2019/07/Untitled-7-1-3.png" alt="Consultax" id="logo" data-height-percentage="54" data-actual-width="1438" data-actual-height="1229">
+      </a>
+    </div>
+          <div id="et-top-navigation" data-height="74" data-fixed-height="40" style="padding-left: 92px;">
+                  <nav id="top-menu-nav">
+        <ul id="top-menu" class="nav"><li id="menu-item-628" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-628"><a href="https://consult.tax/servicios-2/">Servicios</a>
+<ul class="sub-menu">
+<li id="menu-item-636" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-636"><a href="https://consult.tax/asesoria-fiscal-y-contable/">Asesoría Fiscal y Contable</a>
+<ul class="sub-menu">
+<li id="menu-item-635" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-635"><a href="https://consult.tax/periodos-y-precios/">Períodos y Precios</a></li>
+</ul>
+</li>
+<li id="menu-item-5874" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5874"><a href="https://consult.tax/formacion-pymes-y-autonomos/">Formación PYMES y Autónomos</a></li>
+<li id="menu-item-304" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-304"><a href="https://consult.tax/gestiones-a-distancia/">Gestiones a distancia</a></li>
+<li id="menu-item-5798" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5798"><a href="https://consult.tax/transformacion-digital/">Transformación Digital</a></li>
+<li id="menu-item-5801" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5801"><a href="https://consult.tax/asesoria-legal/">Asesoría Legal</a></li>
+<li id="menu-item-5804" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5804"><a href="https://consult.tax/asesoria-laboral/">Asesoría Laboral</a></li>
+</ul>
+</li>
+<li id="menu-item-341" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-341"><a href="https://consult.tax/quienes-somos/">Quienes somos</a></li>
+<li id="menu-item-500" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-500"><a href="https://consult.tax/contacto/">Contacto</a>
+<ul class="sub-menu">
+<li id="menu-item-5223" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5223"><a href="https://consult.tax/cita-online/">Cita Online</a></li>
+</ul>
+</li>
+<li id="menu-item-557" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-557"><a href="https://consult.tax/blog/">Blog</a></li>
+<li id="menu-item-424" class="xoo-el-myaccount-menu menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-has-children menu-item-424"><a href="https://consult.tax/mi-cuenta/" aria-current="page">Mi Cuenta</a>
+<ul class="sub-menu">
+<li id="menu-item-423" class="xoo-el-logout-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-423"><a href="javascript:void(0)" (click)="doLogout()">{{ 'cmn.logout' | translate }}</a></li>
+</ul>
+</li>
+</ul>						</nav>
+
+
+      <div id="et_mobile_nav_menu">
+    <div class="mobile_nav closed">
+      <span class="select_page">Select Page</span>
+      <span class="mobile_menu_bar mobile_menu_bar_toggle"></span>
+    <ul id="mobile_menu" class="et_mobile_menu"><li id="menu-item-628" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-628 et_first_mobile_item"><a href="https://consult.tax/servicios-2/">Servicios</a>
+<ul class="sub-menu">
+<li id="menu-item-636" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-636"><a href="https://consult.tax/asesoria-fiscal-y-contable/">Asesoría Fiscal y Contable</a>
+<ul class="sub-menu">
+<li id="menu-item-635" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-635"><a href="https://consult.tax/periodos-y-precios/">Períodos y Precios</a></li>
+</ul>
+</li>
+<li id="menu-item-5874" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5874"><a href="https://consult.tax/formacion-pymes-y-autonomos/">Formación PYMES y Autónomos</a></li>
+<li id="menu-item-304" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-304"><a href="https://consult.tax/gestiones-a-distancia/">Gestiones a distancia</a></li>
+<li id="menu-item-5798" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5798"><a href="https://consult.tax/transformacion-digital/">Transformación Digital</a></li>
+<li id="menu-item-5801" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5801"><a href="https://consult.tax/asesoria-legal/">Asesoría Legal</a></li>
+<li id="menu-item-5804" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5804"><a href="https://consult.tax/asesoria-laboral/">Asesoría Laboral</a></li>
+</ul>
+</li>
+<li id="menu-item-341" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-341"><a href="https://consult.tax/quienes-somos/">Quienes somos</a></li>
+<li id="menu-item-500" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-500"><a href="https://consult.tax/contacto/">Contacto</a>
+<ul class="sub-menu">
+<li id="menu-item-5223" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5223"><a href="https://consult.tax/cita-online/">Cita Online</a></li>
+</ul>
+</li>
+<li id="menu-item-557" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-557"><a href="https://consult.tax/blog/">Blog</a></li>
+<li id="menu-item-424" class="xoo-el-myaccount-menu menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-has-children menu-item-424"><a href="https://consult.tax/mi-cuenta/" aria-current="page">Mi Cuenta</a>
+<ul class="sub-menu">
+<li id="menu-item-423" class="xoo-el-logout-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-423"><a href="javascript:void(0)" (click)="doLogout()">{{ 'cmn.logout' | translate }}</a></li>
+</ul>
+</li>
+</ul></div>
+  </div>				</div> <!-- #et-top-navigation -->
+  </div> <!-- .container -->
+</header>

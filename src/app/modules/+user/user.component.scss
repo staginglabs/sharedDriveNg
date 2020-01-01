@@ -1,25 +1,26 @@
 :host{
   display: block;
   background-color:#fff;
-  #logoSpace {
-    background: #F4F4F4;
-    padding: 2em 2.563em 0.250em;
-    h2 {
-      font-size: 1.875em;
-    }
-    p {
-      font-size: 1.37em;
-    }
-  }
   main {
+    padding-top: 125px;
+    background-color: white;
     position: relative;
-    // top: 100px;
+  }
+  #mainTitleWrap {
+    margin-bottom: 50px;
+    height: 116px;
+    background-color: #F6F6F6;
+    .entry-title.main_title {
+      margin-bottom: 0;
+      padding-top: 25px;
+    }
   }
   #leftSection{
     width: 320px;
   }
   #rightSection {
     width: calc(100vw - 320px);
+    padding-left: 32px;
   }
 }
 

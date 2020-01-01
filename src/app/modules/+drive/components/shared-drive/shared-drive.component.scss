@@ -16,9 +16,11 @@
 
 
     app-folder-card{
-      margin-bottom: 2rem;
-      margin-right: 2rem;
+      @include getCardGutter();
       display: inline-block;
+    }
+    app-folder-card:nth-child(3n) {
+      margin: 0;
     }
 
     #mainContent .card {
@@ -28,8 +30,7 @@
 
 
     .card-body {
-      width: 16.438em;
-      height: 6.813em;
+      @include getCardDimension();
       background: #005073;
       border-bottom: 1px solid #E0E0E0;
       box-sizing: border-box;

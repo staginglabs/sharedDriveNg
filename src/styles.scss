@@ -25,6 +25,7 @@ body {
   // user-select: none;
   font-display: swap; // Basically FOUT
   overflow: auto;
+  font-size: 16px;
 }
 
 /* Placeholder */
@@ -138,7 +139,7 @@ body {
 
 // bread crumb styles
 .custom-breadcrumb {
-  padding: 2rem 3rem 1rem;
+  padding: 1rem 0;
   border-bottom: 1px solid #dcdcdc;
   a {
     color: #949494;
@@ -363,5 +364,50 @@ body {
         }
       }
     }
+  }
+}
+// conditional structure
+.__adminPage {
+  #sharedMainhead {
+    table thead tr th {
+      color: #949494;
+    }
+  }
+  #rightSection {
+    .commonPadLeft {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+}
+.adminDbshCardWrp{
+  .card-body-sec {
+    height: 7rem !important;
+  }
+}
+
+// handle override
+input[type=email].form-control,
+input[type=password].form-control,
+input[type=tel].form-control,
+input[type=text].form-control,
+select.form-control,
+textarea.form-control{
+  color: #a2a2a2 !important;
+  padding: 0.438rem 0.75rem !important;
+  border: 1px solid #ced4da !important;
+}
+.et_fixed_nav #main-header, .et_fixed_nav #top-header{
+  z-index: 3 !important;
+}
+body .woocommerce-MyAccount-content table thead tr{
+  background-color: $primary !important;
+  th {
+    color: white;
+  }
+}
+#sharedMainhead {
+  table thead tr th {
+    color: white;
   }
 }

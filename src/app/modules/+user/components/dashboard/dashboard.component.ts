@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
-import { ISignInRequest } from 'src/app/models';
+import { ISignInRequest, IUserData } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  public userData: IUserData;
   public closeResult: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
@@ -32,7 +33,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('hello from dashboard');
+    // listen for token and user details
+    this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
+    .subscribe(d => {
+      this.userData = d;
+    });
   }
 
 }

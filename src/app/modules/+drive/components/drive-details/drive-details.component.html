@@ -12,7 +12,7 @@
     </span>{{ 'cmn.overview' | translate }}
   </a>
 </div>
-<section class="commonPadLeft p-5">
+<section class="commonPadLeft pt-4">
 
   <section *ngIf="showDeepBreadCrumb">
     <ng-container *ngTemplateOutlet="splBrdCrmbTemp"></ng-container>
@@ -21,9 +21,9 @@
   <section id="sharedMainhead">
     <div *ngIf="!showDeepBreadCrumb" class="justify-content-between d-flex mb-3">
       <p class="text-capitalize lead">{{activeFolderName}}</p>
-      <div class="ml-3">
+      <!-- <div class="ml-3">
         <button class="btn btn-primary" (click)="openModal()">+ {{ 'btn.cf' | translate }}</button>
-      </div>
+      </div> -->
     </div>
 
     <div class="justify-content-between d-flex mb-3">

@@ -50,6 +50,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     } else {
       this.heading = this.translate.instant('cmn.ext');
     }
+
+    if (r.url === '/admin' || r.url === '/admin/') {
+      this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+    }
   }
 
 }

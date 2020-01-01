@@ -2,9 +2,10 @@
 import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
-import { UserActions } from 'src/app/actions';
+import { UserActions, AuthActions } from 'src/app/actions';
 import { IUserData } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-header',
@@ -15,8 +16,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public data: IUserData;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
+    public translate: TranslateService,
     private store: Store<AppState>,
-    private userActions: UserActions
+    private userActions: UserActions,
+    private authActions: AuthActions
   ) {
   }
 
@@ -40,6 +43,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     .subscribe(d => {
       this.data = d;
     });
+  }
+
+  public doLogout(e: any) {
+    if (e) {
+      this.store.dispatch(this.authActions.signOut());
+    }
+  }
+
+  public changeLanguage(code) {
+    console.log('changeLanguage:', code);
+    this.translate.use(code);
   }
 
 }

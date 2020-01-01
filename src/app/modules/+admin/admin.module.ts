@@ -34,7 +34,7 @@ const USER_ROUTES: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: '/admin/', pathMatch: 'full' }
 ];
 
 @NgModule({
