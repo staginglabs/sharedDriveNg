@@ -52,14 +52,14 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
       const data: any = this.form.value;
       const name = data.folderName.trim();
       let key = `${this.activeUserEmail}/${name}/`;
-      this.createFolderEntry(data);
-      // this.uploadService.createFolder(key)
-      // .then(res => {
-      // })
-      // .catch(err => {
-      //   console.log(err);
-      //   this.folderCreationInProgress = false;
-      // });
+      this.uploadService.createFolder(key)
+      .then(res => {
+        this.createFolderEntry(data);
+      })
+      .catch(err => {
+        console.log(err);
+        this.folderCreationInProgress = false;
+      });
     }
   }
 

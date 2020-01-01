@@ -1,4 +1,4 @@
-﻿<button type="button" class="btn btn-primary" (click)="openDialog(content)">
+﻿<button id="btn145" type="button" class="btn btn-primary" (click)="openDialog(content)">
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M11.25 1.41671L0.0950013 1.41671L0.0950015 0.0167075L11.25 0.0167084L11.25 1.41671ZM3.27667 11.8334L3.27667 7.66671L0.0950007 7.66671L5.6725 2.81671L11.25 7.66671L8.06833 7.66671L8.06833 11.8334L3.27667 11.8334Z"
@@ -38,11 +38,11 @@
         <div id="fileWrapper">
           <input id="fileInpt" formControlName="file" class="form-control" type="file" name="file" (change)="onfileInputChange($event)"
           accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf" />
-          <button type="button" (click)="triggerUploadFile($event)" class="browseFile text-secondary cp"><span class="browseIcon pr-2"><svg width="12" height="15"
+          <button type="button" (click)="triggerUploadFile($event)" class="browseFile text-primary cp"><span class="browseIcon pr-2"><svg width="12" height="15"
             viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
-              fill="#C4C4C4" />
+              fill="#005073" />
           </svg></span>{{ 'upload.browseFileTxt' | translate }}
           </button>
         </div>
