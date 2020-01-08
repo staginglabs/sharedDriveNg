@@ -44,6 +44,12 @@ body {
 .cp{
   cursor: pointer;
 }
+h5, .h5{
+  font-size: 1em;
+}
+#et-secondary-nav li ul, #top-header{
+  background-color: $primary !important;
+}
 
 // small loader
 .loading_wrap {
