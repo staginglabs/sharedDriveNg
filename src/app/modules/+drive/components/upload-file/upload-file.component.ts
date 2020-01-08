@@ -123,8 +123,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
       // getting file size in mb
       let size = this.fileObj.size / 1024 / 1024;
-      if (size > 1) {
-        this.setErrMsg('File size limit exceeds. try again with file size less than 10mb');
+      if (size > 10) {
+        this.setErrMsg('El tamaño del archivo excede el máximo establecido. Prueba con un archivo de menos de 10 Mb.');
         this.uploadFileError = true;
         return;
       }
