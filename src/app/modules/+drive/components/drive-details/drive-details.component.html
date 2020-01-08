@@ -20,7 +20,10 @@
 
   <section id="sharedMainhead">
     <div *ngIf="!showDeepBreadCrumb" class="justify-content-between d-flex mb-3">
-      <p class="text-capitalize lead">{{activeFolderName}}</p>
+      <p class="text-capitalize lead">
+        <ng-container *ngIf="activeFolderName === 'myfiles'">Mis archivos</ng-container>
+        <ng-container *ngIf="activeFolderName !== 'myfiles'">{{activeFolderName}}</ng-container>
+      </p>
       <!-- <div class="ml-3">
         <button class="btn btn-primary" (click)="openModal()">+ {{ 'btn.cf' | translate }}</button>
       </div> -->

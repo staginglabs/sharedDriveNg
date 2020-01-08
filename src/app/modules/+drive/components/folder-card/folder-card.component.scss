@@ -4,4 +4,7 @@
   .card-body-sec {
     @include generateCardBodyStyle();
   }
+  .dropdown-item {
+    color: #949494;
+  }
 }

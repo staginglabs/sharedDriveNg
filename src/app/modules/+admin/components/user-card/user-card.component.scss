@@ -21,7 +21,13 @@ a.card-dot {
     }
   }
 }
-
+.card-body-sec {
+  h5 {
+    a {
+      display: block !important;
+    }
+  }
+}
 .card-body {
   width: 16rem;
   height: 7rem;

@@ -81,7 +81,7 @@
     "err": "{{msg}}",
     "file": "Archivo",
     "browseFileTxt": "Buscar archivo",
-    "allowedFiles": "Archivos permitidos: .pdf, .xlsx, .docx, .pptx",
+    "allowedFiles": "Allowed files: .pdf, .xlsx, .docx, .txt, .png and .jpg",
     "note": "Note",
     "notePlaceholder": "Agregue una nota opcional a este archivo"
   },
