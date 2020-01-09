@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   public verifyToken(payload: ITokenReq): Promise<BaseResponse<any, ITokenReq>> {
-    const uri = `${URL}/verifyToken`;
+    const uri = `${USER_URIS.verifyToken}`;
     return this.http.post(uri, payload);
   }
 }

@@ -35,7 +35,8 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    // http://localhost:3000/token-verify?token=lkajf93809438lajf09803&returnUrl=dashboard
+    // http://localhost:3000/#/token-verify?token=lkajf93809438lajf09803&returnUrl=dashboard
+    // https://consult.tax/clientes/#/token-verify?token=lkajf93809438lajf09803
     console.log( this.route.snapshot.queryParams);
     this.token = this.route.snapshot.queryParams['token'];
     // get return url from route parameters or default to '/'

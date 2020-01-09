@@ -4,6 +4,7 @@ const url = `${baseUrl}wp-json/drive/`;
 export const USER_URIS = {
   login: `${url}login`,
   logout: `${url}logout`,
+  verifyToken: `${url}verifyToken`,
   changePassword: `${url}changePassword`,
   getUserOrders: `${url}getUserOrders`,
   getAllUsers: `${url}getAllUsers`,
