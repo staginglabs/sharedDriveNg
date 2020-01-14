@@ -12,16 +12,14 @@ export class LocalService {
   ) { }
 
   public getCountries(): Promise<BaseResponse<any, any>> {
-    let url = './../../assets/db/countries.json';
+    let url = 'https://consult.tax/clientes/assets/db/countries.json';
     return this.http.get(url);
   }
 
   public getStates(countryId: string): Promise<any[]> {
-    let url = './../../assets/db/states.json';
+    let url = 'https://consult.tax/clientes/assets/db/states.json';
     return this.http.get(url).then(res => {
       return res.body.states.filter(i => i.country_id === countryId);
     });
   }
-// dude1572953138
-// !!123456@654321
 }
