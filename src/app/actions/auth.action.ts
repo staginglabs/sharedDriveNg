@@ -43,11 +43,11 @@ export class AuthActions {
       let res: BaseResponse<ISignInResponse, any> = action.payload;
       if (res.status === 422) {
         if (res.error.code === 'AUTHENTICATION_FAILURE') {
-          this.toast.error('Incorrect username or Password', 'Error');
+          this.toast.error('Nombre de usuario o contraseña incorrecta', 'Error');
         } else if (res.error.code === 'invalid_username') {
-          this.toast.error('Incorrect Username', 'Error');
+          this.toast.error('Nombre de usuario incorrecto', 'Error');
         } else {
-          this.toast.error('Incorrect username or Password', 'Error');
+          this.toast.error('Nombre de usuario o contraseña incorrecta', 'Error');
         }
       }
       return EMPTY_ACTION;

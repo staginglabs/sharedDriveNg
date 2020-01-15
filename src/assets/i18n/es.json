@@ -4,7 +4,11 @@
     "username": "Nombre de usuario",
     "password": "Contraseña",
     "usernameMsg": "Se requiere nombre de usuario",
-    "passwordMsg": "se requiere contraseña"
+    "passwordMsg": "se requiere contraseña",
+    "EOTPHead": "Confirmación de Usuario",
+    "EOTPLabel": "Inserta el código de acceso recibido en tu móvil",
+    "EOTPPass": "Inserta el código enviado a",
+    "EOTPNG":"¿No conseguiste el código?"
   },
   "cmn": {
     "driveInfo": "Información de manejo",
@@ -59,7 +63,9 @@
     "up": "Actualización del perfil",
     "cp": "Cambia la contraseña",
     "sa": "Guardar dirección",
-    "gt": "Ir a la tienda"
+    "gt": "Ir a la tienda",
+    "go": "Obtén OTP",
+    "vo": "Comprobar"
   },
   "placeholder": {
     "file": "Buscar archivo...",

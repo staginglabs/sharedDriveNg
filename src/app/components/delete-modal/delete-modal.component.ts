@@ -74,7 +74,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.actionInProgress = false;
       this.getUsers();
-      this.toast.success('User\'s shared drive deleted successfully!', 'success');
+      this.toast.success('Usuarios Archivos compartidos ¡borrado exitosamente!', 'success');
       this.modal.close({action: this.type, msg: 'USER_DELETED'});
     })
     .catch((e: BaseResponse<any, any>) => {
@@ -96,7 +96,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.actionInProgress = false;
       this.getS3Folders();
-      this.toast.success('Folder deleted successfully!', 'success');
+      this.toast.success('Carpeta eliminada con éxito!', 'success');
       this.modal.close({action: this.type, msg: 'FOLDER_DELETED'});
     })
     .catch((e: BaseResponse<any, any>) => {

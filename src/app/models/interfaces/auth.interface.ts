@@ -24,3 +24,8 @@ export interface ITokenReq {
   token: string;
 }
 
+export interface IMsgRes {
+  request_id?: string;
+  message?: string;
+  type: string;
+}

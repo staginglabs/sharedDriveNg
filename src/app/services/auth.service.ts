@@ -27,4 +27,15 @@ export class AuthService {
     const uri = `${USER_URIS.verifyToken}`;
     return this.http.post(uri, payload);
   }
+
+  public sendOtp(payload) {
+    const uri = `${USER_URIS.sendOtp}`;
+    return this.http.post(uri, payload);
+  }
+
+  public verifyOtp(payload) {
+    const uri = `${USER_URIS.verifyOtp}`;
+    return this.http.post(uri, payload);
+  }
+
 }

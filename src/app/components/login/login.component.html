@@ -2,38 +2,76 @@
   <div class="row vh-100">
     <div class="col-4 m-auto">
 
-      <section class="text-center">
-        <figure class="figure">
-          <img class="figure-img img-fluid" src="./assets/images/logo.png" alt="logo">
-          <!-- <figcaption class="figure-caption">Content</figcaption> -->
-        </figure>
-        <h2 translate='login.heading'></h2>
-      </section>
+      <ng-container *ngIf="userDetails">
+        <section class="text-center">
+          <figure class="figure">
+            <img class="figure-img img-fluid" src="./assets/images/logo.png" alt="logo">
+          </figure>
+          <h2 translate='login.EOTPHead'></h2>
+        </section>
+        <form [formGroup]="otpForm" novalidate>
+          <!-- step one -->
+          <ng-container *ngIf="!isOtpSent">
+            <div class="form-group">
+              <label for="mobile">{{ 'login.EOTPLabel' | translate }}</label>
+              <input name="mobile" (keypress)="numberOnly($event)" type="text" formControlName="mobile" class="form-control" />
+            </div>
+            <button (click)="sendOtp()" type="button" [disabled]="otpForm.get('mobile').untouched || otpForm.get('mobile').errors" class="btn btn-primary">
+              {{ 'btn.go' | translate }}
+            </button>
+          </ng-container>
+          <!-- step two -->
+          <ng-container *ngIf="isOtpSent">
+            <div class="form-group">
+              <label for="otp">
+                {{ 'login.EOTPPass' | translate }}
+                <span class="text-primary">{{ otpForm.get('mobile').value }}</span>
+              </label>
+              <input name="otp" (keypress)="numberOnly($event)" type="text" formControlName="otp" class="form-control" />
+              <small class="form-text text-muted">{{ 'login.EOTPNG' | translate }}
+                <a href="javascript:void(0)" (click)="resendOtp()">Reenviar</a>
+              </small>
+            </div>
+            <button (click)="verifyOtp()" type="button" [disabled]="otpForm.get('otp').untouched || otpForm.get('otp').errors" class="btn btn-primary">
+              {{ 'btn.vo' | translate }}
+            </button>
+          </ng-container>
+        </form>
+      </ng-container>
+      <!--  -->
+      <ng-container *ngIf="!userDetails">
+        <section class="text-center">
+          <figure class="figure">
+            <img class="figure-img img-fluid" src="./assets/images/logo.png" alt="logo">
+          </figure>
+          <h2 translate='login.heading'></h2>
+        </section>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="username">{{ 'login.username' | translate }}</label>
-          <input type="text" formControlName="username" class="form-control"
-            [ngClass]="{ 'is-invalid': loginForm.get('username').touched && loginForm.get('username').errors }" />
-          <div *ngIf="loginForm.get('username').touched && loginForm.get('username').errors" class="invalid-feedback">
-            <div *ngIf="loginForm.get('username').errors.required">{{ 'login.usernameMsg' | translate }}</div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username">{{ 'login.username' | translate }}</label>
+            <input type="text" formControlName="username" class="form-control"
+              [ngClass]="{ 'is-invalid': loginForm.get('username').touched && loginForm.get('username').errors }" />
+            <div *ngIf="loginForm.get('username').touched && loginForm.get('username').errors" class="invalid-feedback">
+              <div *ngIf="loginForm.get('username').errors.required">{{ 'login.usernameMsg' | translate }}</div>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="password">{{ 'login.password' | translate }}</label>
-          <input type="password" formControlName="password" class="form-control"
-            [ngClass]="{ 'is-invalid': loginForm.get('password').errors && loginForm.get('password').touched }" />
-          <div *ngIf="loginForm.get('password') && loginForm.get('password').errors" class="invalid-feedback">
-            <div *ngIf="loginForm.get('password').errors.required">{{ 'login.passwordMsg' | translate }}</div>
+          <div class="form-group">
+            <label for="password">{{ 'login.password' | translate }}</label>
+            <input type="password" formControlName="password" class="form-control"
+              [ngClass]="{ 'is-invalid': loginForm.get('password').errors && loginForm.get('password').touched }" />
+            <div *ngIf="loginForm.get('password') && loginForm.get('password').errors" class="invalid-feedback">
+              <div *ngIf="loginForm.get('password').errors.required">{{ 'login.passwordMsg' | translate }}</div>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <button [disabled]="loading || loginForm.invalid" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            {{ 'login.heading' | translate }}
-          </button>
-        </div>
-      </form>
+          <div class="form-group">
+            <button [disabled]="loading || loginForm.invalid" class="btn btn-primary">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              {{ 'login.heading' | translate }}
+            </button>
+          </div>
+        </form>
+      </ng-container>
 
     </div>
   </div>
