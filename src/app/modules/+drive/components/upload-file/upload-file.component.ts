@@ -161,9 +161,33 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     this.uploadFileProgress = false;
   }
 
+  private getFormatedDate() {
+    let today = new Date();
+    let dd: any = today.getDate();
+    let mm: any = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    return dd + '/' + mm + '/' + yyyy;
+  }
+
   private hitApi(obj) {
+    let today = this.getFormatedDate();
     let userId: any = (this.activeUser) ? this.activeUser.id : this.userData.id;
     obj.userId = userId;
+    // setting email details
+    if (obj.uploadedBy === 'admin' && this.activeUser) {
+      // file uploaded by admin for some other user
+      obj.generatedFor = 'user';
+      this.getEmailContentFromAdmin(obj, today, obj.displayName, obj.folderName, this.activeUser.displayName);
+    } else if (obj.uploadedBy === 'user') {
+      obj.generatedFor = 'admin';
+      this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderName, this.userData.display_name);
+    }
     this.userService.insertFileEntry(obj)
     .then(result => {
       this.getS3Files();
@@ -231,6 +255,54 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   private setErrMsg(str) {
     this.uploadErrorMsg = this.translate.instant('upload.err', { msg: str });
+  }
+
+  private getEmailContentFromAdmin(obj, date, fileName, folderName, user) {
+    let name = `${this.userData.first_name} ${this.userData.last_name}`;
+    // set data for admin
+    obj.emailDataForAdmin = {};
+    obj.emailDataForAdmin.to = this.userData.user_email;
+    obj.emailDataForAdmin.from = obj.email;
+    obj.emailDataForAdmin.senderName = user;
+    obj.emailDataForAdmin.recieverName = name;
+    obj.emailDataForAdmin.subject = `Archivo ${fileName} para cliente ${user} compartido con éxito con fecha ${date}`;
+    // tslint:disable-next-line: max-line-length
+    obj.emailDataForAdmin.body = `El archivo ${fileName} ha sido compartido con éxito con el cliente ${user} por (Admin User) con fecha ${date} en la carpeta ${folderName}`;
+
+    // set data for client
+    obj.emailDataForClient = {};
+    obj.emailDataForClient.to = obj.email;
+    obj.emailDataForClient.from = this.userData.user_email;
+    obj.emailDataForClient.senderName = name;
+    obj.emailDataForClient.recieverName = user;
+    obj.emailDataForClient.subject = `Consultax ha compartido el archivo ${fileName} contigo con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente`;
+    // tslint:disable-next-line: max-line-length
+    obj.emailDataForClient.body = `(Admin User) ha compartido contigo el archivo ${fileName} con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente.<br>Puedes acceder a tu Área de Cliente <strong><a href="https://consult.tax/clientes/">aquí.</a></strong>`;
+    return obj;
+  }
+
+  private getEmailContentFromClient(obj, date, fileName, folderName, user) {
+    let name = `${this.userData.first_name} ${this.userData.last_name}`;
+    // set data for admin
+    obj.emailDataForAdmin = {};
+    obj.emailDataForAdmin.from = obj.email;
+    obj.emailDataForAdmin.to = null;
+    obj.emailDataForAdmin.senderName = name;
+    obj.emailDataForAdmin.recieverName = null;
+    obj.emailDataForAdmin.subject = `El cliente ${fileName} ha subido el archivo ${user} en la carpeta ${folderName} con fecha ${date}`;
+    // tslint:disable-next-line: max-line-length
+    obj.emailDataForAdmin.body = `El cliente ${fileName} ha subido el archivo ${user} en la carpeta ${folderName} con fecha ${date}`;
+
+    // set data for client
+    obj.emailDataForClient = {};
+    obj.emailDataForClient.from = null;
+    obj.emailDataForClient.to = obj.email;
+    obj.emailDataForClient.senderName = null;
+    obj.emailDataForClient.recieverName = name;
+    obj.emailDataForClient.subject = `Tu archivo ${fileName} ha sido cargado con éxito con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente`;
+    // tslint:disable-next-line: max-line-length
+    obj.emailDataForClient.body = `Tu archivo ${fileName} ha sido cargado con éxito con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente.<br>Puedes acceder a tu Área de Cliente <strong><a href="https://consult.tax/clientes/">aquí.</a></strong>`;
+    return obj;
   }
 
 }

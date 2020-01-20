@@ -9,12 +9,16 @@ export interface AuthState {
   token: string;
   details: IUserData;
   loginErrMsg: string;
+  isOtpVerified: boolean;
+  isOtpSent: boolean;
 }
 
 const initialState: AuthState = {
   token: null,
   details: null,
-  loginErrMsg: null
+  loginErrMsg: null,
+  isOtpVerified: false,
+  isOtpSent: false
 };
 
 export function authReducer(state = initialState, action: CustomActions): AuthState {
@@ -37,6 +41,12 @@ export function authReducer(state = initialState, action: CustomActions): AuthSt
       let newState = cloneDeep(state);
       state = newState;
       return newState;
+    }
+    case AUTH_ACTIONS.SET_OTP_STATUS: {
+      return { ...state, isOtpVerified: action.payload };
+    }
+    case AUTH_ACTIONS.SET_OTP_SENT_STATUS: {
+      return { ...state, isOtpSent: action.payload };
     }
     case AUTH_ACTIONS.SET_TOKEN: {
       const token = action.payload;

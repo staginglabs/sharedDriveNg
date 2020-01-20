@@ -11,7 +11,7 @@
         </section>
         <form [formGroup]="otpForm" novalidate>
           <!-- step one -->
-          <ng-container *ngIf="!isOtpSent">
+          <!-- <ng-container *ngIf="!isOtpSent">
             <div class="form-group">
               <label for="mobile">{{ 'login.EOTPLabel' | translate }}</label>
               <input name="mobile" (keypress)="numberOnly($event)" type="text" formControlName="mobile" class="form-control" />
@@ -19,20 +19,23 @@
             <button (click)="sendOtp()" type="button" [disabled]="otpForm.get('mobile').untouched || otpForm.get('mobile').errors" class="btn btn-primary">
               {{ 'btn.go' | translate }}
             </button>
-          </ng-container>
+          </ng-container> -->
           <!-- step two -->
-          <ng-container *ngIf="isOtpSent">
+          <ng-container>
             <div class="form-group">
               <label for="otp">
-                {{ 'login.EOTPPass' | translate }}
-                <span class="text-primary">{{ otpForm.get('mobile').value }}</span>
+                {{ 'login.EOTPLabel' | translate }}
+                <span class="text-primary">{{ otpForm.get('mobileClone').value }}</span>
               </label>
               <input name="otp" (keypress)="numberOnly($event)" type="text" formControlName="otp" class="form-control" />
               <small class="form-text text-muted">{{ 'login.EOTPNG' | translate }}
                 <a href="javascript:void(0)" (click)="resendOtp()">Reenviar</a>
               </small>
+              <!-- <small class="form-text text-muted">
+                <a href="javascript:void(0)" (click)="goBack()">volver cambiar número</a>
+              </small> -->
             </div>
-            <button (click)="verifyOtp()" type="button" [disabled]="otpForm.get('otp').untouched || otpForm.get('otp').errors" class="btn btn-primary">
+            <button (click)="verifyOtp()" type="button" [disabled]="otpForm.get('otp').errors" class="btn btn-primary">
               {{ 'btn.vo' | translate }}
             </button>
           </ng-container>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard, AdminGuard } from './guards';
+import { AuthGuard, AdminGuard, OtpGuard } from './guards';
 // import components
 import {
   LoginComponent,
@@ -13,12 +13,12 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'admin',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, AdminGuard, OtpGuard],
     loadChildren: './modules/+admin/admin.module#AdminModule'
   },
   {
     path: 'user',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, OtpGuard],
     loadChildren: './modules/+user/user.module#UserModule'
   },
   { path: 'home', component: DummyComponent },

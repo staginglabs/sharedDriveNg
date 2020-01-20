@@ -5,11 +5,13 @@ import { first, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions, UserActions } from 'src/app/actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, combineLatest } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services';
 import { BaseResponse, IMsgRes } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { clone } from 'src/app/lodash.optimized';
 
 @Component({
   styleUrls: ['./login.component.scss'],
@@ -18,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit, OnDestroy {
   public userDetails: any;
   public otpForm: FormGroup;
-  public isOtpSent = false;
+  public isOtpSent: boolean;
   public loginForm: FormGroup;
   public loading = false;
   public submitted = false;
@@ -36,13 +38,51 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private toast: ToastrService,
   ) {
+  }
+
+  public ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
+  public ngOnInit() {
+    this.otpForm = this.formBuilder.group({
+      mobile: ['', Validators.required],
+      mobileClone: [''],
+      otp: ['', Validators.required]
+    });
+
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    // listne
+    this.store.pipe(select(p => p.auth.isOtpSent), takeUntil(this.destroyed$))
+    .subscribe(res => {
+      this.isOtpSent = res;
+    });
 
     // listen for token and user details
-    this.store.pipe(select(p => p.auth), takeUntil(this.destroyed$))
-    .subscribe(state => {
-      if (state.token && state.details) {
-        this.userDetails = state.details;
+    this.store.pipe(select(p => p.auth.details), takeUntil(this.destroyed$))
+    .subscribe(data => {
+      if (data) {
+        this.userDetails = data;
         this.store.dispatch(this.userActions.getProfileReq());
+        if (this.userDetails && this.userDetails.billing_phone) {
+          let numb = `+-*&*${clone(this.userDetails.billing_phone)}`;
+          let filtered = numb.replace(/[^0-9]/g, '');
+          this.otpForm.get('mobile').patchValue(filtered);
+          this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
+          if (!this.isOtpSent) {
+            // uncomment while production
+            this.sendOtp();
+          }
+          // uncomment while developement
+          // this.provideFakeLogin();
+        } else {
+          this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
+        }
       }
     });
 
@@ -55,26 +95,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-  }
-
-  public ngOnDestroy() {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
-  }
-
-  public ngOnInit() {
-    this.otpForm = this.formBuilder.group({
-      mobile: ['', Validators.required],
-      otp: ['', Validators.required]
-    });
-
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.goBack();
   }
 
   public onSubmit() {
@@ -105,11 +129,20 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.sendOtp(data)
       .then((res: BaseResponse<IMsgRes, any>) => {
         if (res.body && res.body.type === 'success') {
-          this.isOtpSent = true;
+          this.store.dispatch(this.authActions.isOtpSent(true));
+        } else {
+          this.goBack();
         }
       })
-      .catch(console.log);
+      .catch((err: any) => {
+        this.goBack();
+      });
     }
+  }
+
+  public goBack() {
+    this.store.dispatch(this.authActions.setOTPStatus(false));
+    this.store.dispatch(this.authActions.isOtpSent(false));
   }
 
   public resendOtp() {
@@ -123,8 +156,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.verifyOtp(data)
       .then((res: BaseResponse<IMsgRes, any>) => {
         if (res.body && res.body.type === 'success') {
+          this.store.dispatch(this.authActions.setOTPStatus(true));
           this.doRedirect();
         } else {
+          this.store.dispatch(this.authActions.setOTPStatus(false));
           this.toast.error('Credenciales incorrectas', 'Error');
         }
       })
@@ -138,5 +173,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/user/dashboard']);
     }
+  }
+
+  private getMaskedNumber(mobile) {
+    let total = mobile.length;
+    let last = mobile.substring(total - 4, total);
+    let newstr = '';
+    let i;
+    for (i = 0; i < total - 4; i++) {
+      newstr += 'X';
+    }
+    return newstr + last;
+  }
+
+  private provideFakeLogin() {
+    this.store.dispatch(this.authActions.isOtpSent(true));
+    setTimeout(() => {
+      console.log('setOTPStatus');
+      this.store.dispatch(this.authActions.setOTPStatus(true));
+    }, 300);
+    setTimeout(() => {
+      console.log(this.userDetails);
+      this.doRedirect();
+    }, 1000);
   }
 }
