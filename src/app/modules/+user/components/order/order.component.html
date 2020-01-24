@@ -57,10 +57,10 @@
     </a>
   </div>
   <section class="p-5 w-75">
-    <p>
-      Order <mark>{{selectedOrder.id}}</mark> was placed on <mark>{{selectedOrder.created_at | date:'medium'}}</mark> and is currently
-    <mark>{{selectedOrder.status}}</mark>.</p>
-    <div class="card consultax">
+    <p class="mb-4">
+      La orden <mark>{{selectedOrder.id}}</mark> se realizó el <mark>{{selectedOrder.created_at | date:'medium'}}</mark> actualmente se ha completado.
+    </p>
+    <div class="card consultax mb-4">
       <div class="card-body p-0">
         <div class="card-title d-flex bg-primary text-white justify-content-between align-items-center">
           <h5 class="">{{ 'userOrder.od' | translate }}</h5>

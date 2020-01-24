@@ -52,6 +52,12 @@ export function authReducer(state = initialState, action: CustomActions): AuthSt
       const token = action.payload;
       return { ...state, token };
     }
+    case AUTH_ACTIONS.LOCAL_SIGNIN_RESPONSE: {
+      const res: any = action.payload;
+      let newState: AuthState = cloneDeep(state);
+      let obj = {...newState.details, ...res};
+      return { ...state, details: obj };
+    }
     default: {
       return state;
     }

@@ -259,6 +259,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   private getEmailContentFromAdmin(obj, date, fileName, folderName, user) {
     let name = `${this.userData.first_name} ${this.userData.last_name}`;
+    if (!name || name === '') {
+      name = this.userData.display_name;
+    }
     // set data for admin
     obj.emailDataForAdmin = {};
     obj.emailDataForAdmin.to = this.userData.user_email;
@@ -283,6 +286,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   private getEmailContentFromClient(obj, date, fileName, folderName, user) {
     let name = `${this.userData.first_name} ${this.userData.last_name}`;
+    if (!name || name === '') {
+      name = this.userData.display_name;
+    }
     // set data for admin
     obj.emailDataForAdmin = {};
     obj.emailDataForAdmin.from = obj.email;

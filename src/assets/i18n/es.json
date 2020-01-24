@@ -27,22 +27,22 @@
     "online": "Clientes Online",
     "offline": "Clientes Oficina",
     "noUsers": "No hay usuarios",
-    "dashboard": "Tablero",
-    "orders": "Pedidos",
+    "dashboard": "Mi Cuenta",
+    "orders": "Mis gestiones",
     "sharedDrive": "Archivos compartidos",
-    "accountDetails": "Detalles de la cuenta",
-    "address": "Habla a",
+    "accountDetails": "Mis datos",
+    "address": "Mis direcciones",
     "plsWait": "Por favor espera..."
   },
   "table": {
     "name": "Nombre del archivo",
-    "date": "Fecha de subida",
+    "date": "Fecha",
     "notes": "Notas",
     "action": "Acción",
     "noFileMsg": "No se encontraron archivos. Intenta subir el archivo.",
-    "order": "Orden",
-    "status": "estado",
-    "total": "Total",
+    "order": "Gestión",
+    "status": "Estado",
+    "total": "Importe",
     "product": "Producto"
   },
   "btn": {
@@ -115,13 +115,13 @@
     "adHeading": "Las siguientes direcciones se utilizarán en la página de pago de forma predeterminada."
   },
   "userDashboard": {
-    "wlcMsg": "Bienvenido a tu área de clientes",
-    "ra": "órdenes recientes",
-    "raHead": "Puede ver sus pedidos recientes.",
-    "ma": "Administrar direcciones",
-    "maHead": "Administre sus direcciones de envío y facturación.",
-    "yp": "Tu contraseña",
-    "ypHead": "Edite su contraseña y detalles de la cuenta."
+    "wlcMsg": "Bienvenido a tu área de cliente",
+    "ra": "Mis últimas gestiones",
+    "raHead": "Consulta tus gestiones más recientes",
+    "ma": "Mis direcciones",
+    "maHead": "Tus direcciones de envío y facturación",
+    "yp": "Mi usuario",
+    "ypHead": "Tus datos de usuario y contraseña"
   },
   "userOrder": {
     "lm": "Obteniendo datos, por favor espere...",

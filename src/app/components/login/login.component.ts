@@ -8,10 +8,10 @@ import { AuthActions, UserActions } from 'src/app/actions';
 import { ReplaySubject, combineLatest } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services';
-import { BaseResponse, IMsgRes } from 'src/app/models';
+import { BaseResponse, IMsgRes, IUserDetailsData } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { clone } from 'src/app/lodash.optimized';
+import { clone, omit } from 'src/app/lodash.optimized';
 
 @Component({
   styleUrls: ['./login.component.scss'],
@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public submitted = false;
   public returnUrl: string;
   public errMsg: string;
+  private authDetailsUpdatedManually: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,
@@ -68,20 +69,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(data => {
       if (data) {
         this.userDetails = data;
-        this.store.dispatch(this.userActions.getProfileReq());
-        if (this.userDetails && this.userDetails.billing_phone) {
-          let numb = `+-*&*${clone(this.userDetails.billing_phone)}`;
-          let filtered = numb.replace(/[^0-9]/g, '');
-          this.otpForm.get('mobile').patchValue(filtered);
-          this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
-          if (!this.isOtpSent) {
-            // uncomment while production
-            this.sendOtp();
+        if (!this.authDetailsUpdatedManually) {
+          this.store.dispatch(this.userActions.getProfileReq());
+        }
+      }
+    });
+
+    // listen for updated user details
+    this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+    .subscribe(data => {
+      if (data) {
+        if (!this.isOtpSent) {
+          if (!this.authDetailsUpdatedManually) {
+            let obj: any = omit(data, ['billing', 'shipping']);
+            this.authDetailsUpdatedManually = true;
+            this.store.dispatch(this.authActions.updateUserAuthDetailsLocal(obj));
           }
-          // uncomment while developement
-          // this.provideFakeLogin();
-        } else {
-          this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
+          this.doLoginLogic(data);
         }
       }
     });
@@ -196,5 +200,24 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.log(this.userDetails);
       this.doRedirect();
     }, 1000);
+  }
+
+  private doLoginLogic(data: IUserDetailsData) {
+    console.log(data);
+    return;
+    if (data && data.billing_phone) {
+      let numb = `+-*&*${clone(data.billing_phone)}`;
+      let filtered = numb.replace(/[^0-9]/g, '');
+      this.otpForm.get('mobile').patchValue(filtered);
+      this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
+      if (!this.isOtpSent) {
+        // uncomment while production
+        this.sendOtp();
+      }
+      // uncomment while developement
+      // this.provideFakeLogin();
+    } else {
+      this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
+    }
   }
 }

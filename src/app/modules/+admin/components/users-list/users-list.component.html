@@ -9,7 +9,7 @@
       <span>{{ 'cmn.online' | translate }}</span>
   </a>
 
-  <div id="onlineCollapse" [ngbCollapse]="onlineCollapsed">
+  <div id="onlineCollapse" [ngbCollapse]="!onlineCollapsed">
     <ng-container *ngIf="!(onlineUsers$ | async)">
       <p>{{ 'cmn.noUsers' | translate }}</p>
     </ng-container>

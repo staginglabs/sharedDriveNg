@@ -136,13 +136,17 @@ h5, .h5{
     margin: 0;
     h5{
       margin: 0;
+      color: white;
     }
   }
   .card-text{
     padding: 2rem;
   }
 }
-
+nav.woocommerce-MyAccount-navigation li a.active{
+  background-color: #fff !important;
+  color: #195073 !important;
+}
 // bread crumb styles
 .custom-breadcrumb {
   padding: 1rem 0;
