@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions, UserActions } from 'src/app/actions';
@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services';
 import { BaseResponse, IMsgRes, IUserDetailsData } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment';
 import { clone, omit } from 'src/app/lodash.optimized';
 
 @Component({
@@ -193,18 +192,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   private provideFakeLogin() {
     this.store.dispatch(this.authActions.isOtpSent(true));
     setTimeout(() => {
-      console.log('setOTPStatus');
       this.store.dispatch(this.authActions.setOTPStatus(true));
     }, 300);
     setTimeout(() => {
-      console.log(this.userDetails);
       this.doRedirect();
     }, 1000);
   }
 
   private doLoginLogic(data: IUserDetailsData) {
-    console.log(data);
-    return;
     if (data && data.billing_phone) {
       let numb = `+-*&*${clone(data.billing_phone)}`;
       let filtered = numb.replace(/[^0-9]/g, '');

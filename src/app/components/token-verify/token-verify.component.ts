@@ -54,21 +54,18 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
     this.authService.verifyToken(o)
     .then((res: BaseResponse<any, ITokenReq>) => {
       // in case of wrong token provided
-      if (res.body.status === 'error') {
+      if (res && res.body && res.body.status === 'error') {
         this.toast.error(`${res.body.message}`, 'Error');
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 1000);
       } else {
-        // success scenerio
-        console.log(res.body);
         // this.store.dispatch(this.authActions.setToken())
         this.router.navigate(['/dashboard']);
       }
     })
     .catch(err => {
-      this.toast.error(``, 'Error');
-      console.log('hey inside error');
+      this.toast.error(`something went wrong`, 'Error');
       console.log(err);
     });
   }
