@@ -191,12 +191,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private provideFakeLogin() {
     this.store.dispatch(this.authActions.isOtpSent(true));
-    setTimeout(() => {
-      this.store.dispatch(this.authActions.setOTPStatus(true));
-    }, 300);
+    this.store.dispatch(this.authActions.setOTPStatus(true));
+    // setTimeout(() => {
+    // }, 100);
     setTimeout(() => {
       this.doRedirect();
-    }, 1000);
+    }, 50);
   }
 
   private doLoginLogic(data: IUserDetailsData) {
@@ -207,10 +207,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
       if (!this.isOtpSent) {
         // uncomment while production
-        this.sendOtp();
+        // this.sendOtp();
       }
       // uncomment while developement
-      // this.provideFakeLogin();
+      this.provideFakeLogin();
     } else {
       this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
     }

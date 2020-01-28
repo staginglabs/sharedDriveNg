@@ -17,6 +17,7 @@ export const AUTH_ACTIONS = {
   SET_OTP_STATUS: 'AUTH_ACTIONS_SET_OTP_STATUS',
   SET_OTP_SENT_STATUS: 'AUTH_ACTIONS_SET_OTP_SENT_STATUS',
   LOCAL_SIGNIN_RESPONSE: 'AUTH_ACTIONS_LOCAL_SIGNIN_RESPONSE',
+  TOKEN_VERIFY_RESPONSE: 'AUTH_ACTIONS_TOKEN_VERIFY_RESPONSE'
 };
 
 const EMPTY_ACTION = { type: AUTH_ACTIONS.EMPTY_ACTION };
@@ -101,6 +102,13 @@ export class AuthActions {
   public updateUserAuthDetailsLocal(payload: any): CustomActions {
     return {
       type: AUTH_ACTIONS.LOCAL_SIGNIN_RESPONSE,
+      payload
+    };
+  }
+
+  public setTokenResponse(payload: any): CustomActions {
+    return {
+      type: AUTH_ACTIONS.TOKEN_VERIFY_RESPONSE,
       payload
     };
   }

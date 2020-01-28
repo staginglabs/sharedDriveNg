@@ -8,6 +8,7 @@ import { ITokenReq, BaseResponse } from 'src/app/models';
 import { ReplaySubject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { omit } from 'src/app/lodash.optimized';
 
 @Component({
   styleUrls: ['./token-verify.component.scss'],
@@ -51,23 +52,41 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
     let o: ITokenReq = {
       token: this.token
     };
+    console.log(o);
     this.authService.verifyToken(o)
     .then((res: BaseResponse<any, ITokenReq>) => {
+      console.log(res);
+      console.log(res.body);
+      console.log(res.body.status);
       // in case of wrong token provided
-      if (res && res.body && res.body.status === 'error') {
+      if (res && res.body && res.body.status === 'success') {
+        this.dotheMagic(res.body.data);
+      } else {
         this.toast.error(`${res.body.message}`, 'Error');
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 1000);
-      } else {
-        // this.store.dispatch(this.authActions.setToken())
-        this.router.navigate(['/dashboard']);
       }
     })
     .catch(err => {
       this.toast.error(`something went wrong`, 'Error');
       console.log(err);
     });
+  }
+
+  private dotheMagic(obj: any) {
+    let o = {
+      token: obj.token,
+      details: omit(obj, ['token'])
+    };
+    console.log('bingo');
+    console.log(o);
+    this.store.dispatch(this.authActions.setTokenResponse(o));
+    this.store.dispatch(this.authActions.setOTPStatus(true));
+    this.store.dispatch(this.authActions.isOtpSent(true));
+    setTimeout(() => {
+      this.router.navigate(['/user/dashboard']);
+    }, 1000);
   }
 
 }

@@ -26,6 +26,10 @@ export function authReducer(state = initialState, action: CustomActions): AuthSt
     case AUTH_ACTIONS.EMPTY_ACTION: {
       return state;
     }
+    case AUTH_ACTIONS.TOKEN_VERIFY_RESPONSE: {
+      const res: any = action.payload;
+      return { ...state, token: res.token, details: res.details };
+    }
     case AUTH_ACTIONS.SIGNIN_REQUEST: {
       return { ...state, loginErrMsg: null };
     }
