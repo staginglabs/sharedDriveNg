@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './admin-nav.component.html'
 })
 export class AdminNavComponent implements OnInit, OnDestroy {
+  public toggleNavbar: boolean;
   public user: IUserData;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(

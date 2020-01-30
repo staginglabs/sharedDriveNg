@@ -422,3 +422,82 @@ body .woocommerce-MyAccount-content table thead tr{
     color: white;
   }
 }
+
+
+
+// media queries
+@include media-breakpoint-up(sm) {
+  // #leftSection{
+  //   display: none !important;
+  // }
+}
+@include media-breakpoint-down(sm) {
+  #leftSection{
+    display: none !important;
+  }
+  .custom-breadcrumb{
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  #rightSection {
+    > .px-5,
+    .commonPadLeft {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+  .flexColumnOnMobile{
+    flex-direction: column !important;
+    position: relative !important;
+    &.form-group.custom:before{
+      top: 16px;
+    }
+    .ml-3{
+      margin-top: 15px;
+      margin-left: 0 !important;
+    }
+  }
+  .sideButton{
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .navbar.navbar-dark.bg-primary {
+    .nav-link {
+      &.active{padding-left:1rem};
+      &:before, &:after { display: none !important;}
+    }
+  }
+  .removeBorderOnMobile{
+    border:0 !important;
+  }
+  .subRightsec.p-5, .applyMobileStyles.p-5{
+    padding: 1rem !important;
+  }
+  .adminDbshCardWrp {
+    app-user-card {
+      display: block;
+      width: 100% !important;
+      margin-right: 0 !important;
+      .card-body-sec {
+        width: 100% !important;
+      }
+    }
+  }
+  .fldrWrap {
+    app-folder-card {
+      display: block;
+      width: 100% !important;
+      margin-right: 0 !important;
+      .card-body-sec {
+        width: 100% !important;
+      }
+    }
+  }
+  .tableWrap {
+    width: 100%;
+    overflow: auto;
+    .table {
+      width: 700px;
+    }
+  }
+}

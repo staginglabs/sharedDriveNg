@@ -1,4 +1,4 @@
-﻿<section class="p-5 d-flex w-100 flex-column">
+﻿<section class="p-5 d-flex w-100 flex-column applyMobileStyles">
   <app-loader-small [status]="!activeUser"></app-loader-small>
   <ng-container *ngIf="activeUser">
     <div class="">
@@ -24,7 +24,7 @@
         </ol>
       </nav>
     </div>
-    <div class="form-group custom d-flex">
+    <div class="form-group custom d-flex flexColumnOnMobile">
       <div class="flex-grow-1">
         <input class="form-control" placeholder="{{ 'placeholder.file' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
       </div>
