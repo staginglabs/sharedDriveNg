@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, AfterViewInit, HostListener } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./admin-nav.component.scss'],
   templateUrl: './admin-nav.component.html'
 })
-export class AdminNavComponent implements OnInit, OnDestroy {
+export class AdminNavComponent implements OnInit, OnDestroy, AfterViewInit {
+  public isSmallScreen: boolean;
   public toggleNavbar: boolean;
   public user: IUserData;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -21,6 +22,16 @@ export class AdminNavComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private authActions: AuthActions
   ) {
+  }
+  @HostListener('window:resize', [])
+  public onResize() {
+    this.detectScreenSize();
+  }
+
+  public ngAfterViewInit() {
+    setTimeout(() => {
+      this.detectScreenSize();
+    }, 300);
   }
 
   public ngOnDestroy() {
@@ -38,6 +49,10 @@ export class AdminNavComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.store.dispatch(this.authActions.signOut());
+  }
+
+  private detectScreenSize() {
+    this.isSmallScreen = (window.innerWidth < 768) ? true : false;
   }
 
 }

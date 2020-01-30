@@ -422,18 +422,31 @@ body .woocommerce-MyAccount-content table thead tr{
     color: white;
   }
 }
-
+#leftSection{
+  position: relative;
+}
 
 
 // media queries
 @include media-breakpoint-up(sm) {
-  // #leftSection{
-  //   display: none !important;
-  // }
+  #bottomNav{
+    position: absolute;
+    bottom: 0;
+  }
+  #leftSectionOnlyMobile{
+    display: none !important;
+  }
+  .flexColumnOnMobile{
+    flex-direction: row !important;
+  }
 }
-@include media-breakpoint-down(sm) {
+// @include media-breakpoint-down(sm)
+@media screen and (max-width: 768px) {
   #leftSection{
     display: none !important;
+  }
+  #leftSectionOnlyMobile{
+    display: block !important;
   }
   .custom-breadcrumb{
     padding-left: 1rem !important;
