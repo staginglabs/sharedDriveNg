@@ -7,7 +7,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item" aria-current="page"><a routerLinkActive="active" routerLink="dashboard">{{ 'cmn.dashboard' | translate }}</a></li>
-          <li class="breadcrumb-item active" aria-current="page">{{ activePageTitle }}</li>
+          <li *ngIf="showBreadCrumb" class="breadcrumb-item active" aria-current="page">{{ activePageTitle }}</li>
         </ol>
       </nav>
     </div>

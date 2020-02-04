@@ -282,7 +282,7 @@ nav.woocommerce-MyAccount-navigation li a.active{
     .nav-item {
       .nav-link {
         font-size: 0.938em;
-        color: #727272;
+        color: #727272 !important;
         background: #C4C4C4;
         padding: 0;
         height: 24px;
@@ -294,7 +294,7 @@ nav.woocommerce-MyAccount-navigation li a.active{
         border-top-right-radius: .5rem !important;
         &.active, &:hover {
           border-color: transparent;
-          color: #fff;
+          color: #fff !important;
           font-weight: bold;
           background: #005073;
         }

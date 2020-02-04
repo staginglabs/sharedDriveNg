@@ -13,6 +13,7 @@ import { last } from 'src/app/lodash.optimized';
   templateUrl: './user.component.html'
 })
 export class UserComponent implements OnInit, OnDestroy {
+  public showBreadCrumb: boolean;
   public activePageTitle: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
@@ -42,6 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
     if (r && r.url) {
       let arr = r.url.split('/');
       let page = last(arr);
+      this.showBreadCrumb = (page === 'dashboard') ? false : true;
       if (page === 'account-details') {
         page = 'accountDetails';
       }

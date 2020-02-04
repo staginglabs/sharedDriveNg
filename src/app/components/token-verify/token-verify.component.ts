@@ -52,12 +52,8 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
     let o: ITokenReq = {
       token: this.token
     };
-    console.log(o);
     this.authService.verifyToken(o)
     .then((res: BaseResponse<any, ITokenReq>) => {
-      console.log(res);
-      console.log(res.body);
-      console.log(res.body.status);
       // in case of wrong token provided
       if (res && res.body && res.body.status === 'success') {
         this.dotheMagic(res.body.data);
@@ -79,14 +75,19 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
       token: obj.token,
       details: omit(obj, ['token'])
     };
-    console.log('bingo');
-    console.log(o);
     this.store.dispatch(this.authActions.setTokenResponse(o));
     this.store.dispatch(this.authActions.setOTPStatus(true));
     this.store.dispatch(this.authActions.isOtpSent(true));
     setTimeout(() => {
-      this.router.navigate(['/user/dashboard']);
+      this.doRedirect(o);
     }, 1000);
   }
 
+  private doRedirect(o: any) {
+    if (o && o.details && o.details.is_admin) {
+      this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+    } else {
+      this.router.navigate(['/user/dashboard']);
+    }
+  }
 }
