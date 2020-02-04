@@ -3,8 +3,13 @@
 <main>
   <section id="mainTitleWrap">
     <div class="container">
-      <h1 class="entry-title main_title">{{ 'cmn.sharedDrive' | translate }}</h1>
-      <p>{{ 'cmn.myFiles' | translate }}</p>
+      <h1 class="entry-title main_title">{{ activePageTitle }}</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a routerLinkActive="active" routerLink="dashboard">{{ 'cmn.dashboard' | translate }}</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ activePageTitle }}</li>
+        </ol>
+      </nav>
     </div>
   </section>
   <section class="container">

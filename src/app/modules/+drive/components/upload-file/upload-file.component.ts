@@ -270,7 +270,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     obj.emailDataForAdmin.recieverName = name;
     obj.emailDataForAdmin.subject = `Archivo ${fileName} para cliente ${user} compartido con éxito con fecha ${date}`;
     // tslint:disable-next-line: max-line-length
-    obj.emailDataForAdmin.body = `El archivo ${fileName} ha sido compartido con éxito con el cliente ${user} por (Admin User) con fecha ${date} en la carpeta ${folderName}`;
+    obj.emailDataForAdmin.body = `El archivo ${fileName} ha sido compartido con éxito con el cliente ${user} por Consultax con fecha ${date} en la carpeta ${folderName}`;
 
     // set data for client
     obj.emailDataForClient = {};
@@ -280,7 +280,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     obj.emailDataForClient.recieverName = user;
     obj.emailDataForClient.subject = `Consultax ha compartido el archivo ${fileName} contigo con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente`;
     // tslint:disable-next-line: max-line-length
-    obj.emailDataForClient.body = `(Admin User) ha compartido contigo el archivo ${fileName} con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente.<br>Puedes acceder a tu Área de Cliente <strong><a href="https://consult.tax/clientes/">aquí.</a></strong>`;
+    obj.emailDataForClient.body = `Consultax ha compartido contigo el archivo ${fileName} con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente.<br>Puedes acceder a tu Área de Cliente <strong><a href="https://consult.tax/clientes/">aquí.</a></strong>`;
     return obj;
   }
 
