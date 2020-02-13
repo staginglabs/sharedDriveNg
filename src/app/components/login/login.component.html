@@ -28,7 +28,7 @@
                 <span class="text-primary">{{ otpForm.get('mobileClone').value }}</span>
               </label>
               <input name="otp" (keypress)="numberOnly($event)" type="text" formControlName="otp" class="form-control" />
-              <small class="form-text text-muted">{{ 'login.EOTPNG' | translate }}
+              <small class="form-text text-muted" *ngIf="resendVisible">{{ 'login.EOTPNG' | translate }}
                 <a href="javascript:void(0)" (click)="resendOtp()">Reenviar</a>
               </small>
               <!-- <small class="form-text text-muted">

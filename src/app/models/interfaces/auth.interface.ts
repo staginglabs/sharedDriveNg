@@ -26,6 +26,6 @@ export interface ITokenReq {
 
 export interface IMsgRes {
   request_id?: string;
-  message?: string;
-  type: string;
+  status?: string;
+  error_text?: string;
 }

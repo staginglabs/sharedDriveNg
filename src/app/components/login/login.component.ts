@@ -17,6 +17,7 @@ import { clone, omit } from 'src/app/lodash.optimized';
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  public resendVisible: boolean;
   public userDetails: any;
   public otpForm: FormGroup;
   public isOtpSent: boolean;
@@ -49,7 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.otpForm = this.formBuilder.group({
       mobile: ['', Validators.required],
       mobileClone: [''],
-      otp: ['', Validators.required]
+      otp: ['', Validators.required],
+      requestId: ['']
     });
 
     this.loginForm = this.formBuilder.group({
@@ -131,7 +133,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (data && data.mobile) {
       this.authService.sendOtp(data)
       .then((res: BaseResponse<IMsgRes, any>) => {
-        if (res.body && res.body.type === 'success') {
+        if (res.body && res.body.status === '0') {
+          this.otpForm.get('requestId').patchValue(res.body.request_id);
           this.store.dispatch(this.authActions.isOtpSent(true));
         } else {
           this.goBack();
@@ -158,12 +161,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       // verify otp
       this.authService.verifyOtp(data)
       .then((res: BaseResponse<IMsgRes, any>) => {
-        if (res.body && res.body.type === 'success') {
+        if (res.body && res.body.status === '0') {
           this.store.dispatch(this.authActions.setOTPStatus(true));
           this.doRedirect();
         } else {
           this.store.dispatch(this.authActions.setOTPStatus(false));
-          this.toast.error('Credenciales incorrectas', 'Error');
+          if (res.body && res.body.status === '6') {
+            this.toast.error(res.body.error_text, 'Error');
+          } else {
+            this.toast.error('Credenciales incorrectas', 'Error');
+          }
         }
       })
       .catch(console.log);
@@ -192,8 +199,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private provideFakeLogin() {
     this.store.dispatch(this.authActions.isOtpSent(true));
     this.store.dispatch(this.authActions.setOTPStatus(true));
-    // setTimeout(() => {
-    // }, 100);
     setTimeout(() => {
       this.doRedirect();
     }, 50);
@@ -207,10 +212,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
       if (!this.isOtpSent) {
         // uncomment while production
-        // this.sendOtp();
+        this.sendOtp();
       }
       // uncomment while developement
-      this.provideFakeLogin();
+      // this.provideFakeLogin();
     } else {
       this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
     }
