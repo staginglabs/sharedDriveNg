@@ -1,6 +1,6 @@
 ﻿
 <div class="card">
-  <div class="card-body-sec cp" routerLink="drive/{{item.name}}">
+  <div class="card-body-sec cp" routerLink="{{item.id}}">
     <div class="d-flex justify-content-between">
       <button type="button" class="btn btn-light">
         <ng-container *ngTemplateOutlet="fileIconTemp"></ng-container>
@@ -8,7 +8,7 @@
       <ng-container *ngTemplateOutlet="ellipTemp; context: {color: 'blue', item: item}"></ng-container>
     </div>
     <h5>
-      <a routerLink="drive/{{item.name}}">{{item.name}}</a>
+      <a routerLink="{{item.id}}">{{item.name}}</a>
     </h5>
   </div>
 </div>

@@ -50,6 +50,8 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
+    console.log('ngOnInit');
+
     // listen for token and user details
     this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
     .subscribe(d => {
@@ -65,9 +67,14 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       const params = arr[0];
       this.userData = arr[1];
       if (params && this.userData) {
-        if (params['driveId']) {
-          this.activeFolderName = params['driveId'];
-        }
+        this.route.firstChild.params.pipe(take(1))
+        .subscribe(p => {
+          console.log(p);
+          // this.setVal(params);
+        });
+        // if (params['driveId']) {
+        //   this.activeFolderName = params['driveId'];
+        // }
         if (!params['userId']) {
           this.getS3Files();
         }

@@ -4,6 +4,26 @@ export interface IChangePasswordReq {
   ccpassword: string;
 }
 
+export interface IBreadCrumb {
+  level: number;
+  value: string;
+  id?: string;
+}
+
+export interface ICreateFolderDetails {
+  name: string;
+  id: string;
+  description: string;
+  childrens: ICreateFolderDetails[];
+  details?: any[];
+}
+
+export interface ICreateFolderReq {
+  userId: number;
+  parentId?: string;
+  data: ICreateFolderDetails;
+}
+
 export interface ISuccessRes {
   status: string;
   message: string;

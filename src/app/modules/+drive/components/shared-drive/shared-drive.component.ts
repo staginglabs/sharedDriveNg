@@ -6,7 +6,7 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { UserActions } from 'src/app/actions';
 import { TranslateService } from '@ngx-translate/core';
-import { IUserDetailsData } from 'src/app/models';
+import { IUserDetailsData, ICreateFolderDetails } from 'src/app/models';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
 
@@ -17,7 +17,7 @@ import { DeleteModalComponent } from 'src/app/components/delete-modal';
 export class SharedDriveComponent implements OnInit, OnDestroy {
   public userData: IUserDetailsData;
   public gettingFoldersInProgress$: Observable<boolean>;
-  public foldersList$: Observable<string[]>;
+  public foldersList$: Observable<ICreateFolderDetails[]>;
   public isChildRouteActivated = false;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(

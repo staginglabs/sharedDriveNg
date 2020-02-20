@@ -1,16 +1,16 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+﻿import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
 import { ReplaySubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, filter } from 'rxjs/operators';
 import { IUserData, IFileForm, IS3UploadRes, IUserList, IUserDetailsData } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
-import { clone, find } from 'src/app/lodash.optimized';
+import { clone, find, last } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './upload-file.component.html'
 })
 export class UploadFileComponent implements OnInit, OnDestroy {
+  @Input() public uploadPath: string;
   public uploadMsg: string;
   public activeFolderName: string;
   public drivePath: string;
@@ -85,12 +86,18 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     });
 
     // listen for params and set active folder
-    this.route.params.pipe(take(1))
+    this.route.firstChild.params.pipe(take(1))
     .subscribe(params => {
-      if (params && params['driveId']) {
-        this.activeFolderName = params['driveId'];
-      } else {
-        this.activeFolderName = MY_FILES;
+      this.setVal(params);
+    });
+
+    // listen on route change
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(resp => {
+      if (resp) {
+        this.route.firstChild.params.pipe(take(1))
+        .subscribe(params => {
+          this.setVal(params);
+        });
       }
     });
   }
@@ -135,7 +142,11 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       obj.displayName = clone(this.fileName);
       this.fileName = `${new Date().getTime()}_${this.fileName}`;
       obj.file = this.fileObj;
-      obj.key = `${this.drivePath}/${this.fileName}`;
+      if (this.uploadPath) {
+        obj.key = `${this.uploadPath}/${this.fileName}`;
+      } else {
+        obj.key = `${this.drivePath}/${this.fileName}`;
+      }
       obj.name = this.fileName;
       // handle for zip and dmg and few other types
       obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`;
@@ -182,10 +193,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     // setting email details
     if (obj.uploadedBy === 'admin' && this.activeUser) {
       // file uploaded by admin for some other user
-      obj.generatedFor = 'user';
+      // obj.generatedFor = 'user';
       this.getEmailContentFromAdmin(obj, today, obj.displayName, obj.folderName, this.activeUser.displayName);
     } else if (obj.uploadedBy === 'user') {
-      obj.generatedFor = 'admin';
+      // obj.generatedFor = 'admin';
       this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderName, this.userData.display_name);
     }
     this.userService.insertFileEntry(obj)
@@ -309,6 +320,14 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: max-line-length
     obj.emailDataForClient.body = `Tu archivo ${fileName} ha sido cargado con éxito con fecha ${date} en la carpeta ${folderName} de tu Área de Cliente.<br>Puedes acceder a tu Área de Cliente <strong><a href="https://consult.tax/clientes/">aquí.</a></strong>`;
     return obj;
+  }
+
+  private setVal(params?) {
+    if (params) {
+      this.activeFolderName = last(Object.values(params));
+    } else {
+      this.activeFolderName = MY_FILES;
+    }
   }
 
 }

@@ -2,18 +2,19 @@ import { CustomActions, USER_ACTIONS } from '../actions';
 import { cloneDeep } from '../lodash.optimized';
 import {
   BaseResponse, IIOrderRootRes,
-  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes, IUserList
+  IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes, IUserList, ICreateFolderDetails
 } from '../models';
 import { MY_FILES } from '../app.constant';
 
 export interface UserState {
+  activeUser: any;
   listUserErrorDetails: any;
   gettingUsersInProgress: boolean;
   allUsers: any[];
   onlineUsers: any[];
   offlineUsers: any[];
   gettingFoldersInProgress: boolean;
-  folders: any[];
+  folders: ICreateFolderDetails[];
   orders: IOrderRes[];
   details: IUserDetailsData;
   updateProfileProgress: boolean;
@@ -24,6 +25,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
+  activeUser: null,
   listUserErrorDetails: null,
   gettingUsersInProgress: false,
   allUsers: [],
@@ -101,38 +103,7 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.GET_FOLDERS_RES: {
       const res: BaseResponse<any, any> = action.payload;
-      let arr = [];
-      let a = [];
-      if (res && res.body) {
-        if (typeof(res.body) === 'string') {
-          res.body.split(',').forEach(key => {
-            if (key !== MY_FILES) {
-              a.push(key);
-              let obj = {
-                name: key,
-                description: null
-              };
-              if (a.indexOf(name) === -1 ) {
-                arr.push(obj);
-              }
-            }
-          });
-        } else {
-          Object.keys(res.body).forEach(key => {
-            if (key !== MY_FILES) {
-              a.push(key);
-              let obj = {
-                name: key,
-                description: res.body[key]
-              };
-              if (a.indexOf(name) === -1 ) {
-                arr.push(obj);
-              }
-            }
-          });
-        }
-      }
-      return { ...state, folders: arr, gettingFoldersInProgress: false };
+      return { ...state, folders: res.body, gettingFoldersInProgress: false };
     }
     case USER_ACTIONS.GET_FILES_REQ: {
       return { ...state, files: [], gettingfileInProgress: true };
@@ -149,6 +120,9 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.TRIGGER_GET_FOLDER_REQ: {
       return { ...state, triggerFolderReq: action.payload };
+    }
+    case USER_ACTIONS.SET_ACTIVE_USER: {
+      return { ...state, activeUser: action.payload };
     }
     default: {
       return state;

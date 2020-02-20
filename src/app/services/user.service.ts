@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ISignInRequest, ISignInResponse, ITokenReq, BaseResponse, IChangePasswordReq, ISuccessRes, IUserDetailsData, IFileForm, IS3FilesReq } from '../models';
+import { ISignInRequest, ISignInResponse, ITokenReq, BaseResponse, IChangePasswordReq, ISuccessRes, IUserDetailsData, IFileForm, IS3FilesReq, ICreateFolderReq } from '../models';
 import { HttpWrapperService } from './http-wrapper.service';
 import { USER_URIS } from '../uris';
 
@@ -55,7 +55,7 @@ export class UserService {
     return this.http.get(url);
   }
 
-  public createFolderForUser(payload: any): Promise<BaseResponse<any, any>> {
+  public createFolderForUser(payload: ICreateFolderReq): Promise<BaseResponse<any, any>> {
     const url = USER_URIS.createFolderForUser;
     return this.http.post(url, payload);
   }

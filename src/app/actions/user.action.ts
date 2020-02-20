@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export const USER_ACTIONS = {
   EMPTY_ACTION: 'USER_ACTIONS_EMPTY_ACTION',
+  SET_ACTIVE_USER: 'USER_ACTIONS_SET_ACTIVE_USER',
   GET_USERS_REQ: 'USER_ACTIONS_GET_USERS_REQ',
   GET_USERS_RES: 'USER_ACTIONS_GET_USERS_RES',
   LIST_USERS_WARNING: 'USER_ACTIONS_LIST_USERS_WARNING',
@@ -246,6 +247,13 @@ export class UserActions {
   public triggerFolderReq(payload: boolean): CustomActions {
     return {
       type: USER_ACTIONS.TRIGGER_GET_FOLDER_REQ,
+      payload
+    };
+  }
+
+  public setActiveUser(payload: any): CustomActions {
+    return {
+      type: USER_ACTIONS.SET_ACTIVE_USER,
       payload
     };
   }

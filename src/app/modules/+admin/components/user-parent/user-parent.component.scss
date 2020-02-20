@@ -1,0 +1,32 @@
+:host{
+  display: block;
+  flex-grow: 1;
+  width: 100%;
+  .fldrWrap{
+    app-folder-card{
+      margin-bottom: 2rem;
+      margin-right: 2rem;
+    }
+  }
+  // bread crumb
+  .breadcrumb {
+    padding: 0;
+    position: relative;
+    background-color: transparent;
+    .breadcrumb-item {
+      font-size: 1.250em;
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .childBread {
+      font-weight: 300;
+      &:before {
+        content: "|";
+        color: #005073;
+      }
+    }
+  }
+}

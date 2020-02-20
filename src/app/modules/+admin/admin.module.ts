@@ -8,7 +8,8 @@ import {
   ADMIN_COMPONENTS,
   AdminDriveDetailsComponent,
   AdminDashboardComponent,
-  UserDetailViewComponent,
+  UserDriveDetailComponent,
+  UserParentComponent,
 } from './components';
 import { DriveDetailsComponent } from '../+drive/components/drive-details';
 
@@ -27,8 +28,19 @@ const USER_ROUTES: Routes = [
         component: AdminDriveDetailsComponent,
         children: [
           { path: 'dashboard', component: AdminDashboardComponent },
-          { path: 'user/:userId', component: UserDetailViewComponent },
-          { path: 'user/:userId/drive/:driveId', component: DriveDetailsComponent },
+          {
+            path: 'user/:userId',
+            component: UserParentComponent,
+            children: [
+              { path: '', component: UserDriveDetailComponent },
+              { path: ':driveId', component: UserDriveDetailComponent },
+              { path: ':driveId/:DC', component: UserDriveDetailComponent },
+              { path: ':driveId/:DC/:GC', component: UserDriveDetailComponent },
+              { path: ':driveId/:DC/:GC/:GGC', component: UserDriveDetailComponent },
+              { path: ':driveId/:DC/:GC/:GGC/:GGGC', component: UserDriveDetailComponent },
+              { path: '**', redirectTo: '', pathMatch: 'full' }
+            ]
+          },
           { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
       }

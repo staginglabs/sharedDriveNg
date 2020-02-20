@@ -4,13 +4,13 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { IFileFormRes, IUserList, IFileForm } from 'src/app/models';
+import { IFileFormRes, IUserList, IFileForm, ICreateFolderDetails } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotesModalComponent } from '../notes-modal';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
-import { clone } from 'src/app/lodash.optimized';
+import { clone, last, cloneDeep, flatten, map, union, omit, remove } from 'src/app/lodash.optimized';
 import { UserService } from 'src/app/services';
 import { TranslateService } from '@ngx-translate/core';
 const SELECT_OPT = 'Please Select';
@@ -24,7 +24,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public userId: string;
   @Input() public fileList: IFileFormRes[];
   @Input() public searchString: string;
-  @Input() public folderList: string[];
+  @Input() public folderList: ICreateFolderDetails[];
   @Input() public activeUser: IUserList;
   public errandInProgress: boolean;
   public destinationFolder = SELECT_OPT;
@@ -33,6 +33,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   public activeFolderName: string;
   public moveFileModalRef: any;
   public showMoveOption = false;
+  public moveToData: any = null;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,
@@ -63,19 +64,16 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
     this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res && res.length) {
-        this.folderList = res.map(item => item.name);
-        if (this.activeFolderName !== 'myfiles') {
-          this.folderList.splice( this.folderList.indexOf(this.activeFolderName), 1 );
-          // this.folderList.unshift('myfiles');
-        }
+        this.prepareList(cloneDeep(res));
       }
     });
 
     // listen for params
     this.route.params.pipe(takeUntil(this.destroyed$))
     .subscribe(params => {
-      if (params && params['driveId']) {
-        this.activeFolderName = params['driveId'];
+      if (params) {
+        let o: string = last(Object.values(params));
+        this.activeFolderName = o;
       } else {
         this.activeFolderName = 'myfiles';
       }
@@ -88,6 +86,25 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
         this.uriUtils(this.router.routerState.snapshot);
       }
     });
+  }
+
+  public customSearchFn(term: string, item: ICreateFolderDetails) {
+    term = term.toLowerCase();
+    const str: string = item.details.map(i => i.name).join(', ');
+    if (item.name.toLowerCase().startsWith(term) ) {
+      return item;
+    } else {
+      if (str.includes(term)) {
+        return item;
+      }
+    }
+  }
+
+  public updateMoveUI(e: any) {
+    if (e) {
+      console.log(e);
+      console.log(this.moveToData);
+    }
   }
 
   public moveFile(item: IFileFormRes, template) {
@@ -146,10 +163,11 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public submitMoveFile() {
-    if (this.destinationFolder && this.destinationFolder !== SELECT_OPT) {
-      this.errandInProgress = true;
-      this.moveFileFromS3();
-    }
+    console.log('submitMoveFile');
+    // if (this.destinationFolder && this.destinationFolder !== SELECT_OPT) {
+    //   this.errandInProgress = true;
+    //   this.moveFileFromS3();
+    // }
   }
 
   public dismissMoveFileModal(reason?: string) {
@@ -189,6 +207,45 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
 
   private uriUtils(r: RouterStateSnapshot) {
     this.showMoveOption = (r.url.includes('/admin/drive/external/')) ? true : false;
+  }
+
+  private flatten(ary) {
+    return ary.reduce((a, b) => {
+      if (b && b.childrens && b.childrens.length) {
+        return a.concat(this.flatten(b.childrens));
+      }
+      return a.concat(b);
+    }, []);
+  }
+
+  private async prepareList(arr) {
+    this.folderList = await this.prepareListFlatten(arr, []);
+    if (this.activeFolderName !== 'myfiles') {
+      remove(this.folderList, i => i.id === this.activeFolderName);
+    }
+    console.log(this.folderList.length);
+  }
+
+  private prepareListFlatten(rawList: ICreateFolderDetails[], parent): any[] {
+    let listofUN;
+    listofUN = map(rawList, (listItem: ICreateFolderDetails) => {
+      let newParents;
+      let result;
+      newParents = union([], parent);
+      newParents.push({
+        name: listItem.name,
+        uniqueName: listItem.id
+      });
+      listItem.details = newParents;
+      if (listItem.childrens && listItem.childrens.length > 0) {
+        result = this.prepareListFlatten(listItem.childrens, newParents);
+        result.push(omit(listItem, 'childrens'));
+      } else {
+        result = omit(listItem, 'childrens');
+      }
+      return result;
+    });
+    return flatten(listofUN);
   }
 
 }

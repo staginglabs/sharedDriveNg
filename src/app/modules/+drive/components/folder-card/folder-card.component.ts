@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { NotesModalComponent } from '../notes-modal';
+import { ICreateFolderDetails } from 'src/app/models';
 
 @Component({
   selector: 'app-folder-card',
@@ -11,7 +12,7 @@ import { NotesModalComponent } from '../notes-modal';
   templateUrl: './folder-card.component.html'
 })
 export class FolderCardComponent implements OnInit, OnDestroy {
-  @Input() public item: any;
+  @Input() public item: ICreateFolderDetails;
   @Input() public key: string;
   @Input() public id: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -28,7 +29,6 @@ export class FolderCardComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    //
   }
 
   public showDriveInfo(item: any) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseResponse } from '../models';
+import { BaseResponse, ICreateFolderDetails } from '../models';
 import { HttpWrapperService } from './http-wrapper.service';
 
 @Injectable({
@@ -21,5 +21,21 @@ export class LocalService {
     return this.http.get(url).then(res => {
       return res.body.states.filter(i => i.country_id === countryId);
     });
+  }
+
+  public findItemRecursively(a: ICreateFolderDetails[], id: string): any {
+    if (a) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < a.length; i++) {
+        if (a[i].id === id) {
+          return a[i];
+        }
+        const found = this.findItemRecursively(a[i].childrens, id);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
   }
 }
