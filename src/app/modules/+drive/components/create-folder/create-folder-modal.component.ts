@@ -92,9 +92,8 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
     if (this.breadCrumbData && this.breadCrumbData.length) {
       const d = last(this.breadCrumbData);
       o.parentId = d.id;
-    } else {
-      o.data.childrens = [];
     }
+    o.data.childrens = [];
     this.userService.createFolderForUser(o)
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.getS3Folders();

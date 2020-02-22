@@ -1,7 +1,16 @@
+@import "./../../../../../styles/mixins";
 :host{
   display: block;
   width: 100%;
   .commonPadLeft {
+
+    app-folder-card{
+      @include getCardGutter();
+      display: inline-block;
+    }
+    app-folder-card:nth-child(3n) {
+      margin: 0;
+    }
 
     .btn-primary.btn-sm {
       width: 8.313em;

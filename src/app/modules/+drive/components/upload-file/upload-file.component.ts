@@ -7,12 +7,13 @@ import { UserActions } from 'src/app/actions';
 import { ReplaySubject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { takeUntil, take, filter } from 'rxjs/operators';
-import { IUserData, IFileForm, IS3UploadRes, IUserList, IUserDetailsData } from 'src/app/models';
+import { IUserData, IFileForm, IS3UploadRes, IUserList, IUserDetailsData, ICreateFolderDetails } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
 import { clone, find, last } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalService } from 'src/app/services/local.service';
 
 
 @Component({
@@ -36,10 +37,12 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   public fileName: any;
   public activeUser: IUserList;
   public allUsers$: Observable<IUserList[]>;
+  public activeFolderData: ICreateFolderDetails;
   private fileObj: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,
+    private localService: LocalService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
@@ -86,18 +89,39 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     });
 
     // listen for params and set active folder
-    this.route.firstChild.params.pipe(take(1))
-    .subscribe(params => {
-      this.setVal(params);
-    });
+    try {
+      this.route.firstChild.params.pipe(take(1))
+      .subscribe(params => {
+        if (params) {
+          this.setVal(params);
+        }
+      });
+    } catch (error) {
+      this.route.params.pipe(take(1))
+      .subscribe(params => {
+        if (params) {
+          this.setVal(params);
+        }
+      });
+    }
 
     // listen on route change
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(resp => {
       if (resp) {
-        this.route.firstChild.params.pipe(take(1))
-        .subscribe(params => {
-          this.setVal(params);
-        });
+        if (this.route && this.route.firstChild) {
+          this.route.firstChild.params.pipe(take(1))
+          .subscribe(params => {
+            this.setVal(params);
+          });
+        }
+      }
+    });
+
+    //
+    this.store.pipe(select(p => p.user.folders), take(3))
+    .subscribe(r => {
+      if (r && r.length && this.activeFolderName) {
+        this.activeFolderData = this.localService.findItemRecursively(r, this.activeFolderName);
       }
     });
   }
@@ -150,6 +174,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       obj.name = this.fileName;
       // handle for zip and dmg and few other types
       obj.type = this.fileObj.type || `application/${this.fileName.split('.').pop()}`;
+      obj.folderName = (this.activeFolderData) ? this.activeFolderData.id : this.activeFolderName;
+      obj.folderNameForUI = (this.activeFolderData) ? this.activeFolderData.name : this.activeFolderName;
       this.doUploadFile(obj);
     }
   }
@@ -194,10 +220,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     if (obj.uploadedBy === 'admin' && this.activeUser) {
       // file uploaded by admin for some other user
       // obj.generatedFor = 'user';
-      this.getEmailContentFromAdmin(obj, today, obj.displayName, obj.folderName, this.activeUser.displayName);
+      this.getEmailContentFromAdmin(obj, today, obj.displayName, obj.folderNameForUI, this.activeUser.displayName);
     } else if (obj.uploadedBy === 'user') {
       // obj.generatedFor = 'admin';
-      this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderName, this.userData.display_name);
+      this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderNameForUI, this.userData.display_name);
     }
     this.userService.insertFileEntry(obj)
     .then(result => {
@@ -221,7 +247,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     obj.location = res.Location;
     obj.isDeleted = false;
     obj.uploadedBy = this.findUploader();
-    obj.folderName = this.activeFolderName;
     this.hitApi(obj);
   }
 
@@ -323,7 +348,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private setVal(params?) {
-    if (params) {
+    if (params && !params['userId']) {
       this.activeFolderName = last(Object.values(params));
     } else {
       this.activeFolderName = MY_FILES;

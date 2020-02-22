@@ -64,7 +64,7 @@
                         d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
                         fill="#C4C4C4" />
                     </svg></span>{{ 'btn.download' | translate }}</button>
-                <button ngbDropdownItem (click)="deleteFile(item)">
+                <button *ngIf="hasPower" ngbDropdownItem (click)="deleteFile(item)">
                   <span class="drop-icon">
                     <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd"
@@ -73,7 +73,7 @@
                     </svg>
                   </span>{{ 'btn.delete' | translate }}
                 </button>
-                <button *ngIf="showMoveOption" ngbDropdownItem (click)="moveFile(item, moveFileModalTemp)">
+                <button *ngIf="hasPower" ngbDropdownItem (click)="moveFile(item, moveFileModalTemp)">
                   <span class="drop-icon">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"  xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M-1.43051e-05 7.49999L-1.43051e-05 5.85999L10.16 5.85999L5.49999 1.17999L6.67999 -1.43051e-05L13.36 6.67999L6.67999 13.36L5.49999 12.18L10.16 7.49999L-1.43051e-05 7.49999Z" fill="#C4C4C4"/>
@@ -107,8 +107,8 @@
       <ng-select
         [placeholder]="'Please Select'"
         (change)="updateMoveUI($event)"
-        name="moveToData"
-        [(ngModel)]="moveToData"
+        name="destinationFolder"
+        [(ngModel)]="destinationFolder"
         [items]="folderList"
         bindValue="id"
         bindLabel="name"
@@ -125,11 +125,11 @@
           </ng-template>
       </ng-select>
     </div>
-    <!-- <section class="overflow-auto" id="cntr" *ngIf="moveToData">
+    <!-- <section class="overflow-auto" id="cntr" *ngIf="destinationFolder">
     </section> -->
   </div>
   <div class="modal-footer border-0 text-center justify-content-center">
-    <button [disabled]="errandInProgress || !moveToData || moveToData === 'Please Select'" type="button" class="btn btn-primary btn-block" (click)="submitMoveFile()">
+    <button [disabled]="errandInProgress || !destinationFolder || destinationFolder === 'Please Select'" type="button" class="btn btn-primary btn-block" (click)="submitMoveFile()">
       <span *ngIf="errandInProgress" class="spinner-border spinner-border-sm mr-1"></span>
       {{ 'upload.folderMove' | translate }}</button>
   </div>

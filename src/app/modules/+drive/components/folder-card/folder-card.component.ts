@@ -15,6 +15,7 @@ export class FolderCardComponent implements OnInit, OnDestroy {
   @Input() public item: ICreateFolderDetails;
   @Input() public key: string;
   @Input() public id: string;
+  @Input() public hasPower = true;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,

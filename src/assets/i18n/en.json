@@ -7,6 +7,7 @@
     "passwordMsg": "Password is required"
   },
   "cmn": {
+    "driveInfo": "Información de manejo",
     "drive": "Drive",
     "file": "File",
     "myFiles": "My Files",

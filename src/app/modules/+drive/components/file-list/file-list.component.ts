@@ -13,6 +13,7 @@ import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { clone, last, cloneDeep, flatten, map, union, omit, remove } from 'src/app/lodash.optimized';
 import { UserService } from 'src/app/services';
 import { TranslateService } from '@ngx-translate/core';
+import { MY_FILES } from 'src/app/app.constant';
 const SELECT_OPT = 'Please Select';
 
 @Component({
@@ -26,6 +27,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public searchString: string;
   @Input() public folderList: ICreateFolderDetails[];
   @Input() public activeUser: IUserList;
+  @Input() public hasPower = true;
   public errandInProgress: boolean;
   public destinationFolder = SELECT_OPT;
   public selectedItemToMove: IFileFormRes;
@@ -71,11 +73,11 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
     // listen for params
     this.route.params.pipe(takeUntil(this.destroyed$))
     .subscribe(params => {
-      if (params) {
+      if (params && !params['userId']) {
         let o: string = last(Object.values(params));
         this.activeFolderName = o;
       } else {
-        this.activeFolderName = 'myfiles';
+        this.activeFolderName = MY_FILES;
       }
     });
 
@@ -102,8 +104,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
 
   public updateMoveUI(e: any) {
     if (e) {
-      console.log(e);
-      console.log(this.moveToData);
+      // this.destinationFolder = this.moveToData;
     }
   }
 
@@ -144,7 +145,6 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
     })
     .catch(err => {
       this.errandInProgress = false;
-      console.log(err);
     });
   }
 
@@ -163,11 +163,10 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public submitMoveFile() {
-    console.log('submitMoveFile');
-    // if (this.destinationFolder && this.destinationFolder !== SELECT_OPT) {
-    //   this.errandInProgress = true;
-    //   this.moveFileFromS3();
-    // }
+    if (this.destinationFolder && this.destinationFolder !== SELECT_OPT) {
+      this.errandInProgress = true;
+      this.moveFileFromS3();
+    }
   }
 
   public dismissMoveFileModal(reason?: string) {
@@ -223,7 +222,6 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
     if (this.activeFolderName !== 'myfiles') {
       remove(this.folderList, i => i.id === this.activeFolderName);
     }
-    console.log(this.folderList.length);
   }
 
   private prepareListFlatten(rawList: ICreateFolderDetails[], parent): any[] {

@@ -13,7 +13,11 @@ const USER_ROUTES: Routes = [
     path: '',
     component: SharedDriveComponent,
     children: [
-      { path: 'drive/:driveId', component: DriveDetailsComponent },
+      { path: ':driveId', component: DriveDetailsComponent },
+      { path: ':driveId/:DC', component: DriveDetailsComponent },
+      { path: ':driveId/:DC/:GC', component: DriveDetailsComponent },
+      { path: ':driveId/:DC/:GC/:GGC', component: DriveDetailsComponent },
+      { path: ':driveId/:DC/:GC/:GGC/:GGGC', component: DriveDetailsComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]
   },

@@ -20,8 +20,8 @@ const USER_ROUTES: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: 'shared-drive',
-        loadChildren: './../+drive/drive.module#DriveModule'
+        path: 'drive/internal',
+        // loadChildren: './../+drive/drive.module#DriveModule'
       },
       {
         path: 'drive/external',
@@ -46,12 +46,15 @@ const USER_ROUTES: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: '/admin/', pathMatch: 'full' }
+  { path: '**', redirectTo: 'drive/internal', pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [
     AdminComponent,
+    ADMIN_COMPONENTS
+  ],
+  exports: [
     ADMIN_COMPONENTS
   ],
   imports: [

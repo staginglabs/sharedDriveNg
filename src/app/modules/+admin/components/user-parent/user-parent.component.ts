@@ -105,7 +105,7 @@ export class UserParentComponent implements OnInit, OnDestroy {
     this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res) {
-        if (this.breadCrumbData) {
+        if (this.breadCrumbData && this.breadCrumbData.length) {
           const obj = last(this.breadCrumbData);
           if (obj) {
             this.getS3Files(obj.id);
@@ -188,7 +188,7 @@ export class UserParentComponent implements OnInit, OnDestroy {
     if (this.activeUser && this.breadCrumbData) {
       path = `${this.activeUser.email}`;
       this.breadCrumbData.forEach((item, index) => {
-        path += `/${item.value}`;
+        path += `/${item.id}`;
       });
     }
     return path;

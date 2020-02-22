@@ -37,7 +37,7 @@
           <span>{{ 'cmn.driveInfo' | translate }}</span>
         </button>
         <!-- <button ngbDropdownItem (click)="downloadFolder(item)"><span class="drop-icon pr-2"><svg width="12" height="15" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z" fill="#C4C4C4" /></svg></span>{{ 'btn.download' | translate }}</button> -->
-        <button ngbDropdownItem  (click)="deleteFolder(item)">
+        <button *ngIf="hasPower" ngbDropdownItem  (click)="deleteFolder(item)">
           <span class="drop-icon pr-2"><svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.125 0.75V2.5H16.375V4.25H0.625V2.5H5.875V0.75H11.125ZM2.375 15.625C2.375 16.5901 3.15987 17.375 4.125 17.375H12.875C13.8401 17.375 14.625 16.5901 14.625 15.625V5.125H2.375V15.625ZM4.125 6.875H12.875L12.8759 15.625H4.125V6.875ZM5.875 8.625H7.625V13.875H5.875V8.625ZM11.125 8.625H9.375V13.875H11.125V8.625Z" fill="#C4C4C4" /></svg></span>
           <span>{{ 'btn.delete' | translate }}</span>
         </button>

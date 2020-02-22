@@ -5,13 +5,15 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { takeUntil, filter, take } from 'rxjs/operators';
-import { IS3FilesReq, IFileFormRes, IUserList, IUserData, IUserDetailsData } from 'src/app/models';
+import { IS3FilesReq, IFileFormRes, IUserList, IUserData, IUserDetailsData, ICreateFolderDetails } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { find } from 'src/app/lodash.optimized';
+import { find, last, cloneDeep } from 'src/app/lodash.optimized';
 import { CreateFolderModalComponent } from '../create-folder';
 import { TranslateService } from '@ngx-translate/core';
+import { MY_FILES } from 'src/app/app.constant';
+import { LocalService } from 'src/app/services/local.service';
 
 @Component({
   styleUrls: ['./drive-details.component.scss'],
@@ -21,15 +23,20 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   public showBreadCrumb = true;
   public showDeepBreadCrumb = true;
   public activeFolderName: string;
+  public activeFolderData: any;
   public filesList$: Observable<IFileFormRes[]>;
   public searchString: string;
   public activeUser: IUserList;
   public activeUserId: string;
   public userData: IUserDetailsData;
   public allUsers$: Observable<IUserList[]>;
+  public breadCrumbData: any[];
+  public uploadPath: string;
+  public maxLimitReached: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,
+    private localService: LocalService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
@@ -50,8 +57,6 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    console.log('ngOnInit');
-
     // listen for token and user details
     this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
     .subscribe(d => {
@@ -61,22 +66,35 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     // listen
     combineLatest([
       this.route.params.pipe(takeUntil(this.destroyed$)),
-      this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
+      this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$)),
+      this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
     ])
     .subscribe((arr: any[]) => {
+      this.uploadPath = null;
       const params = arr[0];
       this.userData = arr[1];
-      if (params && this.userData) {
-        this.route.firstChild.params.pipe(take(1))
-        .subscribe(p => {
-          console.log(p);
-          // this.setVal(params);
-        });
-        // if (params['driveId']) {
-        //   this.activeFolderName = params['driveId'];
-        // }
-        if (!params['userId']) {
+      if (params && this.userData && arr[2] && arr[2].length) {
+        let o: string = last(Object.values(cloneDeep(params)));
+        if (o) {
+          this.activeFolderName = o;
           this.getS3Files();
+          this.getActiveFolderData(o, arr[2]);
+
+          // prepare breadcrumb
+          this.breadCrumbData = [];
+          Object.keys(params).forEach((key, idx) => {
+            let i = {
+              level: idx,
+              id: params[key],
+              value: this.getNameOfFolder(params[key], arr[2])
+            };
+            this.breadCrumbData.push(i);
+          });
+          this.maxLimitReached = (this.breadCrumbData.length === 5) ? true : false;
+          console.log(this.maxLimitReached);
+          setTimeout(() => {
+            this.uploadPath = this.getPath();
+          }, 1000);
         }
       }
     });
@@ -85,18 +103,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     this.store.pipe(select(p => p.user.triggerFileReq), takeUntil(this.destroyed$))
     .subscribe(res => {
       if (res) {
-        this.prepareS3Req();
-      }
-    });
-
-    // listen for params
-    this.route.params.pipe(takeUntil(this.destroyed$))
-    .subscribe(params => {
-      if (params && params['driveId']) {
-        this.activeFolderName = params['driveId'];
-      }
-      if (params && params['userId']) {
-        this.findActiveUser(+params['userId']);
+        this.getS3Files();
       }
     });
 
@@ -107,6 +114,16 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  public navigateTo(o: any): void {
+    let u = `/user/shared-drive`;
+    this.breadCrumbData.forEach((item, index) => {
+      if (index <= o.level) {
+        u += `/${item.id}`;
+      }
+    });
+    this.router.navigate([u]);
   }
 
   public openModal() {
@@ -121,20 +138,12 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public goToUserDetailView() {
-    if (this.activeUser) {
-      this.router.navigate(['admin', 'drive', 'external', 'user', this.activeUser.id ]);
-    }
-  }
-
   private uriUtils(r: RouterStateSnapshot) {
     if (r.url.includes('/admin/shared-drive')) {
       this.showBreadCrumb = false;
     } else {
       this.showBreadCrumb = true;
     }
-
-    this.showDeepBreadCrumb = (r.url.includes('/admin/drive/external/')) ? true : false;
   }
 
   private getS3Files() {
@@ -144,28 +153,31 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       userId: this.activeUserId
     };
     this.store.dispatch(this.userActions.getFilesReq(obj));
-    this.getS3Folders();
   }
 
-  private findActiveUser(id: number) {
-    this.allUsers$.pipe(take(3)).subscribe(res => {
+  private getActiveFolderData(id, res: any[]) {
+    this.activeFolderData = null;
+    if (id && id !== MY_FILES) {
       if (res && res.length) {
-        this.activeUser = find(res, ['id', id]);
-        if (this.activeUser && this.activeFolderName) {
-          this.getS3Files();
-        }
+        this.activeFolderData = this.localService.findItemRecursively(res, id);
       }
-    });
-  }
-
-  private getS3Folders() {
-    if (this.activeUser) {
-      this.store.dispatch(this.userActions.getFoldersReq(this.activeUser.id.toString()));
     }
   }
 
-  private prepareS3Req() {
-    this.getS3Files();
+  private getNameOfFolder(id, arr: ICreateFolderDetails[]): string {
+    const data = this.localService.findItemRecursively(arr, id);
+    return (data && data.name) ? data.name : 'bingo';
+  }
+
+  private getPath(): string {
+    let path;
+    if (this.userData && this.breadCrumbData) {
+      path = `${this.userData.user_email}`;
+      this.breadCrumbData.forEach((item, index) => {
+        path += `/${item.id}`;
+      });
+    }
+    return path;
   }
 
 }
