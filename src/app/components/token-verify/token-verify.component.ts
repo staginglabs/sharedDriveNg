@@ -85,7 +85,7 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
 
   private doRedirect(o: any) {
     if (o && o.details && o.details.is_admin) {
-      this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+      this.router.navigate(['/admin/shared-drive/myfiles']);
     } else {
       this.router.navigate(['/user/dashboard']);
     }

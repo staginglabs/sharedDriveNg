@@ -4,9 +4,9 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
 import { ReplaySubject, Observable, combineLatest } from 'rxjs';
-import { takeUntil, take, filter } from 'rxjs/operators';
+import { takeUntil, take, filter, distinctUntilChanged } from 'rxjs/operators';
 import { IUserList, IS3FilesReq, IFileFormRes, BaseResponse, ISuccessRes, IBreadCrumb, ICreateFolderDetails } from 'src/app/models';
-import { find, last } from 'src/app/lodash.optimized';
+import { find, last, cloneDeep } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UploadService } from 'src/app/services/upload.service';
@@ -78,10 +78,22 @@ export class UserParentComponent implements OnInit, OnDestroy {
     });
 
     // listen
-    this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
-    .subscribe(data => {
-      this.foldersList = data;
-      if (data && data.length) {
+    combineLatest([
+      this.store.pipe(
+        select(p => p.user.folders),
+        distinctUntilChanged((p: any[], q: any[]) => {
+          if (!p && q) {
+            return false;
+          } else if (p && q) {
+            return p.length === q.length;
+          }
+        })
+      ),
+      this.store.pipe(select(p => p.user.activeUser), takeUntil(this.destroyed$))
+    ])
+    .subscribe(resp => {
+      this.foldersList = resp[0];
+      if (resp[1] && this.foldersList) {
         this.setVal();
       }
     });
@@ -195,10 +207,14 @@ export class UserParentComponent implements OnInit, OnDestroy {
   }
 
   private findActiveUser(id: number) {
-    this.activeUser = find(this.allUsers, ['id', id]);
-    if (this.activeUser) {
+    const o = find(this.allUsers, ['id', id]);
+    if (o) {
+      if (this.activeUser && this.activeUser.id !== o.id) {
+        this.isCalled = false;
+      }
+      this.activeUser = cloneDeep(o);
       this.uploadPath = this.getPath();
-      this.store.dispatch(this.userActions.setActiveUser(this.activeUser));
+      this.store.dispatch(this.userActions.setActiveUser(o));
       if (!this.isCalled) {
         this.isCalled = true;
         this.getS3Folders();

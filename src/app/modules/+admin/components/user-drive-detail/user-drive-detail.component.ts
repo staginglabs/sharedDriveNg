@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { UserActions } from 'src/app/actions';
 import { ReplaySubject, Observable, combineLatest, of } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, distinctUntilChanged } from 'rxjs/operators';
 import { IUserList, IFileFormRes, ICreateFolderDetails } from 'src/app/models';
 import { find, last } from 'src/app/lodash.optimized';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,7 @@ import { LocalService } from 'src/app/services/local.service';
   templateUrl: './user-drive-detail.component.html'
 })
 export class UserDriveDetailComponent implements OnInit, OnDestroy {
+  public activePath: string;
   public activeParent: ICreateFolderDetails;
   public maxLimitReached: boolean;
   public breadCrumbData: any[];
@@ -64,14 +65,24 @@ export class UserDriveDetailComponent implements OnInit, OnDestroy {
     // toggle things as per conditions
     combineLatest([
       this.route.params.pipe(takeUntil(this.destroyed$)),
-      this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
+      this.store.pipe(
+        select(p => p.user.folders),
+        distinctUntilChanged((p: any[], q: any[]) => {
+          if (!p && q) {
+            return false;
+          } else if (p && q) {
+            return p.length === q.length;
+          }
+        })
+      )
     ])
     .subscribe((arr: any[]) => {
       const params = arr[0];
       const data = arr[1];
-      if (params && data && data.length) {
+      if (params && data) {
         if (params['userId']) {
           this.breadCrumbData = [];
+          this.arrangeFolderList(data);
         } else {
           this.breadCrumbData = [];
           Object.keys(params).forEach((key, idx) => {
@@ -85,8 +96,22 @@ export class UserDriveDetailComponent implements OnInit, OnDestroy {
         }
         this.maxLimitReached = (this.breadCrumbData.length === 5) ? true : false;
         this.arrangeFolderList(data);
+        setTimeout(() => {
+          this.activePath = this.getPath();
+        }, 1500);
       }
     });
+  }
+
+  private getPath(): string {
+    let path;
+    if (this.activeUser && this.breadCrumbData) {
+      path = `${this.activeUser.email}`;
+      this.breadCrumbData.forEach((item, index) => {
+        path += `/${item.id}`;
+      });
+    }
+    return path;
   }
 
   private getNameOfFolder(id, arr: ICreateFolderDetails[]): string {

@@ -19,6 +19,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
   @Input() public folderName: string;
   @Input() public type: string;
   @Input() public item: IFileFormRes;
+  @Input() public folderId: string;
   @Input() public userId: string;
   public actionInProgress: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -54,6 +55,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
       this.deleteFileFromS3();
       this.doS3FileDelete();
     } else {
+      const key =  (this.type === 'folder') ? `${this.folderName}/${this.folderId}` : this.folderName;
       this.uploadService.deleteS3Object(this.folderName)
       .then(res => {
         if (this.type === 'folder') {
@@ -89,7 +91,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
 
   private deleteObjects() {
     let obj = {
-      folderName: this.displayName,
+      folderId: this.folderId,
       userId: this.userId
     };
     this.userService.deleteUserFolder(obj)

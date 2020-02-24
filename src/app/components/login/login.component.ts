@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private doRedirect() {
     if (this.userDetails.is_admin) {
-      this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+      this.router.navigate(['/admin/shared-drive/myfiles']);
     } else {
       this.router.navigate(['/user/dashboard']);
     }

@@ -98,16 +98,16 @@ export class CreateFolderModalComponent implements OnInit, OnDestroy {
     .then((res: BaseResponse<ISuccessRes, any>) => {
       this.getS3Folders();
       this.folderCreationInProgress = false;
-      this.toast.success(res.body.message, 'success');
       this.dismissModal();
+      this.toast.success(res.body.message, 'success');
     })
     .catch((e: BaseResponse<any, any>) => {
       this.folderCreationInProgress = false;
-      try {
-        this.toast.error(e.error.message, 'Error');
-      } catch (error) {
-        console.log(error);
-      }
+      console.log(e);
+      // try {
+      //   this.toast.error(e.error.message, 'Error');
+      // } catch (error) {
+      // }
     });
   }
 

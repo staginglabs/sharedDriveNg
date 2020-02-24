@@ -52,7 +52,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
 
     if (r.url === '/admin' || r.url === '/admin/') {
-      this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+      this.router.navigate(['/admin/shared-drive/myfiles']);
     }
   }
 

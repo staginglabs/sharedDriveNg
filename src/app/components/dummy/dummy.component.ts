@@ -37,7 +37,7 @@ export class DummyComponent implements OnInit, OnDestroy {
     .subscribe(state => {
       if (state.token && state.details) {
         if (state.details.is_admin) {
-          this.router.navigate(['/admin/shared-drive/drive/myfiles']);
+          this.router.navigate(['/admin/shared-drive/myfiles']);
         } else {
           this.router.navigate(['/user/dashboard']);
         }

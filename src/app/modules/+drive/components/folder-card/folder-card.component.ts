@@ -12,6 +12,7 @@ import { ICreateFolderDetails } from 'src/app/models';
   templateUrl: './folder-card.component.html'
 })
 export class FolderCardComponent implements OnInit, OnDestroy {
+  @Input() public activePath: string;
   @Input() public item: ICreateFolderDetails;
   @Input() public key: string;
   @Input() public id: string;
@@ -48,16 +49,16 @@ export class FolderCardComponent implements OnInit, OnDestroy {
   }
 
   public deleteFolder(item: any) {
-    let key = `${this.key}/${item.name}/`;
     const modalRef = this.modalService.open(
       DeleteModalComponent,
       {
         windowClass: 'customWarning'
       }
     );
-    modalRef.componentInstance.folderName = key;
+    modalRef.componentInstance.folderName = this.activePath;
     modalRef.componentInstance.type = 'folder';
     modalRef.componentInstance.displayName = item.name;
+    modalRef.componentInstance.folderId = item.id;
     modalRef.componentInstance.userId = this.id;
   }
 

@@ -6,7 +6,9 @@
         <p class="lead pt-5">{{ 'table.noFolderMsg' | translate }}</p>
       </ng-container>
 
-      <app-folder-card [item]="item" [id]="activeUser.id" [key]="activeUser.email" *ngFor="let item of foldersList$ | async"></app-folder-card>
+      <app-folder-card
+      [activePath]="activePath"
+      [item]="item" [id]="activeUser.id" [key]="activeUser.email" *ngFor="let item of foldersList$ | async"></app-folder-card>
     </section>
     <!-- end folders -->
 
