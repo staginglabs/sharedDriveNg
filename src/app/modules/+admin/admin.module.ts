@@ -20,8 +20,8 @@ const USER_ROUTES: Routes = [
     component: AdminComponent,
     children: [
       {
-        path: 'drive/internal',
-        // loadChildren: './../+drive/drive.module#DriveModule'
+        path: 'shared-drive',
+        loadChildren: './../+drive/drive.module#DriveModule'
       },
       {
         path: 'drive/external',

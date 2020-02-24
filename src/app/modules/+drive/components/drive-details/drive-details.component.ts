@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@ang
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable, combineLatest } from 'rxjs';
-import { takeUntil, filter, take } from 'rxjs/operators';
+import { takeUntil, filter, take, distinctUntilChanged } from 'rxjs/operators';
 import { IS3FilesReq, IFileFormRes, IUserList, IUserData, IUserDetailsData, ICreateFolderDetails } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
@@ -67,13 +67,24 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     combineLatest([
       this.route.params.pipe(takeUntil(this.destroyed$)),
       this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$)),
-      this.store.pipe(select(p => p.user.folders), takeUntil(this.destroyed$))
+      this.store.pipe(
+        select(p => p.user.folders),
+        // takeUntil(this.destroyed$)
+        distinctUntilChanged((p: any[], q: any[]) => {
+          if (!p && q) {
+            return false;
+          } else if (p && q) {
+            return p.length === q.length;
+          }
+        })
+      )
     ])
     .subscribe((arr: any[]) => {
+      this.activeFolderName = MY_FILES;
       this.uploadPath = null;
       const params = arr[0];
       this.userData = arr[1];
-      if (params && this.userData && arr[2] && arr[2].length) {
+      if (params && this.userData && arr[2]) {
         let o: string = last(Object.values(cloneDeep(params)));
         if (o) {
           this.activeFolderName = o;
@@ -91,7 +102,6 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
             this.breadCrumbData.push(i);
           });
           this.maxLimitReached = (this.breadCrumbData.length === 5) ? true : false;
-          console.log(this.maxLimitReached);
           setTimeout(() => {
             this.uploadPath = this.getPath();
           }, 1000);
