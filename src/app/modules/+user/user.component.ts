@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { AuthActions } from 'src/app/actions';
 import { ReplaySubject } from 'rxjs';
@@ -40,18 +40,23 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private setVal(r: RouterStateSnapshot) {
+    const pageArr = ['dashboard', 'orders', 'shared-drive', 'account-details', 'address'];
     if (r && r.url) {
       let arr = r.url.split('/');
       let page = last(arr);
       this.showBreadCrumb = (page === 'dashboard') ? false : true;
-      if (page === 'account-details') {
-        page = 'accountDetails';
+      if (pageArr.indexOf(page) !== -1) {
+        if (page === 'account-details') {
+          page = 'accountDetails';
+        }
+        if (page === 'shared-drive') {
+          page = 'sharedDrive';
+        }
+        let str = `cmn.${page}`;
+        this.activePageTitle = this.translate.instant(str);
+      } else {
+        this.activePageTitle = this.translate.instant(`cmn.sharedDrive`);
       }
-      if (page === 'shared-drive') {
-        page = 'sharedDrive';
-      }
-      let str = `cmn.${page}`;
-      this.activePageTitle = this.translate.instant(str);
     }
   }
 

@@ -11,3 +11,7 @@ export const BUCKET = {
   SECRET: environment.BUCKET_SECRET,
   POOL_ID: environment.BUCKET_POOL_ID
 };
+export const _BOSS = {
+  email: 'info@consult.tax',
+  name: 'Consultax'
+};

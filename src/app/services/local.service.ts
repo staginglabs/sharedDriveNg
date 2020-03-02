@@ -38,4 +38,13 @@ export class LocalService {
     }
     return null;
   }
+
+  public getNameOfFolder(id, arr: ICreateFolderDetails[]): string {
+    if (arr && arr.length === 0) {
+      return `Mis archivos`;
+    } else {
+      const data = this.findItemRecursively(arr, id);
+      return (data && data.name) ? data.name : 'Mis archivos';
+    }
+  }
 }

@@ -210,12 +210,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       let filtered = numb.replace(/[^0-9]/g, '');
       this.otpForm.get('mobile').patchValue(filtered);
       this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
+      // uncomment while production
       if (!this.isOtpSent) {
-        // uncomment while production
-        // this.sendOtp();
+        this.sendOtp();
       }
       // uncomment while developement
-      this.provideFakeLogin();
+      // this.provideFakeLogin();
     } else {
       this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
     }

@@ -517,3 +517,16 @@ body .woocommerce-MyAccount-content table thead tr{
     }
   }
 }
+
+#footer-widgets .footer-widget li a{
+  color:#fff !important
+}
+
+@media (min-width: 981px) {
+  .et_pb_gutters3.et_pb_footer_columns4 .footer-widget .fwidget {
+    margin-bottom: 0 !important;
+  }
+}
+.top_footer .footer-widget div#custom_html-2{
+  padding-left: 13px !important;
+}

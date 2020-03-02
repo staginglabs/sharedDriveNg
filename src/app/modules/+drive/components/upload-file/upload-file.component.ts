@@ -117,13 +117,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       }
     });
 
-    //
-    this.store.pipe(select(p => p.user.folders), take(3))
-    .subscribe(r => {
-      if (r && r.length && this.activeFolderName) {
-        this.activeFolderData = this.localService.findItemRecursively(r, this.activeFolderName);
-      }
-    });
   }
 
   public openDialog(template) {
@@ -219,10 +212,10 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     // setting email details
     if (obj.uploadedBy === 'admin' && this.activeUser) {
       // file uploaded by admin for some other user
-      obj.generatedFor = 'user';
+      // obj.generatedFor = 'user';
       this.getEmailContentFromAdmin(obj, today, obj.displayName, obj.folderNameForUI, this.activeUser.displayName);
     } else if (obj.uploadedBy === 'user') {
-      obj.generatedFor = 'admin';
+      // obj.generatedFor = 'admin';
       this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderNameForUI, this.userData.display_name);
     }
     this.userService.insertFileEntry(obj)
@@ -352,6 +345,15 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       this.activeFolderName = last(Object.values(params));
     } else {
       this.activeFolderName = MY_FILES;
+    }
+    if (this.activeFolderName !== MY_FILES) {
+      this.store.pipe(select(p => p.user.folders), take(3))
+      .subscribe(r => {
+        if (r && r.length && this.activeFolderName) {
+          this.activeFolderData = this.localService.findItemRecursively(r, this.activeFolderName);
+          console.log(this.activeFolderData);
+        }
+      });
     }
   }
 

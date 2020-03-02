@@ -115,8 +115,7 @@ export class UserDriveDetailComponent implements OnInit, OnDestroy {
   }
 
   private getNameOfFolder(id, arr: ICreateFolderDetails[]): string {
-    const data = this.localService.findItemRecursively(arr, id);
-    return (data && data.name) ? data.name : 'bingo';
+    return this.localService.getNameOfFolder(id, arr);
   }
 
   private arrangeFolderList(arr: ICreateFolderDetails[]) {
