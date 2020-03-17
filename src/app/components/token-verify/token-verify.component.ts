@@ -36,9 +36,10 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    // http://localhost:3000/sharedDriveWp/clientes/#/token-verify?token=uwwOyRd8sy0CafwcHlhROa0kssnfjAXwJE4btVAH5urlknQXsomarcelrombach1584444253
     // http://localhost:3000/#/token-verify?token=lkajf93809438lajf09803&returnUrl=dashboard
     // https://consult.tax/clientes/#/token-verify?token=lkajf93809438lajf09803
-    console.log( this.route.snapshot.queryParams);
+    // console.log( this.route.snapshot.queryParams);
     this.token = this.route.snapshot.queryParams['token'];
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -76,11 +77,14 @@ export class TokenVerifyComponent implements OnInit, OnDestroy {
       details: omit(obj, ['token'])
     };
     this.store.dispatch(this.authActions.setTokenResponse(o));
-    this.store.dispatch(this.authActions.setOTPStatus(true));
-    this.store.dispatch(this.authActions.isOtpSent(true));
     setTimeout(() => {
-      this.doRedirect(o);
+      this.router.navigate(['/login']);
     }, 1000);
+    // this.store.dispatch(this.authActions.setOTPStatus(true));
+    // this.store.dispatch(this.authActions.isOtpSent(true));
+    // setTimeout(() => {
+    //   this.doRedirect(o);
+    // }, 1000);
   }
 
   private doRedirect(o: any) {
