@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 
 export interface IChangePasswordReq {
   newpassword: string;
@@ -171,22 +172,39 @@ export interface IS3FilesReq {
 }
 
 export interface IFileFormRes {
-  displayName: string;
-  id: number;
-  isDeleted: boolean;
-  key: string;
-  lastModified: number;
-  name: string;
-  note: string;
-  uploadedBy: 'user' | 'admin';
+  displayName?: string;
+  id?: number;
+  isDeleted?: boolean;
+  key?: string;
+  lastModified?: number;
+  name?: string;
+  note?: string;
+  uploadedBy?: 'user' | 'admin';
 }
 
 export interface IFileForm extends IFileFormRes {
-  type: string;
-  location: string;
+  type?: string;
+  location?: string;
   file?: any;
-  email: string;
-  folderName: string;
+  email?: string;
+  folderName?: string;
+  folderNameForUI?: string;
+  userId?: string;
+  generatedFor?: string;
+  emailDataForClient?: any;
+  emailDataForAdmin?: any;
+}
+
+export interface IFileItems extends IFileForm {
+  file: any;
+  name: string;
+  note: string;
+  inProgress: boolean;
+  progress: Observable<number>;
+  isUploadingFinished?: boolean;
+  uploadFileError?: boolean;
+  uploadErrorMsg?: string;
+  uploadMsg?: any;
 }
 
 export interface IUserUploadObj extends IFileForm {

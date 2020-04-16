@@ -24,6 +24,7 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
   public showDeepBreadCrumb = true;
   public activeFolderName: string;
   public activeFolderData: any;
+  public hasPower: boolean;
   public filesList$: Observable<IFileFormRes[]>;
   public searchString: string;
   public activeUser: IUserList;
@@ -61,6 +62,13 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
     this.store.pipe(select(p => p.user.details), takeUntil(this.destroyed$))
     .subscribe(d => {
       this.userData = d;
+    });
+
+    this.setVal(this.router.routerState.snapshot);
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(resp => {
+      if (resp) {
+        this.setVal(this.router.routerState.snapshot);
+      }
     });
 
     // listen
@@ -187,6 +195,14 @@ export class DriveDetailsComponent implements OnInit, OnDestroy {
       });
     }
     return path;
+  }
+
+  private setVal(r: RouterStateSnapshot) {
+    if (r.url === '/user/shared-drive/myfiles' || r.url.includes('/admin/shared-drive')) {
+      this.hasPower = true;
+    } else {
+      this.hasPower = false;
+    }
   }
 
 }

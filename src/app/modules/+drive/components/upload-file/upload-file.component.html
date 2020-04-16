@@ -13,14 +13,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="form" (ngSubmit)="uploadFile()" novalidate>
-  <div class="modal-body pt-4 pl-4 pr-4 pb-2">
-
-    <ng-container *ngIf="uploadFileSuccess">
-      <ngb-alert [type]="'success'" [dismissible]="false">
-        {{ uploadMsg }}
-      </ngb-alert>
-    </ng-container>
+  <div class="modal-body">
 
     <ng-container *ngIf="uploadFileError">
       <ngb-alert [type]="'danger'" [dismissible]="true">
@@ -28,17 +21,17 @@
       </ngb-alert>
     </ng-container>
 
-    <ng-container *ngIf="!uploadFileSuccess">
+    <ng-container>
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="!files || files && files.length === 0">
         <label>
           {{ 'upload.file' | translate }} <sup class="text-danger"> *</sup>
-          <span class="ml-3" *ngIf="form.get('file').value">{{form.get('file').value}}</span>
         </label>
         <div id="fileWrapper">
-          <input id="fileInpt" formControlName="file" class="form-control" type="file" name="file" (change)="onfileInputChange($event)"
-          accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/png, image/jpg" />
-          <button type="button" (click)="triggerUploadFile($event)" class="browseFile text-primary cp"><span class="browseIcon pr-2"><svg width="12" height="15"
+          <!--  image/png, image/jpg -->
+          <input id="fileInpt" multiple class="form-control" type="file" name="file" (change)="onfileInputChange($event)"
+          accept="text/plain,application/vnd.ms-powerpoint, application/msword,image/gif,image/jpeg,application/pdf,image/png,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.doc,.jpeg,.jpg,.pdf,.png,.xls,.xlsx" />
+          <button type="button" (click)="triggerUploadFile($event)" class="browseFile cp btn-block"><span class="browseIcon pr-2"><svg width="12" height="15"
             viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M-1.09278e-06 12.5L11.64 12.5L11.64 14.18L-1.23965e-06 14.18L-1.09278e-06 12.5ZM8.32 7.27357e-07L8.32 5L11.64 5L5.82 10.82L-4.37114e-07 5L3.32 5L3.32 2.90244e-07L8.32 7.27357e-07Z"
@@ -46,24 +39,51 @@
           </svg></span>{{ 'upload.browseFileTxt' | translate }}
           </button>
         </div>
-        <small id="fileInptHelp" class="form-text text-muted">{{ 'upload.allowedFiles' | translate }}</small>
+        <small id="fileInptHelp" class="form-text text-muted font-italic">{{ 'upload.allowedFiles' | translate }}</small>
       </div>
-      <div class="form-group">
-        <label>{{ 'upload.note' | translate }}</label>
-        <textarea formControlName="note" name="note" class="form-control" rows="3" placeholder="{{ 'upload.notePlaceholder' | translate }}" class="form-control"></textarea>
+      <!-- <span class="ml-3">{{form.get('file').value}}</span> -->
+      <ng-container *ngIf="errFiles">
+        <div class="form-group" *ngFor="let item of errFiles; let i=index">
+          <ngb-alert [type]="'danger'" [dismissible]="false">
+            {{item.msg}}
+          </ngb-alert>
+        </div>
+      </ng-container>
+
+      <div class="form-group" *ngFor="let item of files; let i=index">
+        <label class="mb-1" *ngIf="!item.isUploadingFinished">{{ 'table.name' | translate }}: {{item.name}}</label>
+        <ng-container *ngIf="!item.inProgress">
+          <br>
+          <label>{{ 'upload.note' | translate }}</label>
+          <input [(ngModel)]="item.note" name="note" class="form-control" placeholder="{{ 'upload.notePlaceholder' | translate }}" />
+          <small class="form-text text-danger">
+            <a href="javascript:void(0)" (click)="removeFile(i)">Remover archivo</a>
+          </small>
+        </ng-container>
+        <ng-container *ngIf="item.inProgress && !item.isUploadingFinished">
+          <div>
+            <ngb-progressbar type="success" [value]="item.progress | async" [striped]="true" [animated]="true"><i>{{item.progress | async}}%</i></ngb-progressbar>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item.inProgress && item.isUploadingFinished">
+          <small class="form-text text-success">
+            {{item.uploadMsg}}
+          </small>
+        </ng-container>
       </div>
     </ng-container>
+
+    <div>
+      <ng-container *ngIf="uploadFileSuccess">
+        <button (click)="dismissModal('Cross click')" class="btn btn-dark btn-block">{{ 'btn.close' | translate }}</button>
+      </ng-container>
+      <ng-container *ngIf="!uploadFileSuccess">
+        <button (click)="uploadFileProcessStart($event)" [disabled]="uploadFileProgress" class="btn bg-dark btn-block text-white">
+          <span *ngIf="uploadFileProgress" class="spinner-border spinner-border-sm mr-1"></span>
+          {{ 'btn.uf' | translate }}
+        </button>
+      </ng-container>
+    </div>
+
   </div>
-  <div class="modal-footer border-0 text-center justify-content-center">
-    <ng-container *ngIf="uploadFileSuccess">
-      <button (click)="dismissModal('Cross click')" class="btn btn-light btn-block">{{ 'btn.close' | translate }}</button>
-    </ng-container>
-    <ng-container *ngIf="!uploadFileSuccess">
-      <button [disabled]="form.invalid || uploadFileProgress" class="btn bg-primary btn-block rounded-0 text-white">
-        <span *ngIf="uploadFileProgress" class="spinner-border spinner-border-sm mr-1"></span>
-        {{ 'btn.uf' | translate }}
-      </button>
-    </ng-container>
-  </div>
-  </form>
 </ng-template>

@@ -40,17 +40,17 @@
       <div class="form-group custom flex-grow-1">
         <input class="form-control" placeholder="{{ 'placeholder.file' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
       </div>
-      <div class="sideButton  ml-4">
+      <div class="sideButton ml-4" *ngIf="hasPower">
         <app-upload-file-button [uploadPath]="uploadPath"></app-upload-file-button>
       </div>
     </div>
 
     <!-- folders list -->
     <section class="d-flex flex-wrap mb-2" *ngIf="!maxLimitReached && activeFolderData && activeFolderData.childrens && activeFolderData.childrens.length && userData">
-      <app-folder-card [hasPower]="false" [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of activeFolderData.childrens"></app-folder-card>
+      <app-folder-card [hasPower]="hasPower" [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of activeFolderData.childrens"></app-folder-card>
     </section>
 
-    <app-file-list-view [hasPower]="false" [activeUser]="activeUser" [userId]="activeUserId" [searchString]="searchString" [fileList]="filesList$ | async"></app-file-list-view>
+    <app-file-list-view [hasPower]="hasPower" [activeUser]="activeUser" [userId]="activeUserId" [searchString]="searchString" [fileList]="filesList$ | async"></app-file-list-view>
 
   </section>
 
