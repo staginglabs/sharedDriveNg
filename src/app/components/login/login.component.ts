@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services';
 import { BaseResponse, IMsgRes, IUserDetailsData } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
 import { clone, omit } from 'src/app/lodash.optimized';
+import { environment } from 'src/environments/environment';
 
 @Component({
   styleUrls: ['./login.component.scss'],
@@ -211,11 +212,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.otpForm.get('mobile').patchValue(filtered);
       this.otpForm.get('mobileClone').patchValue(this.getMaskedNumber(filtered));
       // uncomment while production
-      if (!this.isOtpSent) {
-        this.sendOtp();
+      if (environment && environment.production) {
+        if (!this.isOtpSent) {
+          this.sendOtp();
+        }
+      } else {
+        this.provideFakeLogin();
       }
-      // uncomment while developement
-      // this.provideFakeLogin();
     } else {
       this.toast.info('Su número de teléfono móvil no está registrado con nosotros, póngase en contacto con el administrador', 'Information', {disableTimeOut: true});
     }

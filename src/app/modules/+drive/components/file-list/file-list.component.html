@@ -73,7 +73,7 @@
                     </svg>
                   </span>{{ 'btn.delete' | translate }}
                 </button>
-                <button *ngIf="hasPower" ngbDropdownItem (click)="moveFile(item, moveFileModalTemp)">
+                <button *ngIf="hasPower && activeFolderName !== 'myfiles'" ngbDropdownItem (click)="moveFile(item, moveFileModalTemp)">
                   <span class="drop-icon">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none"  xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M-1.43051e-05 7.49999L-1.43051e-05 5.85999L10.16 5.85999L5.49999 1.17999L6.67999 -1.43051e-05L13.36 6.67999L6.67999 13.36L5.49999 12.18L10.16 7.49999L-1.43051e-05 7.49999Z" fill="#C4C4C4"/>
