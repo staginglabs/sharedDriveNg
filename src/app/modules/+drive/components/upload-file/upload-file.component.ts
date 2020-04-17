@@ -160,6 +160,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
             note: '',
             inProgress: false,
             progress: of(0),
+            s3UploadCompleted: false,
             isUploadingFinished: false,
             email: (this.activeUser) ? this.activeUser.email : this.userData.user_email
           });
@@ -171,12 +172,12 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   public uploadFileProcessStart(e: any) {
     if (e && this.files && this.files.length) {
       this.files.forEach((item, index) => {
-        item.inProgress = true;
-        item.progress = of(1);
         setTimeout(() => {
+          item.inProgress = true;
+          item.progress = of(1);
           item.progress = of(3);
           this.uploadFile(item);
-        }, 300 * index);
+        }, 200 * index);
       });
     }
   }
@@ -204,13 +205,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     item.progress = of(10);
     this.uploadService.uploadfile(item)
     .then((res: any) => {
-      item.progress = of(50);
       item.key = res.Key;
       item.location = res.Location;
-      item.id = new Date().getTime();
-      item.lastModified = clone(item.id);
-      item.isDeleted = false;
-      item.uploadedBy = this.findUploader();
+      item.s3UploadCompleted = true;
       this.hitApi(item);
     }).catch((err: any) => {
       item.uploadFileError = true;
@@ -240,6 +237,11 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private hitApi(obj: IFileItems) {
+    obj.progress = of(50);
+    obj.id = new Date().getTime();
+    obj.lastModified = clone(obj.id);
+    obj.isDeleted = false;
+    obj.uploadedBy = this.findUploader();
     obj.progress = of(60);
     let today = this.getFormatedDate();
     let userId: any = (this.activeUser) ? this.activeUser.id : this.userData.id;
@@ -253,19 +255,43 @@ export class UploadFileComponent implements OnInit, OnDestroy {
       obj.generatedFor = 'admin';
       this.getEmailContentFromClient(obj, today, obj.displayName, obj.folderNameForUI, this.userData.display_name);
     }
-    this.userService.insertFileEntry(obj)
-    .then(result => {
-      obj.progress = of(100);
-      obj.isUploadingFinished = true;
-      obj.uploadMsg = this.translate.instant('upload.msg', { fileName: obj.name });
-    })
-    .catch(err => {
-      obj.uploadFileError = true;
-      obj.uploadErrorMsg = this.translate.instant('upload.err', { msg: ERR_MSG });
-      console.log(err);
-    })
-    .finally(() => {
-      this.checkTaskHasEnded();
+    this.s3Toll();
+  }
+
+  private s3Toll() {
+    let finished = 0;
+    let errored = 0;
+    const total = this.files.length;
+    this.files.forEach(item => {
+      if (item.s3UploadCompleted && !item.uploadFileError) {
+        finished++;
+      } else if (item.uploadFileError) {
+        errored++;
+      }
+    });
+    if (total === (finished + errored)) {
+      this.doFinal();
+    }
+  }
+
+  private doFinal() {
+    this.files.forEach((obj, index) => {
+      setTimeout(() => {
+        this.userService.insertFileEntry(obj)
+        .then(result => {
+          obj.progress = of(100);
+          obj.isUploadingFinished = true;
+          obj.uploadMsg = this.translate.instant('upload.msg', { fileName: obj.name });
+        })
+        .catch(err => {
+          obj.uploadFileError = true;
+          obj.uploadErrorMsg = this.translate.instant('upload.err', { msg: ERR_MSG });
+          console.log('[S3 ERROR]', err);
+        })
+        .finally(() => {
+          this.checkTaskHasEnded();
+        });
+      }, 500 * index);
     });
   }
 
@@ -283,9 +309,6 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     if (total === (finished + errored)) {
       this.uploadFileSuccess = true;
       this.getS3Files();
-    } else {
-      console.log('errored:', errored);
-      console.log('finished:', finished);
     }
   }
 

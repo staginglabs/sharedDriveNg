@@ -205,6 +205,7 @@ export interface IFileItems extends IFileForm {
   uploadFileError?: boolean;
   uploadErrorMsg?: string;
   uploadMsg?: any;
+  s3UploadCompleted?: boolean;
 }
 
 export interface IUserUploadObj extends IFileForm {

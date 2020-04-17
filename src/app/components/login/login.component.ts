@@ -134,8 +134,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (data && data.mobile) {
       this.authService.sendOtp(data)
       .then((res: BaseResponse<IMsgRes, any>) => {
-        if (res.body && res.body.status === '0') {
+        if (res.body && res.body.request_id) {
           this.otpForm.get('requestId').patchValue(res.body.request_id);
+        }
+        if (res.body && res.body.status === '0') {
           this.store.dispatch(this.authActions.isOtpSent(true));
         } else {
           this.goBack();
