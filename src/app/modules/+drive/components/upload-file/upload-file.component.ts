@@ -10,11 +10,12 @@ import { takeUntil, take, filter } from 'rxjs/operators';
 import { IUserData, IFileForm, IS3UploadRes, IUserList, IUserDetailsData, ICreateFolderDetails, IFileItems } from 'src/app/models';
 import { UploadService } from 'src/app/services/upload.service';
 import { UserService } from 'src/app/services';
-import { clone, find, last } from 'src/app/lodash.optimized';
+import { clone, find, last, isEmpty } from 'src/app/lodash.optimized';
 import { MY_FILES } from 'src/app/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalService } from 'src/app/services/local.service';
 const SIZEMSG = 'El tamaño del archivo excede el máximo establecido. Prueba con un archivo de menos de 10 Mb.';
+const ERR_MSG = 'algo salió mal';
 
 @Component({
   selector: 'app-upload-file-button',
@@ -124,6 +125,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   public dismissModal(reason) {
+    this.files = [];
+    this.errFiles = [];
     this.modalRef.close();
   }
 
@@ -157,7 +160,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
             note: '',
             inProgress: false,
             progress: of(0),
-            isUploadingFinished: false
+            isUploadingFinished: false,
+            email: (this.activeUser) ? this.activeUser.email : this.userData.user_email
           });
         }
       }
@@ -166,17 +170,20 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   public uploadFileProcessStart(e: any) {
     if (e && this.files && this.files.length) {
-      this.files.forEach(item => {
+      this.files.forEach((item, index) => {
         item.inProgress = true;
         item.progress = of(1);
-        this.uploadFile(item);
+        setTimeout(() => {
+          item.progress = of(3);
+          this.uploadFile(item);
+        }, 300 * index);
       });
     }
   }
 
   public uploadFile(item: IFileItems) {
     if (item && item.file) {
-      item.progress = of(5);
+      item.progress = of(7);
       this.uploadFileProgress = true;
       item.displayName = clone(item.name);
       item.name = `${new Date().getTime()}_${item.name}`;
@@ -254,7 +261,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     })
     .catch(err => {
       obj.uploadFileError = true;
-      obj.uploadErrorMsg = err;
+      obj.uploadErrorMsg = this.translate.instant('upload.err', { msg: ERR_MSG });
       console.log(err);
     })
     .finally(() => {
@@ -276,6 +283,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
     if (total === (finished + errored)) {
       this.uploadFileSuccess = true;
       this.getS3Files();
+    } else {
+      console.log('errored:', errored);
+      console.log('finished:', finished);
     }
   }
 
@@ -367,7 +377,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
   }
 
   private setVal(params?) {
-    if (params && !params['userId']) {
+    if (!isEmpty(params) && params && !params['userId']) {
       this.activeFolderName = last(Object.values(params));
     } else {
       this.activeFolderName = MY_FILES;

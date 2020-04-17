@@ -70,6 +70,11 @@
             {{item.uploadMsg}}
           </small>
         </ng-container>
+        <ng-container *ngIf="item.inProgress && item.uploadFileError">
+          <small class="form-text text-danger">
+            {{item.uploadErrorMsg}}
+          </small>
+        </ng-container>
       </div>
     </ng-container>
 
