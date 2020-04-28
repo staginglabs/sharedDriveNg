@@ -143,6 +143,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
 
   public onfileInputChange(event: any) {
     if (event) {
+      let arr = [];
       this.files = [];
       this.errFiles = [];
       const length: number = event.srcElement.files.length > 10 ? 10 : event.srcElement.files.length;
@@ -154,7 +155,8 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           const msg = this.translate.instant('upload.err', { msg: m });
           this.errFiles.push({ data: file, name, msg, size});
         } else {
-          this.files.push({
+          arr.push({
+            size,
             file,
             name: file.name.replace(/[^\w\s\.\_\-]/gi, ''),
             note: '',
@@ -166,6 +168,9 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           });
         }
       }
+      this.files = arr.sort((a, b) => {
+        return a.size - b.size;
+      });
     }
   }
 
@@ -177,7 +182,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
           item.progress = of(1);
           item.progress = of(3);
           this.uploadFile(item);
-        }, 200 * index);
+        }, 500 * index);
       });
     }
   }
@@ -291,7 +296,7 @@ export class UploadFileComponent implements OnInit, OnDestroy {
         .finally(() => {
           this.checkTaskHasEnded();
         });
-      }, 500 * index);
+      }, 700 * index);
     });
   }
 
