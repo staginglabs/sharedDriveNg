@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './admin-dashboard.component.html'
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
+  public sortBy = 'displayName';
   public allUsers$: Observable<IUserList[]>;
   public onlineUsers$: Observable<IUserList[]>;
   public offlineUsers$: Observable<IUserList[]>;

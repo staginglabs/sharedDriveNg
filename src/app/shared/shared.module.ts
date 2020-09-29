@@ -12,13 +12,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { COMMON_EXP_COMPOS } from '../modules/+drive';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgbdSortableHeaderDirective } from './directives';
 
 @NgModule({
   declarations: [
     LoaderComponent,
     ENTRY_COMPONENTS,
     CORE_COMPONENTS,
-    COMMON_EXP_COMPOS
+    COMMON_EXP_COMPOS,
+    NgbdSortableHeaderDirective
   ],
   imports: [
     NgbModule,
@@ -42,7 +44,8 @@ import { TranslateModule } from '@ngx-translate/core';
     PipeModule,
     NgSelectModule,
     LoaderComponent,
-    TranslateModule
+    TranslateModule,
+    NgbdSortableHeaderDirective
   ]
 })
 export class SharedModule {}

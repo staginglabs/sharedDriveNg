@@ -47,7 +47,7 @@
 
     <!-- folders list -->
     <section class="d-flex flex-wrap mb-2" *ngIf="!maxLimitReached && activeFolderData && activeFolderData.childrens && activeFolderData.childrens.length && userData">
-      <app-folder-card [hasPower]="hasPower" [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of activeFolderData.childrens"></app-folder-card>
+      <app-folder-card [hasPower]="hasPower" [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of activeFolderData.childrens | mySort : 'asc' : 'name'"></app-folder-card>
     </section>
 
     <app-file-list-view [hasPower]="hasPower" [activeUser]="activeUser" [userId]="activeUserId" [searchString]="searchString" [fileList]="filesList$ | async"></app-file-list-view>

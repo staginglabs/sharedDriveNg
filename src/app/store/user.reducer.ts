@@ -4,7 +4,7 @@ import {
   BaseResponse, IIOrderRootRes,
   IOrderRes, IUserDetailsData, IUserDetailsRoot, ISuccessRes, IFileFormRes, IUserList, ICreateFolderDetails
 } from '../models';
-import { MY_FILES } from '../app.constant';
+import { compare, MY_FILES } from '../app.constant';
 
 export interface UserState {
   activeUser: any;
@@ -70,7 +70,16 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.GET_USERS_RES: {
       const res: BaseResponse<IUserList[], any> = action.payload;
-      let arr: IUserList[] = cloneDeep(res.body);
+      let arr: IUserList[] = res.body.sort((a, b) => {
+        let column = 'displayName';
+        let ar;
+        if (typeof a[column] === 'string' && typeof b[column] === 'string') {
+          ar = compare(a[column].toLocaleLowerCase(), b[column].toLocaleLowerCase());
+        } else {
+          ar = compare(a[column], b[column]);
+        }
+        return ar;
+      });
       let onlineUsers = arr.filter(item => !item.isOffline);
       let offlineUsers = arr.filter(item => item.isOffline);
       return {
@@ -103,7 +112,20 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     }
     case USER_ACTIONS.GET_FOLDERS_RES: {
       const res: BaseResponse<any, any> = action.payload;
-      return { ...state, folders: res.body, gettingFoldersInProgress: false };
+      if (res && res.body) {
+        res.body.sort((a, b) => {
+          let column = 'name';
+          let ar;
+          if (typeof a[column] === 'string' && typeof b[column] === 'string') {
+            ar = compare(a[column].toLocaleLowerCase(), b[column].toLocaleLowerCase());
+          } else {
+            ar = compare(a[column], b[column]);
+          }
+          return ar;
+        });
+        return { ...state, folders: res.body, gettingFoldersInProgress: false };
+      }
+      return {...state, gettingFoldersInProgress: false};
     }
     case USER_ACTIONS.GET_FILES_REQ: {
       return { ...state, files: [], gettingfileInProgress: true };
@@ -111,6 +133,16 @@ export function userReducer(state = initialState, action: CustomActions): UserSt
     case USER_ACTIONS.GET_FILES_RES: {
       const res: BaseResponse<IFileFormRes[], any> = action.payload;
       if (res && res.body) {
+        res.body.sort((a, b) => {
+          let column = 'lastModified';
+          let ar;
+          if (typeof a[column] === 'string' && typeof b[column] === 'string') {
+            ar = compare(a[column].toLocaleLowerCase(), b[column].toLocaleLowerCase());
+          } else {
+            ar = compare(a[column], b[column]);
+          }
+          return -ar;
+        });
         return { ...state, files: res.body, gettingfileInProgress: false };
       }
       return {...state, gettingfileInProgress: false};

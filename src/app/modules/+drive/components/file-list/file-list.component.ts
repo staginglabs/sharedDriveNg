@@ -1,10 +1,10 @@
-﻿import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, QueryList, ViewChildren } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, RouterStateSnapshot } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/store';
 import { ReplaySubject, Observable } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { IFileFormRes, IUserList, IFileForm, ICreateFolderDetails } from 'src/app/models';
+import { IFileFormRes, IUserList, IFileForm, ICreateFolderDetails, SortEvent } from 'src/app/models';
 import { UserActions } from 'src/app/actions';
 import { UploadService } from 'src/app/services/upload.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,8 @@ import { DeleteModalComponent } from 'src/app/components/delete-modal';
 import { clone, last, cloneDeep, flatten, map, union, omit, remove } from 'src/app/lodash.optimized';
 import { UserService } from 'src/app/services';
 import { TranslateService } from '@ngx-translate/core';
-import { MY_FILES } from 'src/app/app.constant';
+import { compare, MY_FILES } from 'src/app/app.constant';
+import { NgbdSortableHeaderDirective } from 'src/app/shared/directives';
 const SELECT_OPT = 'Please Select';
 
 @Component({
@@ -22,6 +23,8 @@ const SELECT_OPT = 'Please Select';
   templateUrl: './file-list.component.html'
 })
 export class FileListComponent implements OnInit, OnDestroy, OnChanges {
+
+  @ViewChildren(NgbdSortableHeaderDirective) headers: QueryList<NgbdSortableHeaderDirective>;
   @Input() public userId: string;
   @Input() public fileList: IFileFormRes[];
   @Input() public searchString: string;
@@ -36,6 +39,7 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   public moveFileModalRef: any;
   public showMoveOption = false;
   public moveToData: any = null;
+  private fileListClone: IFileFormRes[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   constructor(
     public translate: TranslateService,
@@ -56,8 +60,9 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    // if ('folderList' in changes && this.activeFolderName) {
-    // }
+    if ('fileList' in changes) {
+      this.fileListClone = cloneDeep(changes.fileList.currentValue);
+    }
   }
 
   public ngOnInit() {
@@ -88,6 +93,31 @@ export class FileListComponent implements OnInit, OnDestroy, OnChanges {
         this.uriUtils(this.router.routerState.snapshot);
       }
     });
+  }
+
+  public onSort({column, direction}: SortEvent) {
+    console.log(column, direction);
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.fileList = cloneDeep(this.fileListClone);
+    } else {
+      this.fileList = [...cloneDeep(this.fileListClone)].sort((a, b) => {
+        let res;
+        if (typeof a[column] === 'string' && typeof b[column] === 'string') {
+          res = compare(a[column].toLocaleLowerCase(), b[column].toLocaleLowerCase());
+        } else {
+          res = compare(a[column], b[column]);
+        }
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
   public customSearchFn(term: string, item: ICreateFolderDetails) {

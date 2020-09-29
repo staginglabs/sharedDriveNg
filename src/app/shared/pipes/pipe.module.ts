@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UniversalPipeFunction, FilterPipe } from '.';
+import { UniversalPipeFunction, FilterPipe, SortByPipe } from '.';
 
 @NgModule({
   imports: [
@@ -8,11 +8,13 @@ import { UniversalPipeFunction, FilterPipe } from '.';
   ],
   declarations: [
     FilterPipe,
-    UniversalPipeFunction
+    UniversalPipeFunction,
+    SortByPipe
   ],
   exports: [
     FilterPipe,
-    UniversalPipeFunction
+    UniversalPipeFunction,
+    SortByPipe
   ]
 })
 export class PipeModule {}

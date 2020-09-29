@@ -34,7 +34,7 @@
       </section>
 
       <section class="d-flex flex-wrap" *ngIf="userData">
-        <app-folder-card [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of foldersList$ | async"></app-folder-card>
+        <app-folder-card [item]="item" [id]="userData.id" [key]="userData.user_email" *ngFor="let item of foldersList$ | async  | mySort : 'asc' : 'name'"></app-folder-card>
       </section>
     </ng-container>
 

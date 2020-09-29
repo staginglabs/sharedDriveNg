@@ -12,8 +12,8 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="w-40" scope="col">{{ 'table.name' | translate }}</th>
-          <th class="w-20" scope="col">{{ 'table.date' | translate }}</th>
+          <th class="w-40" scope="col" sortable="displayName" (sort)="onSort($event)">{{ 'table.name' | translate }}</th>
+          <th class="w-20" scope="col" sortable="lastModified" (sort)="onSort($event)">{{ 'table.date' | translate }}</th>
           <th class="w-20" scope="col">{{ 'table.notes' | translate }}</th>
           <th class="w-20" scope="col">{{ 'table.action' | translate }}</th>
         </tr>

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BACKEND_BASE_URL: 'http://localhost/sharedDriveWp/',
+  BACKEND_BASE_URL: 'http://localhost/sastre/',
   BUCKET_NAME: '',
   BUCKET_BASE_URL: '',
   BUCKET_ACCESS: '',

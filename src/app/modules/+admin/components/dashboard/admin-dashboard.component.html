@@ -1,7 +1,19 @@
 ﻿<section class="d-flex h-100 subRightsec flex-column p-5">
   <div class="lead">{{ 'cmn.overview' | translate }}</div>
-  <div class="form-group custom">
-    <input class="form-control" placeholder="{{ 'placeholder.users' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
+
+  <div class="d-flex flex-row">
+
+    <div class="form-group customSelect form-inline mr-5">
+      <label class="mr-1">Ordenado por:</label>
+      <select class="form-control" name="sort" id="sort" [(ngModel)]="sortBy">
+        <option [value]="'displayName'">Nombre</option>
+        <option [value]="'createdDate'">Creado por</option>
+      </select>
+    </div>
+
+    <div class="form-group custom flex-grow-1">
+      <input class="form-control" placeholder="{{ 'placeholder.users' | translate }}" type="search" name="searchString" [(ngModel)]="searchString" />
+    </div>
   </div>
 
   <!-- tabs -->
@@ -10,7 +22,7 @@
       <ng-template ngbTabContent>
         <app-loader-small [status]="gettingUsersInProgress$ | async"></app-loader-small>
         <div class="d-flex flex-row flex-wrap adminDbshCardWrp">
-          <ng-container *ngFor="let user of allUsers$ | async | myFilter : 'name' : searchString; let i=index">
+          <ng-container *ngFor="let user of allUsers$ | async | mySort : 'asc' : sortBy | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>
           </ng-container>
         </div>
@@ -22,7 +34,7 @@
           <ng-container *ngIf="!onlineUsers$ || (onlineUsers$ | async).length === 0">
             <p class="lead pt-5 text-center w-100">{{ 'cmn.noUsers' | translate }}</p>
           </ng-container>
-          <ng-container *ngFor="let user of onlineUsers$ | async | myFilter : 'name' : searchString; let i=index">
+          <ng-container *ngFor="let user of onlineUsers$ | async | mySort : 'asc' : sortBy | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>
           </ng-container>
         </div>
@@ -35,7 +47,7 @@
           <ng-container *ngIf="!offlineUsers$ || (offlineUsers$ | async).length === 0">
             <p class="lead pt-5 text-center w-100">{{ 'cmn.noUsers' | translate }}</p>
           </ng-container>
-          <ng-container *ngFor="let user of offlineUsers$ | async | myFilter : 'name' : searchString; let i=index">
+          <ng-container *ngFor="let user of offlineUsers$ | async | mySort : 'asc' : sortBy | myFilter : 'name' : searchString; let i=index">
             <app-user-card [user]="user"></app-user-card>
           </ng-container>
         </div>
